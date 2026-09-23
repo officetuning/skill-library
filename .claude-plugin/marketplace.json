@@ -1,0 +1,14 @@
+{
+  "name": "officetuning",
+  "owner": {
+    "name": "Paulo André Jesus — OfficeTuning"
+  },
+  "plugins": [
+    {
+      "name": "data-analyst-advisor",
+      "source": "./",
+      "description": "Skills de Power BI, DAX, Power Query M, modelagem dimensional, storytelling, layout, TMDL/PBIR e QA.",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "data-analyst-advisor",
+  "version": "1.0.0",
+  "description": "Skills de Power BI, DAX, Power Query M, modelagem dimensional, storytelling, layout, TMDL/PBIR e QA — base de conhecimento do Data Analyst Advisor (OfficeTuning).",
+  "author": {
+    "name": "Paulo André Jesus — OfficeTuning"
+  },
+  "repository": "https://github.com/officetuning/skill-library",
+  "license": "MIT",
+  "keywords": ["power-bi", "dax", "power-query", "tmdl", "pbir", "data-storytelling"]
+}
