@@ -39,6 +39,8 @@ skill-library/
 
 ## Como instalar
 
+Guia completo para Claude, ChatGPT, Gemini e Copilot: [docs/como-usar-skills.md](docs/como-usar-skills.md).
+
 **Claude Code**
 
 ```
