@@ -325,5 +325,5 @@ Formatar → Geral → Texto alternativo; descreva o insight, não o tipo de gr�
 
 **7.13 [Visuais] — Evite medidas implícitas** · 🟠
 Não têm formato nem descrição.
-Como: Arquivo → Opções → Arquivo Atual → desabilite medidas implícitas; crie medidas explícitas.
+Como: ative a propriedade **Desestimular medidas implícitas** do modelo (Model Explorer → modelo → Propriedades; no Tabular Editor, `DiscourageImplicitMeasures = true`) e crie medidas explícitas.
 ❌ arrastar `Fato[Valor]` · ✅ `Total de Vendas = SUM ( Fato[Valor] )`
