@@ -19,6 +19,8 @@ description: Auditoria e boas práticas de modelo semântico Power BI — 76 reg
 |---|---|
 | Modelo lento | Seção 1, regras 1.3, 1.5, 1.9, 1.18 |
 | Revisar ou escrever DAX | Seção 2 |
+| Mesma lógica repetida em várias medidas | Skill `dax-udf` (transformar em UDF) |
+| Alterar o modelo direto via MCP | Skill `powerbi-mcp` antes de aplicar |
 | Checklist pré-publicação | Seções 3 e 4 |
 | Padronizar nomes | Seção 5 + skill `bi-nomenclatura` |
 | Formato de medida ou coluna | Seção 6 |

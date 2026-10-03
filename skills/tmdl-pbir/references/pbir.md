@@ -3,7 +3,8 @@
 Consolidado de Microsoft Learn:
 [Formato de relatório aprimorado](https://learn.microsoft.com/pt-br/power-bi/developer/embedded/projects-enhanced-report-format) ·
 [Pasta do relatório](https://learn.microsoft.com/pt-br/power-bi/developer/projects/projects-report).
-Vigência desta cópia: 29/08/2026, com PBIR em preview. Confirme o status atual.
+Vigência desta cópia: 03/10/2026. **PBIR em disponibilidade geral (GA) e formato
+padrão de relatório.** Confirme o status atual.
 
 ## O que muda em relação ao PBIR-Legacy
 
@@ -13,24 +14,23 @@ tem JSON Schema, e o Desktop valida os arquivos ao abrir. Ganhos: copiar
 visuais e páginas entre relatórios, localizar e substituir em massa, mudanças
 em lote por script.
 
-## Habilitar
+## Formato padrão
 
-Arquivo → Opções e configurações → Opções → Recursos de visualização →
-**Armazenar relatórios usando o formato de metadados aprimorado (PBIR)**. Há
-opção equivalente para PBIX.
+Desde a GA, o PBIR é o formato padrão no Desktop e no Service. Relatórios PBIR-Legacy continuam abrindo; ao
+editar e salvar, o Power BI converte para PBIR **sem perguntar**. Fabric Git
+Integration e REST APIs devolvem PBIR por padrão (`getDefinition` aceita
+`?format=PBIR`).
 
-Durante o preview, Fabric Git Integration e REST APIs exportam em PBIR-Legacy,
-salvo se o relatório já estiver em PBIR no Service.
+Para manter um relatório em PBIR-Legacy: não edite no Service, ou use uma
+versão do Desktop anterior a setembro/2026.
 
 ## Converter e restaurar
 
-- Abrir o PBIP com o recurso ativo → Salvar → **Atualizar**. Não se desfaz pela interface.
+- Abrir e salvar no Desktop atual converte para PBIR. Não se desfaz pela interface.
 - Backup automático do Desktop, retido 30 dias:
   - Microsoft Store: `%USERPROFILE%\Microsoft\Power BI Desktop Store App\TempSaves\Backups`
   - Instalador: `%USERPROFILE%\AppData\Local\Microsoft\Power BI Desktop\TempSaves\Backups`
 - No Service, relatórios novos já nascem em PBIR e os editados são convertidos.
-  Admin pode desativar pela configuração de tenant "Automatically convert and
-  store reports in the Power BI enhanced metadata format (PBIR)" durante o preview.
 - Backup do Service: 28 dias; Configurações do relatório → **Restaurar como
   PBIR-Legacy**. Só existe para relatórios convertidos no próprio Service.
 
@@ -109,9 +109,8 @@ para scripts de deploy.
 | Copiar bookmark apaga parte da configuração | Intencional: copie também página e visuais |
 | `'pageBinding.name' must be unique` ao copiar página | Dê valor único ao `pageBinding.name` |
 
-## Limitações (preview)
+## Limitações
 
-- Nuvens soberanas sem conversão automática antes da GA.
 - Mais de 500 arquivos pode deixar a **autoria** lenta.
 - Salvar PBIP como PBIX leva o PBIR junto.
 - Filtros automáticos do visual só vão para o `visual.json` depois de expandir o painel de filtros uma vez.

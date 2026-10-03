@@ -2,8 +2,8 @@
 
 Biblioteca de skills para IAs, facilitando a importação de habilidades a partir do GitHub.
 
-Primeiro pacote: **Data Analyst Advisor** — Power BI, DAX, Power Query M,
-modelagem dimensional, storytelling, layout, TMDL/PBIR e QA, convertido da base
+Primeiro pacote: **Data Analyst Advisor** — Power BI, DAX, UDF, Power Query M,
+modelagem dimensional, storytelling, layout, TMDL/PBIR, Git, MCP e QA, convertido da base
 de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 
 ## Skills
@@ -17,8 +17,10 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | [`data-storytelling`](skills/data-storytelling/SKILL.md) | Mensagem principal, Big Idea, poluição visual, apresentação executiva | 05 |
 | [`dashboard-canvas`](skills/dashboard-canvas/SKILL.md) | Briefing, 12 blocos, 5W2H, escopo e cronograma antes do Desktop | 06 |
 | [`dashboard-layout`](skills/dashboard-layout/SKILL.md) | Wireframe, grid 8px, Background Builder, fuso horário da "última atualização" | 07 |
-| [`tmdl-pbir`](skills/tmdl-pbir/SKILL.md) | Script TMDL, `.pbip`, `visual.json`, versionar em Git | 08 |
+| [`tmdl-pbir`](skills/tmdl-pbir/SKILL.md) | Script TMDL, `.pbip`, `visual.json`, rotina de Git, edição em lote na TMDL view | 08 |
 | [`bi-qa-documentacao`](skills/bi-qa-documentacao/SKILL.md) | Descrição com `///`, BPA por CLI, binding de visuais, CI/CD, `.docx` do modelo | 09 |
+| [`dax-udf`](skills/dax-udf/SKILL.md) | Criar, documentar e testar UDF DAX; VAL × EXPR; formato dinâmico com UDF (`Formato.Escala`) | 1.1.0 |
+| [`powerbi-mcp`](skills/powerbi-mcp/SKILL.md) | Agente alterando o modelo via Power BI Authoring MCP com segurança; convivência com `skills-for-fabric` | 1.1.0 |
 
 O arquivo `10-fora-de-cobertura` não virou skill: é uma trava de escopo (preço,
 licença, Fabric fora de BI, tenant, roadmap) e continua nas instruções do projeto.
@@ -75,6 +77,18 @@ Conferidas na documentação oficial em 2026-09-23:
   dizia "Premium/Fabric" em um trecho.
 - **Regra 2.7:** acrescentado o aviso de que `FILTER(ALL(Tabela), ...)` e o
   predicado direto não são equivalentes.
+
+## Novidades
+
+**1.1.0 (03/10/2026)**, inspirada em [4 Skills Power BI Developers Should Learn Before 2027](https://datatraining.io/blog/4-skills-power-bi-developers-should-learn-before-2027):
+
+- Nova skill **`dax-udf`**: UDF no padrão OfficeTuning, tipos de parâmetro, VAL × EXPR,
+  teste com `EVALUATE`, UDF no TMDL e `Formato.Escala` para formato dinâmico.
+- Nova skill **`powerbi-mcp`**: fluxo seguro para o agente alterar o modelo pelo
+  Power BI Authoring MCP (backup, PBIP + Git, inventário só leitura, plano aprovado,
+  transação, validação com DAX) e convivência com as skills oficiais da Microsoft.
+- **`tmdl-pbir`**: PBIR em GA e formato padrão; rotina mínima de Git (commit, diff,
+  restaurar, `.gitignore`); receitas de edição em lote na TMDL view; objeto `function`.
 
 ## Versionamento
 
