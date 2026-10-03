@@ -41,7 +41,7 @@ O formato é um **padrão aberto** ([Agent Skills](https://agentskills.io)). A
 mesma pasta funciona no Claude, no ChatGPT, no Gemini e no GitHub Copilot, sem
 conversão.
 
-## As 9 skills
+## As 11 skills
 
 | Skill | Dispara quando você pergunta sobre |
 |---|---|
@@ -52,8 +52,10 @@ conversão.
 | `data-storytelling` | Mensagem principal, Big Idea, poluição visual |
 | `dashboard-canvas` | Briefing, os 12 blocos, 5W2H |
 | `dashboard-layout` | Wireframe, grid 8 px, Background Builder |
-| `tmdl-pbir` | Script TMDL, `.pbip`, `visual.json` |
+| `tmdl-pbir` | Script TMDL, `.pbip`, `visual.json`, Git, TMDL view |
 | `bi-qa-documentacao` | Descrição com `///`, BPA por linha de comando, documentação `.docx` |
+| `dax-udf` | Criar, documentar e testar UDF DAX; formato dinâmico com UDF |
+| `powerbi-mcp` | Alterar o modelo via Power BI Authoring MCP com segurança |
 
 ## Primeiro passo (vale para todas as IAs)
 
@@ -99,7 +101,7 @@ No Team e no Enterprise, a skill enviada fica visível só para você até ser c
 
 ### Claude Code
 
-Instala as 9 de uma vez, como plugin:
+Instala as 11 de uma vez, como plugin:
 
 ```text
 /plugin marketplace add officetuning/skill-library
@@ -275,7 +277,7 @@ O Copilot também lê `.claude/skills/` no projeto.
 |---|---|---|
 | Upload recusado: nome não confere | Pasta renomeada | O nome da pasta deve ser igual ao `name` do `SKILL.md` |
 | Upload recusado: falta `SKILL.md` | O `.zip` foi feito com os arquivos soltos ou com pasta a mais | Compacte a pasta da skill (Claude) ou deixe o `SKILL.md` na raiz (Gemini) |
-| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 9 skills" |
+| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 11 skills" |
 | Menu Skills não aparece | Plano sem o recurso ou recurso desligado pelo admin | Veja o plano de cada IA acima |
 | Resposta diferente do padrão OfficeTuning | Skill antiga | Baixe a versão mais recente do repositório e reenvie |
 
