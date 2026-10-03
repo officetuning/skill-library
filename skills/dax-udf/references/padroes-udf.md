@@ -85,8 +85,13 @@ EVALUATE
 
 Cadeia de formato com escala automática (mil, mi, bi). A cadeia usa os
 símbolos invariantes (vírgula de milhar, ponto decimal); o Power BI exibe
-conforme o idioma do modelo. Cada vírgula no fim da parte numérica divide
-por mil.
+conforme o idioma do modelo. **Cada vírgula imediatamente à esquerda do ponto
+decimal (ou no fim, sem decimais) divide por mil**: `#,0,.0` = mil,
+`#,0,,.0` = milhão, `#,0,,,.0` = bilhão. Vírgula depois das casas decimais
+não escala.
+
+A escolha da faixa usa o valor **já arredondado**: 999.950 vira "1,0 mi", e
+não "1.000,0 mil".
 
 ```dax
 DEFINE
@@ -103,19 +108,19 @@ DEFINE
                 SWITCH (
                     TRUE (),
                     ISBLANK ( valor ), "#,0",
-                    _abs >= 1000000000, "#,0" & _casas & ",,,"" bi""",
-                    _abs >= 1000000, "#,0" & _casas & ",,"" mi""",
-                    _abs >= 1000, "#,0" & _casas & ","" mil""",
+                    ROUND ( _abs / 1000000000, decimais ) >= 1, "#,0,,," & _casas & """ bi""",
+                    ROUND ( _abs / 1000000, decimais ) >= 1, "#,0,," & _casas & """ mi""",
+                    ROUND ( _abs / 1000, decimais ) >= 1, "#,0," & _casas & """ mil""",
                     "#,0" & _casas
                 )
 
 EVALUATE
     ADDCOLUMNS (
-        { 950, 12345, 4567890, 1234567890 },
+        { 950, 12345, 999950, 4567890, 1234567890 },
         "Formato", Formato.Escala ( [Value] ),
         "Exibido", FORMAT ( [Value], Formato.Escala ( [Value] ) )
     )
--- Esperado em pt-BR: 950,0 | 12,3 mil | 4,6 mi | 1,2 bi
+-- Esperado em modelo pt-BR: 950,0 | 12,3 mil | 1,0 mi | 4,6 mi | 1,2 bi
 ```
 
 Uso em várias medidas, cada uma com **Formato → Dinâmico**:
@@ -131,8 +136,9 @@ Mudou a regra (ex.: passar a usar "k" em vez de "mil")? Altere só a função.
 ⚠️ No visual, **Unidades de exibição = Nenhum**. Para desligar em todos os
 visuais, use um tema de relatório.
 
-⚠️ O `EVALUATE` acima testa a cadeia com `FORMAT`. Confirme também num cartão
-e num gráfico de barras antes de aplicar no modelo de produção.
+⚠️ O `EVALUATE` acima testa a cadeia com `FORMAT`, que usa a cultura do
+modelo. Confirme também num cartão e num gráfico de barras antes de aplicar
+no modelo de produção.
 
 ## 5. UDF no TMDL
 
@@ -152,4 +158,5 @@ mostra a função pronta para editar: clique com o botão direito no nó
 
 - [DAX user-defined functions](https://learn.microsoft.com/dax/best-practices/dax-user-defined-functions)
 - [Dynamic format strings for measures](https://learn.microsoft.com/power-bi/create-reports/desktop-dynamic-format-strings)
+- [Custom format strings](https://learn.microsoft.com/power-bi/create-reports/desktop-custom-format-strings)
 - [TMDL overview](https://learn.microsoft.com/analysis-services/tmdl/tmdl-overview)

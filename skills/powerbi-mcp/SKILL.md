@@ -19,7 +19,10 @@ nomeia, documenta e valida como a casa faz.
 | Transações e traces | ✅ | ❌ |
 | Instalação | Extensão do VS Code, pacote npm `@microsoft/powerbi-modeling-mcp` ou executável | Nenhuma |
 
-Para quem desenvolve no Desktop: **local**. ⚠️ Não registre os dois ao mesmo
+A Microsoft recomenda o **hospedado** quando o ambiente permite (nada a
+instalar). Para quem desenvolve no Desktop ou em PBIP: **local** (Windows; não
+roda no macOS). Só com permissão *Build* no modelo, o agente consulta com DAX
+mas não altera. ⚠️ Não registre os dois ao mesmo
 tempo: o agente vê ferramentas duplicadas e gasta tokens à toa.
 
 Para **responder perguntas de negócio** a partir do modelo, o servidor certo é

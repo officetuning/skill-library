@@ -128,7 +128,8 @@ variações: `references/padroes-udf.md`.
 EVALUATE INFO.USERDEFINEDFUNCTIONS ()   -- nome, expressão, estado, erro
 ```
 
-Exige permissão de escrita no modelo. `State = Error` + `ErrorMessage` mostram
+Metadados completos podem exigir permissão de escrita ou de administrador do
+modelo, conforme o host. `State = Error` + `ErrorMessage` mostram
 função quebrada depois de renomear tabela ou coluna.
 
 ## Fontes

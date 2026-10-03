@@ -33,6 +33,7 @@ versão do Desktop anterior a setembro/2026.
 - No Service, relatórios novos já nascem em PBIR e os editados são convertidos.
 - Backup do Service: 28 dias; Configurações do relatório → **Restaurar como
   PBIR-Legacy**. Só existe para relatórios convertidos no próprio Service.
+  Restaurar não impede nova conversão na próxima edição.
 
 ## Arquivos em `definition\`
 

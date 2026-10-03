@@ -93,8 +93,10 @@ de exibição juntos. Receitas:
 | Copiar tabela para outro modelo | Arraste a tabela, copie o script, cole na TMDL view do outro modelo |
 | Backup antes de mudança grande | Arraste o modelo inteiro e salve o script (fica em `TMDLScripts\` no `.pbip`) |
 
-Editar arquivos `.tmdl` fora do Desktop exige reiniciar o Desktop; a TMDL view
-aplica na hora.
+A TMDL view aplica na hora. Editar arquivos `.tmdl` fora do Desktop exige
+reiniciar o Desktop, a menos que o recurso em preview **Detect and reload
+external PBIP changes** (Desktop agosto/2026) esteja ligado: aí aparece o
+aviso *Apply external changes*. Ele não recarrega o `cache.abf`.
 
 Estrutura de pastas, tabela de propriedades que são expressão, API .NET
 (`TmdlSerializer`), exceções e fontes: `references/tmdl.md`.
@@ -156,8 +158,8 @@ o modelo completo, só sem dados (basta atualizar).
 | Voltar um arquivo a um commit anterior | `git checkout <commit> -- <arquivo>` | — |
 
 ⚠️ **Feche o Power BI Desktop** antes de restaurar, trocar de branch ou fazer
-`git pull`: o Desktop só relê os arquivos ao abrir e pode sobrescrever a
-versão restaurada ao salvar.
+`git pull`: sem o recurso em preview de recarga externa, o Desktop só relê os
+arquivos ao abrir e pode sobrescrever a versão restaurada ao salvar.
 
 ⚠️ `unappliedChanges.json` guarda alterações do Power Query ainda não
 aplicadas; ao aplicar, elas sobrescrevem consultas editadas fora do Desktop.
