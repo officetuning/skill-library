@@ -7,7 +7,7 @@
 
 As skills do **Data Analyst Advisor** ensinam a IA a trabalhar do jeito
 OfficeTuning: nomenclatura `TabDim`/`TabFat`, comparativo AV/AA/Δ, Query
-Folding, as 76 regras de modelagem, grid de 8 px e QA de PBIP. Elas ficam no
+Folding, as 90 regras de boas práticas, grid de 8 px e QA de PBIP. Elas ficam no
 repositório público [officetuning/skill-library](https://github.com/officetuning/skill-library).
 
 ## O que é uma skill
@@ -46,7 +46,7 @@ conversão.
 | Skill | Dispara quando você pergunta sobre |
 |---|---|
 | `powerbi-visuais` | Qual visual usar, formatação condicional, tooltip, SVG por DAX |
-| `powerbi-boas-praticas` | Modelo lento, revisão de DAX, as 76 regras e a severidade de cada uma |
+| `powerbi-boas-praticas` | Modelo lento, revisão de DAX, revisão de relatório, as 90 regras e a severidade de cada uma |
 | `power-query-m` | Query Folding, refresh lento no ETL, função M, Incremental Refresh |
 | `bi-nomenclatura` | Nome de tabela, coluna e medida; AV/AA/Δ/Δ%/Δi |
 | `data-storytelling` | Mensagem principal, Big Idea, poluição visual |

@@ -11,3 +11,5 @@ gancho (dor), contexto, solução e prova (código ou antes/depois).
 5. **Série "detalhe que ninguém repara"** — Nomenclatura e Formatação (Baixa).
 6. **Ferramentas** — automação da auditoria com Tabular Editor (BPA) e DAX Studio.
 7. **Design de relatório** — Seção 7: UX, alt text, limite de visuais, pizza com moderação.
+8. **Antes/depois de comunicação** — Seção 8: título-conclusão, cinza + destaque, rótulo direto.
+9. **"Seu relatório é Power BI Criminal?"** — como o Measure Killer pontua e o que pesa mais.

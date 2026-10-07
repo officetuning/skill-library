@@ -1,4 +1,4 @@
-# Catálogo das 76 regras
+# Catálogo das 90 regras
 
 Formato: **nº — regra** · severidade · por que importa · como aplicar.
 Severidade: Alta 🔴 · Média 🟠 · Baixa 🔵.
@@ -11,7 +11,8 @@ Severidade: Alta 🔴 · Média 🟠 · Baixa 🔵.
 | 4 | Manutenção | 8 |
 | 5 | Nomenclatura | 2 |
 | 6 | Formatação | 13 |
-| 7 | Relatórios e visuais | 13 |
+| 7 | Relatórios e visuais | 14 |
+| 8 | Storytelling e comunicação (revisão manual) | 13 |
 
 ---
 
@@ -114,6 +115,7 @@ Manutenção em dois lugares e números que divergem.
 Como: consolide numa medida; as outras referenciam ou saem.
 
 **2.2 — Colunas calculadas duplicadas** · 🔵
+Fonte: Measure Killer ("No two calculated columns should have the same definition").
 Cada cópia ocupa memória.
 Como: centralize, de preferência no Power Query.
 
@@ -292,38 +294,112 @@ Como: coluna numérica 1–12 e "Classificar por coluna".
 
 ---
 
-## Seção 7 — Relatórios e visuais (fonte: Measure Killer)
+## Seção 7 — Relatórios e visuais
 
-**7.1 [Relatório] — Limite o total de páginas** · 🔵
-Consolide com bookmarks e drill-through; relatórios separados por audiência.
+Fonte: regras base do PBI-Inspector (7.1 a 7.11) e extensões do Measure
+Killer (7.12 a 7.14). Entre colchetes, o nome da regra na ferramenta.
 
-**7.2 [Página] — Limite visuais por página** · 🟠
-Cada visual dispara consultas. Máximo 8–10; detalhe em drill-through ou tooltip.
+**7.1 [Relatório] — Limite o total de páginas** · 🟠 · `REDUCE_PAGES`
+Máximo 10 páginas. Consolide com indicadores, detalhamento ou navegação por
+botões; relatórios separados por audiência.
 
-**7.3 [Página] — Reduza filtros TOPN** · 🔵 — ordenam tudo antes de filtrar.
+**7.2 [Página] — Limite visuais por página** · 🔴 · `REDUCE_VISUALS_ON_PAGE`
+Cada visual dispara consultas. Máximo 20 visuais visíveis: é teto de
+desempenho; para leitura, menos costuma ser melhor (Seção 8). Detalhe em
+drill-through ou tooltip.
 
-**7.4 [Página] — Reduza filtros avançados** · 🔵 — avaliados a cada interação.
+**7.3 [Página] — Reduza filtros TopN** · 🔵 · `REDUCE_TOPN_FILTERS`
+Máximo 4 visuais com TopN por página; ordenam tudo antes de filtrar.
 
-**7.5 [Página] — Oculte páginas de tooltip e drill-through** · 🔵
+**7.4 [Página] — Reduza filtros avançados** · 🔵 · `REDUCE_ADVANCED_FILTERS`
+Máximo 4 visuais com filtro avançado por página; avaliados a cada interação.
+
+**7.5 [Página] — Oculte páginas de tooltip e drill-through** · 🔵 · `HIDE_TOOLTIP_DRILLTROUGH_PAGES`
 Botão direito na aba → Ocultar página. Continuam funcionando.
 
-**7.6 [Página] — Sem rolagem vertical** · 🔵 — o que fica abaixo da dobra é ignorado. Desenhe para 1280×720 ou 1920×1080.
+**7.6 [Página] — Sem rolagem vertical** · 🔴 · `ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY`
+O que fica abaixo da dobra é ignorado. Página padrão Full HD (1920 × 1080):
+tudo cabe em 1080 px. O PBI-Inspector e o Measure Killer verificam 720 px
+(HD); em relatório Full HD, ajuste `paramMaxAllowedPageHeight` para 1080 ou
+desconsidere o alerta. Use navegação, detalhamento ou mais páginas.
 
-**7.7 [Visuais] — Remova visuais personalizados não usados** · 🔵
+**7.7 [Visuais] — Remova visuais personalizados não usados** · 🔵 · `REMOVE_UNUSED_CUSTOM_VISUALS`
 Visualizações → ⋯ → Gerenciar visuais.
 
-**7.8 [Visuais] — Limite elementos por visual** · 🟠 — 10–20 principais; TOPN ou drill-down para o resto.
+**7.8 [Visuais] — Limite os campos em cada visual** · 🔴 · `REDUCE_OBJECTS_WITHIN_VISUALS`
+"Objeto" é cada campo colocado no visual (eixo, legenda, valores, dicas).
+Máximo 6. Divida o visual, mova contexto para tooltip page e use drill-down.
 
-**7.9 [Visuais] — Evite "Mostrar itens sem dados"** · 🔵 — gera combinações vazias em massa.
+**7.9 [Visuais] — Evite "Mostrar itens sem dados"** · 🟠 · `AVOID_SHOW_ITEMS_WITH_NO_DATA`
+Gera combinações vazias em massa.
 
-**7.10 [Visuais] — Cores do tema, não HEX avulso** · 🔵 — cor avulsa não acompanha troca de tema.
+**7.10 [Visuais] — Cores do tema, não HEX avulso** · 🔵 · `ENSURE_THEME_COLOURS`
+Cor avulsa não acompanha troca de tema. Única regra que o PBI-Inspector marca
+como erro, e não como aviso.
 
-**7.11 [Visuais] — Texto alternativo** · 🟠
-Formatar → Geral → Texto alternativo; descreva o insight, não o tipo de gráfico.
+**7.11 [Visuais] — Texto alternativo** · 🟠 · `ENSURE_ALTTEXT`
+Formatar → Geral → Texto alternativo; descreva o insight, não o tipo de
+gráfico. Vem desligada por padrão no PBI-Inspector.
 
-**7.12 [Visuais] — Pizza e rosca com moderação** · 🔵 — até 3–4 fatias; acima disso, barras horizontais.
+**7.12 [Visuais] — Pizza e rosca com moderação** · 🔵 · Measure Killer
+Limite recomendado: até 4 fatias; acima disso, barras horizontais ordenadas.
 
-**7.13 [Visuais] — Evite medidas implícitas** · 🟠
+**7.13 [Visuais] — Evite medidas implícitas** · 🔴 · Measure Killer
 Não têm formato nem descrição.
 Como: ative a propriedade **Desestimular medidas implícitas** do modelo (Model Explorer → modelo → Propriedades; no Tabular Editor, `DiscourageImplicitMeasures = true`) e crie medidas explícitas.
 ❌ arrastar `Fato[Valor]` · ✅ `Total de Vendas = SUM ( Fato[Valor] )`
+
+**7.14 [Relatório] — Limite os indicadores** · 🔵 · Measure Killer
+Máximo 10 indicadores (bookmarks). Prefira navegador de páginas, parâmetros de
+campo e seletores de visual; apague indicadores sem uso.
+❌ um indicador por combinação de filtro · ✅ parâmetro de campo que troca a métrica
+
+---
+
+## Seção 8 — Storytelling e comunicação (revisão manual)
+
+Fonte: *Storytelling with Data*, de Cole Nussbaumer Knaflic (Wiley, 2015); a
+8.9 vem de Stephen Few. Nenhuma ferramenta verifica nem pontua estas regras.
+Detalhe e método na skill `data-storytelling`.
+
+**8.1 — Defina a ideia central da página antes dos visuais** · 🔴
+Uma frase com a conclusão. Teste dos 3 segundos: a conclusão aparece sem explicação?
+❌ "Visão Geral" com 15 visuais soltos · ✅ "Margem caiu por causa do frete no Nordeste", com 4 visuais que sustentam a frase
+
+**8.2 — Título diz a conclusão, não só o assunto** · 🔴
+Use título dinâmico com medida DAX quando o dado muda com o filtro.
+❌ "Vendas por Região" · ✅ "Sul superou a meta; Norte caiu 12%"
+
+**8.3 — Escolha o visual pela comparação que importa** · 🟠
+Valor exato: tabela ou cartão. Tendência: linha. Comparação: barras ordenadas.
+Composição: barra 100% empilhada. Relação: dispersão.
+
+**8.4 — Elimine a saturação visual** · 🟠
+Sem bordas, sombras e grades que não informam. Rótulo de dado ligado → eixo de valores desligado.
+
+**8.5 — Rótulo direto em vez de legenda** · 🔵
+Nome da série na ponta da linha ou na barra.
+
+**8.6 — Cinza como base, cor só para destacar** · 🟠
+Complementa a 7.10: o tema dá consistência, esta regra dá foco. Uma ou duas cores de destaque por página.
+
+**8.7 — Um destaque por vez** · 🟠
+Cor, tamanho, negrito ou posição apontam para um único ponto.
+
+**8.8 — Evite eixo duplo sem necessidade** · 🔵
+Dois visuais alinhados com o mesmo eixo de tempo, ou índice base 100.
+
+**8.9 — KPI ou barra no lugar de medidor** · 🔵 · Stephen Few
+Visual KPI (valor, meta, tendência) ou bullet chart.
+
+**8.10 — Leitura em Z** · 🔵
+Dado principal no canto superior esquerdo; elementos alinhados a uma grade e agrupados por tema.
+
+**8.11 — A sequência de páginas conta uma história** · 🟠
+Lidos em ordem, só os títulos das páginas formam uma narrativa.
+
+**8.12 — Densidade conforme o modo de uso** · 🔵
+Leitura autônoma: títulos-conclusão e anotações. Apresentação: revelar aos poucos.
+
+**8.13 — Rascunhe antes de abrir o Power BI** · 🔵
+Storyboard com uma caixa por página, título-conclusão e ordem; valide com o público.
