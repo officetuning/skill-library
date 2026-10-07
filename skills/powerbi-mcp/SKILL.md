@@ -42,8 +42,8 @@ o Fabric IQ, não o de authoring.
 1. **Conectar e inventariar (só leitura).** Liste tabelas, colunas, medidas,
    relacionamentos e UDFs. Não altere nada nesta etapa.
 2. **Diagnosticar com as skills da casa.** Nomes contra `bi-nomenclatura`;
-   modelo contra as 76 regras de `powerbi-boas-praticas` (cite número e
-   severidade); UDFs contra `dax-udf`.
+   modelo contra as regras de modelo (seções 1 a 6) de `powerbi-boas-praticas`
+   (cite número e severidade); UDFs contra `dax-udf`.
 3. **Propor um plano** em tabela: objeto, ação, antes → depois, motivo.
    Agrupe por risco. **Espere o "pode aplicar" do usuário.**
 4. **Aplicar em transação** (servidor local): abra, aplique o lote, valide,
@@ -94,7 +94,7 @@ inglês × português), siga a OfficeTuning e avise o usuário do conflito.
 
 | Objetivo | Pedido |
 |---|---|
-| Auditoria | "Conecte ao modelo aberto, só leitura, e audite contra as 76 regras. Entregue por severidade." |
+| Auditoria | "Conecte ao modelo aberto, só leitura, e audite contra as regras de modelo de powerbi-boas-praticas. Entregue por severidade." |
 | Padronizar nomes | "Proponha os novos nomes segundo bi-nomenclatura, com dependências. Não aplique ainda." |
 | Documentar | "Escreva descrição /// para todas as medidas sem descrição, em português de negócio." |
 | Refatorar em UDF | "Ache lógica repetida em 3+ medidas e proponha uma UDF no padrão dax-udf, com teste EVALUATE." |

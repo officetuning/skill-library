@@ -28,6 +28,9 @@ dimensões:
   área > cor. Nunca "fica bonito".
 - Limites: pizza ≤ 4 fatias · linhas ≤ 5 séries · barras ≤ 12–15 categorias ·
   cascata ≤ 12 etapas.
+- Por página e por visual (regras 7.2 e 7.8 de `powerbi-boas-praticas`): até 20
+  visuais por página e até 6 campos por visual. Página Full HD (1920 × 1080),
+  sem rolagem vertical.
 - Barras sempre com base zero. Rótulo de dado ativo → eixo de valor e grade desligados.
 - Cor só com significado. Teste para daltonismo.
 

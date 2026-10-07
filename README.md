@@ -11,7 +11,7 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | Skill | Use quando | Origem |
 |---|---|---|
 | [`powerbi-visuais`](skills/powerbi-visuais/SKILL.md) | Qual visual usar, configurar ou criticar gráfico, formatação condicional, tooltip, SVG/HTML por DAX | 01 |
-| [`powerbi-boas-praticas`](skills/powerbi-boas-praticas/SKILL.md) | Modelo lento, revisar DAX, auditar modelo, severidade das 76 regras do BPA | 02 |
+| [`powerbi-boas-praticas`](skills/powerbi-boas-praticas/SKILL.md) | Modelo lento, revisar DAX, auditar modelo, 90 regras (BPA, PBI-Inspector, Measure Killer e storytelling) e pontuação do Measure Killer | 02 |
 | [`power-query-m`](skills/power-query-m/SKILL.md) | Query Folding, refresh lento no ETL, função M, Incremental Refresh | 03 |
 | [`bi-nomenclatura`](skills/bi-nomenclatura/SKILL.md) | Nomear tabela, view, consulta, coluna ou medida; AV/AA/Δ/Δ%/Δi | 04 |
 | [`data-storytelling`](skills/data-storytelling/SKILL.md) | Mensagem principal, Big Idea, poluição visual, apresentação executiva | 05 |
@@ -79,6 +79,18 @@ Conferidas na documentação oficial em 2026-09-23:
   predicado direto não são equivalentes.
 
 ## Novidades
+
+**1.2.0 (07/10/2026)**, alinhada à página de boas práticas da Function Library:
+
+- **`powerbi-boas-praticas`**: 90 regras em 8 seções. Seção 7 creditada ao
+  PBI-Inspector (7.1 a 7.11) e ao Measure Killer (7.12 a 7.14), com o nome da
+  regra na ferramenta, limites padrão e severidades do Measure Killer. Nova regra
+  7.14 (indicadores). A 7.8 passa a contar campos por visual (máx. 6). Página
+  padrão Full HD, sem rolagem. Nova Seção 8, Storytelling e comunicação, de
+  revisão manual. Pontuação e vereditos do Measure Killer.
+- **`data-storytelling`**: pizza até 4 fatias e ligação com a Seção 8.
+- **`powerbi-visuais`**, **`powerbi-mcp`** e **`bi-qa-documentacao`**: limites
+  novos, referência às seções certas e PBI-Inspector no pipeline.
 
 **1.1.0 (03/10/2026)**, inspirada em [4 Skills Power BI Developers Should Learn Before 2027](https://datatraining.io/blog/4-skills-power-bi-developers-should-learn-before-2027):
 

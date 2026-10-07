@@ -35,7 +35,8 @@ com "então o quê?".
 - Storyboard no papel antes de abrir o Power BI.
 
 **Evitar**
-- Pizza com mais de 2–3 fatias, 3D, gauge no lugar de KPI, eixo duplo sem necessidade.
+- Pizza ou rosca com mais de 4 fatias (padrão OfficeTuning; o livro é mais rígido, 2–3), 3D, gauge no lugar de KPI, eixo duplo sem necessidade.
+- Página com rolagem vertical: tudo cabe na página Full HD (1920 × 1080).
 - Legenda longe do dado (prefira rótulo direto).
 - Bordas, grades densas, sombras: tinta que não informa.
 - Cor que decora em vez de comunicar.
@@ -88,6 +89,9 @@ design, Big Idea, arco, checklist): `references/blocos.md`.
 - [ ] Título é conclusão, não rótulo
 - [ ] Títulos em sequência contam a história
 - [ ] Contraste AA e informação não depende só de cor
+
+Com número de regra e severidade, este checklist está na Seção 8 de
+`powerbi-boas-praticas` (8.1 a 8.13), para citar numa revisão.
 
 ## Fonte
 

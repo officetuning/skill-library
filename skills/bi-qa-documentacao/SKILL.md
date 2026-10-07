@@ -57,6 +57,14 @@ Explorer, no painel Dados, no tooltip do campo e no TMDL.
 
 Rode a camada 3 primeiro: é a mais barata e pega o erro mais comum (campo renomeado).
 
+**Regras de relatório:** o BPA cobre só o modelo. Para as regras da Seção 7 de
+`powerbi-boas-praticas` (visuais por página, campos por visual, rolagem, cores
+do tema), use o [PBI-Inspector](https://github.com/NatVanG/PBI-Inspector)
+(projeto da comunidade, MIT; para PBIR, o PBI-Inspector V2), que tem versão de
+linha de comando para o pipeline, ou o Best Practices Analyser do Measure
+Killer. Versione o arquivo de regras e ajuste `paramMaxAllowedPageHeight` para
+1080 em relatórios Full HD. Confira os parâmetros do CLI no README do projeto.
+
 **Obrigatório**
 - As três camadas antes de publicar.
 - Rodar contra a pasta TMDL/PBIR versionada no Git, nunca contra "o que deveria estar".
