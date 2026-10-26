@@ -3,7 +3,8 @@
 Biblioteca de skills para IAs, facilitando a importação de habilidades a partir do GitHub.
 
 Primeiro pacote: **Data Analyst Advisor** — Power BI, DAX, UDF, Power Query M,
-modelagem dimensional, storytelling, layout, TMDL/PBIR, Git, MCP e QA, convertido da base
+modelagem dimensional, storytelling, layout, TMDL/PBIR, Git, MCP, QA e dashboard HTML
+com IA, convertido da base
 de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 
 ## Skills
@@ -21,6 +22,7 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | [`bi-qa-documentacao`](skills/bi-qa-documentacao/SKILL.md) | Descrição com `///`, BPA por CLI, binding de visuais, CI/CD, `.docx` do modelo | 09 |
 | [`dax-udf`](skills/dax-udf/SKILL.md) | Criar, documentar e testar UDF DAX; VAL × EXPR; formato dinâmico com UDF (`Formato.Escala`) | 1.1.0 |
 | [`powerbi-mcp`](skills/powerbi-mcp/SKILL.md) | Agente alterando o modelo via Power BI Authoring MCP com segurança; convivência com `skills-for-fabric` | 1.1.0 |
+| [`dashboard-html-ia`](skills/dashboard-html-ia/SKILL.md) | Dashboard HTML fora do Power BI com IA a partir de CSV, Excel no OneDrive/SharePoint ou Google Sheets; qual IA usar (Copilot, Gemini, Claude, ChatGPT) | 1.3.0 |
 
 O arquivo `10-fora-de-cobertura` não virou skill: é uma trava de escopo (preço,
 licença, Fabric fora de BI, tenant, roadmap) e continua nas instruções do projeto.
@@ -36,7 +38,8 @@ skill-library/
     └── <nome-da-skill>/
         ├── SKILL.md         # frontmatter (name, description) + instruções
         ├── references/      # conteúdo longo, lido só quando preciso
-        └── scripts/         # código testado (só em bi-qa-documentacao)
+        ├── scripts/         # código testado (bi-qa-documentacao)
+        └── assets/          # modelos prontos (template HTML em dashboard-html-ia)
 ```
 
 ## Como instalar
@@ -79,6 +82,16 @@ Conferidas na documentação oficial em 2026-09-23:
   predicado direto não são equivalentes.
 
 ## Novidades
+
+**1.3.0 (26/10/2026)**:
+
+- Nova skill **`dashboard-html-ia`**: dashboard HTML fora do Power BI feito por
+  IA a partir de CSV, Excel no OneDrive for Business/SharePoint ou Google Sheets.
+  Fluxo em 6 etapas, contrato do arquivo HTML (dados embutidos com total de
+  controle, pt-BR, datas sem fuso, `textContent`, acessibilidade), snapshot × ao
+  vivo e o que usar em cada IA: Analyst e Copilot Code (Microsoft 365 Copilot),
+  Sheets canvas e Canvas (Gemini), artefatos e Claude Dashboards (Claude),
+  análise de dados e Sites (ChatGPT). Template testado em `assets/`.
 
 **1.2.0 (07/10/2026)**, alinhada à página de boas práticas da Function Library:
 

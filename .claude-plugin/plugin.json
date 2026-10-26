@@ -1,7 +1,7 @@
 {
   "name": "data-analyst-advisor",
-  "version": "1.2.0",
-  "description": "Skills de Power BI, DAX, Power Query M, modelagem dimensional, UDF DAX, storytelling, layout, TMDL/PBIR, Git, MCP e QA — base de conhecimento do Data Analyst Advisor (OfficeTuning).",
+  "version": "1.3.0",
+  "description": "Skills de Power BI, DAX, Power Query M, modelagem dimensional, UDF DAX, storytelling, layout, TMDL/PBIR, Git, MCP, QA e dashboard HTML com IA — base de conhecimento do Data Analyst Advisor (OfficeTuning).",
   "author": {
     "name": "Paulo André Jesus — OfficeTuning"
   },
@@ -17,6 +17,10 @@
     "udf",
     "mcp",
     "pbip",
-    "git"
+    "git",
+    "dashboard-html",
+    "copilot",
+    "gemini",
+    "chatgpt"
   ]
 }
