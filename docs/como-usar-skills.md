@@ -7,8 +7,8 @@
 
 As skills do **Data Analyst Advisor** ensinam a IA a trabalhar do jeito
 OfficeTuning: nomenclatura `TabDim`/`TabFat`, comparativo AV/AA/Δ, Query
-Folding, as 90 regras de boas práticas, grid de 8 px e QA de PBIP. Elas ficam no
-repositório público [officetuning/skill-library](https://github.com/officetuning/skill-library).
+Folding, as 90 regras de boas práticas, grid de 8 px, QA de PBIP e dashboard
+HTML com IA. Elas ficam no repositório público [officetuning/skill-library](https://github.com/officetuning/skill-library).
 
 ## O que é uma skill
 
@@ -41,7 +41,7 @@ O formato é um **padrão aberto** ([Agent Skills](https://agentskills.io)). A
 mesma pasta funciona no Claude, no ChatGPT, no Gemini e no GitHub Copilot, sem
 conversão.
 
-## As 11 skills
+## As 12 skills
 
 | Skill | Dispara quando você pergunta sobre |
 |---|---|
@@ -56,6 +56,7 @@ conversão.
 | `bi-qa-documentacao` | Descrição com `///`, BPA por linha de comando, documentação `.docx` |
 | `dax-udf` | Criar, documentar e testar UDF DAX; formato dinâmico com UDF |
 | `powerbi-mcp` | Alterar o modelo via Power BI Authoring MCP com segurança |
+| `dashboard-html-ia` | Dashboard em HTML com IA a partir de CSV, Excel no OneDrive ou Google Sheets; qual IA usar |
 
 ## Primeiro passo (vale para todas as IAs)
 
@@ -101,7 +102,7 @@ No Team e no Enterprise, a skill enviada fica visível só para você até ser c
 
 ### Claude Code
 
-Instala as 11 de uma vez, como plugin:
+Instala as 12 de uma vez, como plugin:
 
 ```text
 /plugin marketplace add officetuning/skill-library
@@ -277,7 +278,7 @@ O Copilot também lê `.claude/skills/` no projeto.
 |---|---|---|
 | Upload recusado: nome não confere | Pasta renomeada | O nome da pasta deve ser igual ao `name` do `SKILL.md` |
 | Upload recusado: falta `SKILL.md` | O `.zip` foi feito com os arquivos soltos ou com pasta a mais | Compacte a pasta da skill (Claude) ou deixe o `SKILL.md` na raiz (Gemini) |
-| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 11 skills" |
+| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 12 skills" |
 | Menu Skills não aparece | Plano sem o recurso ou recurso desligado pelo admin | Veja o plano de cada IA acima |
 | Resposta diferente do padrão OfficeTuning | Skill antiga | Baixe a versão mais recente do repositório e reenvie |
 
