@@ -84,6 +84,24 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+**1.5.0 (22/11/2026)**, alinhada ao Background Builder 1.031
+([backgroundbuilder.officetuning.ai](https://backgroundbuilder.officetuning.ai/)):
+
+- **`dashboard-layout`**: referência `background-builder.md` reescrita. Barra
+  lateral de filtros a partir de 1 filtro (fim dos modos `header-1`/`header-2`),
+  com Encaixe 1/1, 1/2 e 1/3, cabeçalhos 5W2H, "Fim do painel" e botões nativos.
+  Última atualização vira card no cabeçalho (sem rodapé reservado); Detalhe com
+  ícone de olho, card da seleção e Voltar em coordenadas exatas; faixa de marca
+  x=1904–1920; 9 fundos de página; conteúdo da coleção (inclusive nomes dos PNG
+  de dica); guia de montagem em 13 passos; script TMDL atual (fuso no Power
+  Query, `Idioma do Projeto` como fonte única, `USERCULTURE`, refresh manual do
+  calendário, `VocêEstáVendo` como medida-modelo).
+- **`powerbi-detalhe-dica`**: cabeçalho da Detalhe no padrão novo e uso da
+  medida-modelo `[VocêEstáVendo]`.
+- **`dashboard-canvas`**: importação da Ficha Técnica do Builder.
+- **`tmdl-pbir`**: `scaling = 'Fit'` confirmado como "Ajuste = Alongar".
+- **`powerbi-visuais`**: novo endereço do Builder e ícones estatísticos.
+
 **1.4.0 (22/11/2026)**:
 
 - Nova skill **`dashboard-html-ia`**: dashboard HTML fora do Power BI feito por

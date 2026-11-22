@@ -52,9 +52,13 @@ alcançável**.
   | **400×304** | Vários visuais | Cartão + um gráfico pequeno |
   | **600×456** | Mini relatório | Cartão + gráfico com eixo legível + rodapé |
 - Detalhe com: indicadores em faixa, evolução no tempo, composição e uma
-  tabela de linhas. O cabeçalho é o do Background Builder: "Você está vendo:"
-  seguido da medida de seleção, e botão "← Voltar" a 16 px da borda
+  tabela de linhas. No cabeçalho do Background Builder, a medida de seleção
+  vai no card de (1232, 48) 496×32, depois do ícone de olho (o fundo não
+  escreve "Você está vendo:"), e o botão Voltar fica em (1744, 40) 144×48
   (`dashboard-layout/references/background-builder.md`).
+- O script TMDL do Builder já cria `[VocêEstáVendo]` como **medida-modelo**
+  (devolve `BLANK()`): personalize-a com a medida de seleção do campo do
+  detalhe, ou aponte o card direto para a medida de seleção.
 - Campos de poucos valores recebem **só Dica**; campos de muitos valores
   (pessoa, UF, natureza) recebem **Dica + Detalhe**.
 - Margem de 8 px dentro da dica; cartão e gráfico com a mesma largura.
@@ -89,5 +93,5 @@ alcançável**.
 2. Medida de seleção criada, descrita e testada com o mouse?
 3. Dica com um cartão, título = medida, rodapé só se houver detalhe?
 4. Cada visual de origem aponta para a dica correta (e só uma)?
-5. Detalhe oculto, com "Você está vendo:" + medida de seleção e botão "← Voltar"?
+5. Detalhe oculto, com o card da seleção (não `BLANK()`) ao lado do ícone de olho e o botão Voltar?
 6. Tamanho da Dica (320×240, 400×304 ou 600×456) coerente com o conteúdo?

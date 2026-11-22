@@ -27,7 +27,7 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
 | `value.labelDisplayUnits` (por `selector.metadata`) | Unidade de exibição "Nenhuma" | `1D` | verificado |
 | `visualContainerObjects.visualTooltip` | Tooltip: página do relatório | `{ show, section }` | verificado |
 | `page.json › pageBinding` | Página de drillthrough | `{ type:"Drillthrough", parameters }` | verificado |
-| `page.json › objects.background.image.scaling` | Ajuste da imagem ("Alongar" no guia do Builder) | `'Fit'` | verificado (valor), rótulo da UI a confirmar |
+| `page.json › objects.background.image.scaling` | Ajuste da imagem ("Ajuste = Alongar" na interface) | `'Fit'` | verificado (valor e rótulo, guia do Builder 1.031) |
 | `title.text` ligado a medida | Título dinâmico | `{ expr:{ Measure } }` | verificado |
 | projeção `displayName` + `nativeQueryRef` | Campo renomeado no visual | strings | verificado |
 | `visualContainerObjects.general[0].properties.altText` | Texto alternativo | literal | verificado |
