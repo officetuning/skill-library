@@ -101,6 +101,9 @@ Conferidas na documentação oficial em 2026-09-23:
 - **`dashboard-canvas`**: importação da Ficha Técnica do Builder.
 - **`tmdl-pbir`**: `scaling = 'Fit'` confirmado como "Ajuste = Alongar".
 - **`powerbi-visuais`**: novo endereço do Builder e ícones estatísticos.
+- **Endereços novos**: Dashboard Canvas em `dashboardcanvas.officetuning.ai`;
+  Function Library incorporada à [Biblioteca](https://officetuning.ai/biblioteca)
+  (UDF em `/biblioteca/udf`, guia do MCP em `/biblioteca/guias/dax-mcp-setup`).
 
 **1.4.0 (22/11/2026)**:
 

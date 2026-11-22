@@ -147,7 +147,7 @@ que usa as skills como base de conhecimento:
 os arquivos por busca, então cite o tema na pergunta ("pela regra de
 nomenclatura, como nomeio...").
 
-💡 Não quer montar? Use o [Data Analyst Advisor (GPT)](https://functionlibrary.officetuning.com.br/) já publicado.
+💡 Não quer montar? Use o [Data Analyst Advisor](https://officetuning.ai/biblioteca/power-bi/data-analyst-advisor) na biblioteca da officetuning.ai.
 
 ### Codex
 
@@ -285,7 +285,7 @@ O Copilot também lê `.claude/skills/` no projeto.
 
 ## Manter atualizado
 
-As skills evoluem junto com o Function Library. Para atualizar:
+As skills evoluem junto com a [Biblioteca da officetuning.ai](https://officetuning.ai/biblioteca). Para atualizar:
 
 - **Upload manual** (Claude, ChatGPT, Gemini): baixe o repositório de novo e
   reenvie o `.zip` da skill que mudou.

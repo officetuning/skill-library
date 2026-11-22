@@ -105,4 +105,4 @@ inglês × português), siga a OfficeTuning e avise o usuário do conflito.
 - [Power BI MCP servers overview](https://learn.microsoft.com/power-bi/developer/mcp/mcp-servers-overview)
 - [Power BI Agentic overview](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-agentic-overview)
 - [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric)
-- Guia passo a passo em português: functionlibrary.officetuning.com.br/dax/mcp
+- Guia passo a passo em português: [officetuning.ai/biblioteca/guias/dax-mcp-setup](https://officetuning.ai/biblioteca/guias/dax-mcp-setup)
