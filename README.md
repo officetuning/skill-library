@@ -20,6 +20,7 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | [`tmdl-pbir`](skills/tmdl-pbir/SKILL.md) | Script TMDL, `.pbip`, `visual.json`, rotina de Git, edição em lote na TMDL view | 08 |
 | [`bi-qa-documentacao`](skills/bi-qa-documentacao/SKILL.md) | Descrição com `///`, BPA por CLI, binding de visuais, CI/CD, `.docx` do modelo | 09 |
 | [`dax-udf`](skills/dax-udf/SKILL.md) | Criar, documentar e testar UDF DAX; VAL × EXPR; formato dinâmico com UDF (`Formato.Escala`) | 1.1.0 |
+| [`powerbi-detalhe-dica`](skills/powerbi-detalhe-dica/SKILL.md) | Página de Detalhe (drillthrough) e Dica de Ferramenta; medida de seleção; tamanhos de Dica do Builder | 1.3.0 |
 | [`powerbi-mcp`](skills/powerbi-mcp/SKILL.md) | Agente alterando o modelo via Power BI Authoring MCP com segurança; convivência com `skills-for-fabric` | 1.1.0 |
 
 O arquivo `10-fora-de-cobertura` não virou skill: é uma trava de escopo (preço,
@@ -79,6 +80,26 @@ Conferidas na documentação oficial em 2026-09-23:
   predicado direto não são equivalentes.
 
 ## Novidades
+
+**1.3.0 (22/11/2026)**, a partir do uso das skills em projetos reais em PBIP/PBIR:
+
+- Nova skill **`powerbi-detalhe-dica`**: par Detalhe + Dica de um mesmo campo,
+  chave do drillthrough, medida de seleção (`SELECTEDVALUE`/`LOOKUPVALUE`),
+  cartão único com rodapé padrão e fiação em PBIR.
+- **Tooltip em três tamanhos** do Background Builder, escolhidos pelo
+  conteúdo: 320×240 (visual único), 400×304 (vários visuais) e 600×456 (mini
+  relatório). Substitui o 400×304 fixo em `powerbi-visuais` e `dashboard-layout`.
+- Novas referências: `powerbi-visuais/references/cartoes-e-titulos.md`,
+  `powerbi-boas-praticas/references/medidas-para-visuais.md`,
+  `tmdl-pbir/references/edicao-por-script-e-desktop.md`,
+  `bi-qa-documentacao/references/acessibilidade-pbir.md` e
+  `dashboard-layout/references/background-builder-ciclo.md`.
+- **`tmdl-pbir`**: seção "Editar por script" (ciclo seguro). **`bi-qa-documentacao`**:
+  sete checagens baratas na camada 3 e acessibilidade no PBIR.
+  **`data-storytelling`**: "Identidade do relatório". **`dashboard-canvas`**:
+  filtros por 5W2H. **`dashboard-layout`**: margem e vão de 16 px.
+- **`powerbi-boas-praticas`**: regra 6.1 ganha a exceção do `FORMAT()` em
+  medida de texto usada só como título.
 
 **1.2.0 (07/10/2026)**, alinhada à página de boas práticas da Function Library:
 

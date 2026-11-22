@@ -251,7 +251,7 @@ Padrão completo: skill `bi-nomenclatura`.
 
 **6.1 — Format string em toda medida** · 🔴
 Sem formato, decimais excessivos e sem separador de milhar.
-Como: defina a **propriedade** Formato (Ferramentas de Medida → Formato, ou `formatString` no TMDL). Não use `FORMAT()` dentro da medida: ele devolve texto, quebra ordenação, soma e eixo.
+Como: defina a **propriedade** Formato (Ferramentas de Medida → Formato, ou `formatString` no TMDL). Não use `FORMAT()` dentro da medida: ele devolve texto, quebra ordenação, soma e eixo. Exceção: medida de texto usada só como título (ver `references/medidas-para-visuais.md`).
 ```tmdl
 measure 'Total de Vendas' = SUM ( Vendas[Valor da Venda] )
     formatString: R$ #,##0.00

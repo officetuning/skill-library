@@ -41,11 +41,12 @@ O formato é um **padrão aberto** ([Agent Skills](https://agentskills.io)). A
 mesma pasta funciona no Claude, no ChatGPT, no Gemini e no GitHub Copilot, sem
 conversão.
 
-## As 11 skills
+## As 12 skills
 
 | Skill | Dispara quando você pergunta sobre |
 |---|---|
 | `powerbi-visuais` | Qual visual usar, formatação condicional, tooltip, SVG por DAX |
+| `powerbi-detalhe-dica` | Página de detalhe (drillthrough), tooltip page, medida "você está vendo" |
 | `powerbi-boas-praticas` | Modelo lento, revisão de DAX, revisão de relatório, as 90 regras e a severidade de cada uma |
 | `power-query-m` | Query Folding, refresh lento no ETL, função M, Incremental Refresh |
 | `bi-nomenclatura` | Nome de tabela, coluna e medida; AV/AA/Δ/Δ%/Δi |
@@ -101,7 +102,7 @@ No Team e no Enterprise, a skill enviada fica visível só para você até ser c
 
 ### Claude Code
 
-Instala as 11 de uma vez, como plugin:
+Instala as 12 de uma vez, como plugin:
 
 ```text
 /plugin marketplace add officetuning/skill-library
@@ -277,7 +278,7 @@ O Copilot também lê `.claude/skills/` no projeto.
 |---|---|---|
 | Upload recusado: nome não confere | Pasta renomeada | O nome da pasta deve ser igual ao `name` do `SKILL.md` |
 | Upload recusado: falta `SKILL.md` | O `.zip` foi feito com os arquivos soltos ou com pasta a mais | Compacte a pasta da skill (Claude) ou deixe o `SKILL.md` na raiz (Gemini) |
-| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 11 skills" |
+| A skill nunca é usada | Skill desligada ou pergunta vaga | Confira a chave; use termos da tabela "As 12 skills" |
 | Menu Skills não aparece | Plano sem o recurso ou recurso desligado pelo admin | Veja o plano de cada IA acima |
 | Resposta diferente do padrão OfficeTuning | Skill antiga | Baixe a versão mais recente do repositório e reenvie |
 

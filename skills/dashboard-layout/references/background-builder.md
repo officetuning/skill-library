@@ -26,7 +26,7 @@ cartão e botão real deve ficar. O guia de montagem traz as coordenadas.
 | Corpo | Em branco + 1–2 cantos de ilustração | Filtros (conforme o modo) |
 | Sobre | 6 cartões: Aviso Legal, Nota, Fonte de Dados, Equipe Técnica, Dicionário de Dados, Versão | Vazia |
 | Detalhe (drill-through) | Corpo para o detalhe | "Você está vendo:" + botão "← Voltar", a 16 px da borda |
-| Dica de Ferramenta | 400×304 px, borda de 2 px na cor de acento rente às 4 bordas | — |
+| Dica de Ferramenta | 320×240, 400×304 ou 600×456 px (visual único, vários visuais, mini relatório), borda de 2 px na cor de acento rente às 4 bordas | — |
 
 ## Modos de filtro
 
@@ -69,7 +69,7 @@ Matriz 2 do Canvas. Um filtro definido no Canvas já decide o modo do cabeçalho
 
 1. Aplicar o tema `.json` (Exibir → Temas → Procurar temas).
 2. Importar os PNG como plano de fundo de cada página.
-3. Criar a página de tooltip de 400×304 px.
+3. Criar a página de tooltip no tamanho exportado pelo Builder (320×240, 400×304 ou 600×456 px).
 4. Montar a página Início como landing page.
 5. Ocultar Detalhe e Dica de Ferramenta da navegação.
 6. Ativar o alinhamento à grade no Desktop.

@@ -1,6 +1,6 @@
 ---
 name: dashboard-layout
-description: Wireframe, grid e sistema visual de relatórios Power BI — base 8px, grid 12×9 sobre canvas 1920×1080, conversão para x/y/width/height do visual.json, zonas reservadas e modos de filtro do Background Builder, tooltip 400×304, paleta derivada de Accent/Navy e o bug de fuso horário em "última atualização" no Service. Use para definir onde cada visual fica, padronizar layout entre páginas, montar um relatório a partir do Background Builder, diagnosticar relatório desalinhado ou data de atualização errada no Service. Para escolher o visual use powerbi-visuais.
+description: Wireframe, grid e sistema visual de relatórios Power BI — base 8px, grid 12×9 sobre canvas 1920×1080, conversão para x/y/width/height do visual.json, zonas reservadas e modos de filtro do Background Builder, tooltip em três tamanhos (320×240, 400×304, 600×456), paleta derivada de Accent/Navy e o bug de fuso horário em "última atualização" no Service. Use para definir onde cada visual fica, padronizar layout entre páginas, montar um relatório a partir do Background Builder, diagnosticar relatório desalinhado ou data de atualização errada no Service. Para escolher o visual use powerbi-visuais.
 ---
 
 # Layout e sistema visual
@@ -30,6 +30,8 @@ posições X/Y/Width/Height, que o `visual.json` do PBIR persiste em pixels.
   mesmo lugar, KPIs sempre na mesma linha).
 - Intenção e Cálculo de cada bloco herdados do Painel Visual do Canvas (skill
   `dashboard-canvas`). O wireframe decide **onde**, não **o quê**.
+- Margem e vão de **16 px** entre visuais, bordas, cabeçalho e painel;
+  posições `x`/`y`/`width`/`height` sempre **inteiras**.
 
 **Preferir**
 - Elemento dominante ocupa **mais colunas**, não necessariamente a linha de cima.
@@ -92,13 +94,18 @@ Relatório "torto" = visual fora da área reservada. Três mudanças:
 2. **O corpo começa abaixo do cabeçalho e termina acima do rodapé.** Altura útil
    = 1080 − cabeçalho − rodapé. Recalcule a linha e confira o múltiplo de 8. A
    altura do cabeçalho vem do guia de montagem exportado do projeto; não chute.
-3. **Tooltip tem canvas próprio de 400×304 px**, fora do grid.
+3. **Tooltip tem canvas próprio, fora do grid**, em um dos três tamanhos do
+   Builder: **320×240** (visual único), **400×304** (vários visuais) ou
+   **600×456** (mini relatório). Todos múltiplos de 8; a escolha fica em
+   `powerbi-detalhe-dica`.
 
 Evite posicionar visual sobre os cantos reservados à ilustração.
 
 Estrutura das páginas, modos de filtro, paleta, guia de montagem em 12 passos e
 o que revisar num relatório feito com o Background Builder:
-`references/background-builder.md`.
+`references/background-builder.md`. Ciclo de trabalho (regenerar PNG e
+fundos), células do menu, painel de filtros e coordenadas do corpo:
+`references/background-builder-ciclo.md`.
 
 ## Bug: fuso horário em "última atualização"
 

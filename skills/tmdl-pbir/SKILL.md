@@ -168,6 +168,25 @@ Agente de IA alterando o modelo (MCP): comece de um commit limpo e revise o
 diff no fim. Ver skill `powerbi-mcp`. Pipeline (BPA, binding, CI/CD): skill
 `bi-qa-documentacao`.
 
+## Editar por script
+
+Ciclo seguro para alterar `visual.json`, `page.json` ou TMDL fora do Desktop:
+
+1. Backup das pastas `*.Report` e `*.SemanticModel` (ou commit limpo).
+2. Script **idempotente**: lê o JSON, altera e grava; rodar duas vezes dá o
+   mesmo resultado.
+3. Validar bindings (todo campo existe no TMDL) e schema do `visual.json`.
+4. **Fechar o Desktop sem salvar e reabrir o `.pbip`**: salvar com a versão
+   antiga em memória sobrescreve a edição.
+5. Conferir com captura de tela.
+
+⚠️ O Desktop pode declarar `visualContainer/2.14.0`, versão que talvez ainda
+não esteja no repositório público de schemas. Grava CRLF sem BOM e reescreve o
+arquivo inteiro ao salvar.
+
+Propriedades já confirmadas, efeitos colaterais do Desktop, armadilhas de
+arquivo e checagens baratas para o QA: `references/edicao-por-script-e-desktop.md`.
+
 ## Posição dos visuais
 
 O bloco de posição do `visual.json` (x, y, z, width, height, tabOrder, em pixel,

@@ -79,6 +79,20 @@ cobrem cerca de 80% dos relatórios corporativos.
 Detalhe dos oito blocos (contexto, gráfico, poluição e Gestalt, atenção,
 design, Big Idea, arco, checklist): `references/blocos.md`.
 
+## Identidade do relatório
+
+- **H1 = o assunto** do relatório, não o departamento. Só se sustenta se
+  existir uma página que o represente.
+- **H2 em forma de pergunta** (ou promessa) curta, com ritmo.
+- **Tagline = o que o relatório entrega.** Confira cada promessa com o
+  conteúdo real antes de aceitar.
+- **Nome de página descreve o conteúdo**, nunca é nome de medida.
+- O arco narrativo é uma **sequência de perguntas**: cada página responde uma,
+  e a ordem das páginas segue a ordem das perguntas.
+
+No Background Builder, H1, H2 e tagline vão para o fundo: mudar identidade
+exige regenerar os PNGs (`dashboard-layout/references/background-builder-ciclo.md`).
+
 ## Checklist antes de publicar
 
 - [ ] Big Idea em uma frase com sujeito + verbo + consequência

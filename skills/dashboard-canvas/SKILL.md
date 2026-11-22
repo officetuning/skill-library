@@ -70,6 +70,18 @@ Prefixos nunca aparecem na camada semântica (skill `bi-nomenclatura`).
   relativa; Texto não aceita "Entre", "Antes de", "Depois de").
 - **Tipo de Dado × 5W2H** — cruza o tipo de dado com What/Why/Where/When/Who/How/How
   much para justificar cada medida no Bloco 10 antes de criá-la.
+- **Filtros por 5W2H** — classifique cada filtro global pela pergunta que ele
+  responde, e ordene o painel nessa sequência:
+
+  | 5W2H | Filtros típicos |
+  |---|---|
+  | Quando | Período |
+  | Onde | Região, UF, município |
+  | Quem | Atributos da pessoa: tipo, atividade, categoria (do geral ao específico) |
+  | O quê | Tipo de movimento, produto |
+
+  Como o painel de filtros é o mesmo em todas as páginas, toda medida precisa
+  funcionar com todos os filtros (ver `KEEPFILTERS` em `powerbi-boas-praticas`).
 
 ## Anatomia de página (Canvas 2)
 

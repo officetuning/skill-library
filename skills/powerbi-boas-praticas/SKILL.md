@@ -19,6 +19,7 @@ description: Auditoria e boas práticas de modelo semântico e relatório Power 
 |---|---|
 | Modelo lento | Seção 1, regras 1.3, 1.5, 1.9, 1.18 |
 | Revisar ou escrever DAX | Seção 2 |
+| Medida para visual (sinal, KEEPFILTERS, ranking, acumulado, seleção, título) | `references/medidas-para-visuais.md` |
 | Mesma lógica repetida em várias medidas | Skill `dax-udf` (transformar em UDF) |
 | Alterar o modelo direto via MCP | Skill `powerbi-mcp` antes de aplicar |
 | Checklist pré-publicação | Seções 3 e 4 |
@@ -130,3 +131,6 @@ limite de 20, severidade 3 → 3 × (1 + 25 − 20) = 18 pontos.
 
 Catálogo completo das 90 regras: `references/regras-bpa.md`.
 Ideias de conteúdo a partir das regras: `references/ideias-de-pauta.md`.
+Padrões DAX que sustentam o visual (KEEPFILTERS, `RANKX` com `ALLSELECTED`,
+saldo acumulado, medida de seleção, exceção do `FORMAT` em título):
+`references/medidas-para-visuais.md`.
