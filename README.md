@@ -94,6 +94,8 @@ Background Builder 1.029 a 1.031:
 - **H2 opcional:** em branco não há texto nem sublinhado, e a tagline sobe 96 px.
 - **Cor dos nichos (`customSlot`):** seletor opcional; o `Tema.json` não muda.
 - **Assinatura e white label**, versão do contrato da Ficha e campos do JSON.
+- **`dax-udf`:** a referência às UDFs usa o nome atual, "UDFs da Biblioteca",
+  em `officetuning.ai/biblioteca/udf`.
 
 **1.5.0 (22/11/2026)**, alinhada ao Background Builder 1.031
 ([backgroundbuilder.officetuning.ai](https://backgroundbuilder.officetuning.ai/)):

@@ -10,8 +10,8 @@ colunas calculadas, cálculos visuais, formatos dinâmicos e outras UDFs.
 GA no Desktop e no Service desde **junho/2026**; exige nível de
 compatibilidade **1702** ou superior.
 
-Antes de escrever uma função do zero, procure na **Code Library UDF DAX**
-([officetuning.ai/biblioteca/udf](https://officetuning.ai/biblioteca/udf/)): calendário,
+Antes de escrever uma função do zero, procure nas **UDFs da Biblioteca**
+([officetuning.ai/biblioteca/udf](https://officetuning.ai/biblioteca/udf)): calendário,
 comparativo AV/AA/Δ (`Delta.*`), datas fiscais, feriados, texto, estatística.
 
 ## Fluxo de trabalho
