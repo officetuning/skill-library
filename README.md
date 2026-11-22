@@ -96,6 +96,9 @@ Background Builder 1.029 a 1.031:
 - **Assinatura e white label**, versão do contrato da Ficha e campos do JSON.
 - **`dax-udf`:** a referência às UDFs usa o nome atual, "UDFs da Biblioteca",
   em `officetuning.ai/biblioteca/udf`.
+- **`dashboard-canvas`:** alinhada à página de metodologia: os 12 blocos são do
+  Canvas ETL & Modelagem, a Data Visualization é por página (5 blocos) e o
+  Bloco 12 é o Encerramento do Projeto (QA e publicação).
 
 **1.5.0 (22/11/2026)**, alinhada ao Background Builder 1.031
 ([backgroundbuilder.officetuning.ai](https://backgroundbuilder.officetuning.ai/)):

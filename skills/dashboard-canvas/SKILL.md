@@ -16,16 +16,25 @@ que gera uma especificação técnica em Markdown. Essa especificação:
 O Canvas não gera visual. Ele força decisões de escopo e modelagem antes, para
 reduzir retrabalho.
 
-Duas etapas: **Canvas ETL & Modelagem** (blocos 1–9) e **Data Visualization** (blocos 10–12).
+Duas etapas, mais um cronograma calculado:
+
+- **Canvas ETL & Modelagem:** os **12 blocos** abaixo, a Fundação do projeto.
+- **Data Visualization:** feita **por página**, com 5 blocos (Nome da Página,
+  Mensagem Principal, Painel Visual, Hierarquia Visual e Cronograma & Esforço),
+  mais a **Seção Comum** do relatório (Filtros e Paleta).
+- **Cronograma Consolidado:** calculado a partir das datas e das horas, na
+  ordem fundação, páginas e encerramento.
 
 ## Os 12 blocos
 
 ### Fase 1 — Descoberta
 1. **Problema** — qual pergunta de negócio o relatório responde? Se não cabe
    numa frase, o escopo está inflado (mesmo teste da Big Idea, skill `data-storytelling`).
-2. **Nível de Decisão** — cada página por visão temporal
-   (operacional/tático/estratégico) e finalidade; calibra o nível de detalhe.
-3. **Contexto de Uso** — apresentação ao vivo ou leitura solitária.
+2. **Nível de Decisão** — a vocação do **relatório inteiro**, não de cada
+   página: Estratégico, Analítico ou Operacional, com o público que decide.
+   Calibra o ritmo de atualização, a granularidade e o formato visual.
+3. **Contexto de Uso** — em quais dispositivos o relatório será consultado
+   (computador, celular, TV, tablet); cada um limita filtros e complexidade.
 
 ### Fase 2 — Dados
 4. **Origem dos Dados** — sistema, planilha, API; taxonomia de tabela e campo (abaixo).
@@ -35,15 +44,23 @@ Duas etapas: **Canvas ETL & Modelagem** (blocos 1–9) e **Data Visualization** 
    "última atualização" na skill `dashboard-layout`).
 
 ### Fase 3 — Governança
-7. **Regras de Usuários / RLS** — quem vê o quê.
+7. **Regras de Usuários (RLS/OLS)** — quem vê o quê, por linha de dado; o campo-chave
+   e a fonte da relação usuário e permissão. Toda página vale para todos os autorizados.
 8. **Riscos** — qualidade de dado, atraso de fonte, mudança de escopo; mitigação.
 9. **Premissas** — o que se assume sem validação (ex.: "vendas já líquidas de devolução").
 
 ### Fase 4 — Execução
-10. **Cálculos** — medidas e sua lógica, justificadas pela Matriz Tipo de Dado ×
-    5W2H e nomeadas no padrão AV/AA/Δ/Δ%/Δi (skill `bi-nomenclatura`).
-11. **Cronograma & Esforço** — estimativa por etapa, consolidada no Cronograma Consolidado.
-12. **Encerramento** — critério de pronto: números batendo, RLS testada, performance aceitável.
+10. **Cálculos** — dicionário único de métricas: nome, fórmula, granularidade e
+    origem, no padrão AV/AA/Δ/Δ%/Δi (skill `bi-nomenclatura`). Alimenta também
+    os filtros e os visuais do Canvas 2.
+11. **Cronograma & Esforço** — só da **Fundação** (ETL, modelagem e
+    governança): início, entrega, horas, responsáveis e status. A construção
+    visual tem o cronograma de cada página.
+12. **Encerramento do Projeto** — o esforço de fechar o projeto inteiro, uma
+    única vez: **QA/Testes** (números, filtros, performance e acessibilidade do
+    relatório completo) e **Publicação** (workspace, app, permissões, refresh e
+    comunicação aos usuários), com validador e status. Entra no Cronograma
+    Consolidado depois da fundação e das páginas; não se repete por página.
 
 ## Taxonomia
 
@@ -68,8 +85,10 @@ Prefixos nunca aparecem na camada semântica (skill `bi-nomenclatura`).
 - **Tipo de Dado × Tipo de Segmentação** — cada filtro recebe um tipo de dado
   que determina as segmentações compatíveis (ex.: Data/Hora aceita data
   relativa; Texto não aceita "Entre", "Antes de", "Depois de").
-- **Tipo de Dado × 5W2H** — cruza o tipo de dado com What/Why/Where/When/Who/How/How
-  much para justificar cada medida no Bloco 10 antes de criá-la.
+- **Tipo de Dado × 5W2H** — apoio do método: cruza o tipo de dado com
+  What/Why/Where/When/Who/How/How much para justificar cada medida antes de
+  criá-la. O app e a página de metodologia mostram só o 5W2H dos filtros e a
+  matriz Tipo de Dado × Segmentação.
 - **Filtros por 5W2H** — classifique cada filtro global pela pergunta que ele
   responde, e ordene o painel nessa sequência:
 
@@ -85,11 +104,17 @@ Prefixos nunca aparecem na camada semântica (skill `bi-nomenclatura`).
 
 ## Anatomia de página (Canvas 2)
 
-1. **Mensagem principal** — a Big Idea.
-2. **Painel Visual** — por visual: **Intenção**, **Cálculo** (medida) e
+Cada página tem 5 blocos:
+
+1. **Nome da Página** — vira o nome literal da página no relatório.
+2. **Mensagem principal** — a Big Idea.
+3. **Painel Visual** — por visual: **Intenção**, **Cálculo** (medida) e
    **Posição** (Topo/Meio/Base).
-3. **Hierarquia visual** — o elemento dominante e os secundários.
-4. **Cronograma** — esforço da página.
+4. **Hierarquia visual** — o elemento dominante e os secundários.
+5. **Cronograma & Esforço** — esforço da página (o QA e a publicação ficam no
+   Bloco 12, não aqui).
+
+Os **filtros** e a **paleta** não são de página: ficam na Seção Comum.
 
 A skill `dashboard-layout` transforma a Posição qualitativa em coordenadas.
 
@@ -97,9 +122,10 @@ A skill `dashboard-layout` transforma a Posição qualitativa em coordenadas.
 
 | Origem no Canvas | Ação no Power BI |
 |---|---|
-| Canvas 1 (blocos 1–9) | Tabelas, relacionamentos, RLS, estratégia de refresh |
-| Canvas 2 (blocos 10–12) | Layout, visuais, medidas DAX, cronograma |
-| Configuração global de filtros | Segmentações com controle compatível |
+| Canvas ETL & Modelagem (blocos 1–12) | Conexões, tabelas, relacionamentos, RLS, estratégia de refresh, medidas DAX (Bloco 10), QA e publicação (Bloco 12) |
+| Data Visualization (cada página) | Nome da página, hierarquia, visuais por Intenção, cronograma da página |
+| Seção Comum: Filtros | Segmentações com controle compatível |
+| Seção Comum: Paleta | `Tema.json` importado em **Design → Importar tema** |
 
 | Intenção no Canvas | Visual no Power BI |
 |---|---|
@@ -119,6 +145,11 @@ A ponte também funciona no sentido contrário: a Ficha Técnica exportada pelo
 Builder (`<Projeto> - Background Builder.md`, com JSON) entra no Canvas por
 **Importar do Background Builder**, trazendo H1, H2, tagline, páginas de corpo,
 filtros já classificados em 5W2H, fontes de dados e equipe.
+
+O Canvas também exporta PDF, Markdown com os dados embutidos e um `Tema.json`
+com a paleta. O `Tema.json` do Builder é mais completo (acrescenta fundo da
+página, textos e estilos dos visuais): se você usa as duas ferramentas, importe
+só um dos dois no Power BI.
 
 ## Revisar um modelo existente contra o Canvas
 
