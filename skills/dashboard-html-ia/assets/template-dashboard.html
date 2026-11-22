@@ -1,0 +1,493 @@
+<!doctype html>
+<!--
+  Template OfficeTuning — dashboard HTML de arquivo único gerado por IA
+  Skill: dashboard-html-ia (officetuning/skill-library)
+
+  Como a IA deve usar este arquivo:
+  1. Trocar o JSON do bloco <script id="dados"> pelos dados reais, já agregados
+     (mês × categoria) e calculados em código, nunca digitados "de cabeça".
+  2. Preencher "meta": título, fonte, extraído em, linhas na fonte e o total de
+     controle somado na fonte. O rodapé confere o total sozinho.
+  3. Ajustar CONFIG (nomes das colunas, rótulos e formato) e, se houver tema
+     .json do Power BI, copiar as cores para os tokens de :root.
+  4. Remover "exemplo": true quando os dados forem reais.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receita por Região</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.min.js"
+        integrity="sha384-Emf5ZVIUiarAdhkgtqK+5/Z5qIvM6QoVrS+qAVtfyZVuD5lIHrac0me485+Antp0"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.7.0/papaparse.min.js"
+        integrity="sha384-Cac1u6+UwTX6dLDygwZYoxzTmqBikf22tn1qbNy+EVRSvn+FIh9oC/VRmAaL4Ih9"
+        crossorigin="anonymous"></script>
+<style>
+  /* Tokens. Espaçamento em múltiplos de 8 px (padrão dashboard-layout). */
+  :root {
+    --accent: #0F6CBD;
+    --navy: #0B2545;
+    --positivo: #107C41;
+    --negativo: #C42B1C;
+    --neutro: #6B7280;
+    --serie-aa: #9CA3AF;
+    --bg: #F5F7FA;
+    --card: #FFFFFF;
+    --texto: #111827;
+    --texto-2: #4B5563;
+    --borda: #E5E7EB;
+    --aviso-bg: #FFF4CE;
+    --aviso-tx: #5C4400;
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px;
+    --raio: 8px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --accent: #4CA3F0; --navy: #C7D7EE;
+      --positivo: #54B054; --negativo: #F1707B; --neutro: #9CA3AF; --serie-aa: #6B7280;
+      --bg: #0E1116; --card: #171B22; --texto: #F3F4F6; --texto-2: #B6BCC6; --borda: #2A303A;
+      --aviso-bg: #3D3200; --aviso-tx: #FCE8A6;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--texto);
+    font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  }
+  .pagina { max-width: 1440px; margin: 0 auto; padding: var(--s3) var(--s2); }
+  header { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: flex-end; justify-content: space-between; margin-bottom: var(--s3); }
+  h1 { font-size: 24px; line-height: 32px; margin: 0; color: var(--navy); }
+  .subtitulo { margin: var(--s1) 0 0; color: var(--texto-2); }
+  .filtros { display: flex; flex-wrap: wrap; gap: var(--s2); }
+  .filtros label { display: flex; flex-direction: column; font-size: 13px; color: var(--texto-2); gap: 4px; }
+  select, button, input[type=file] {
+    font: inherit; color: var(--texto); background: var(--card);
+    border: 1px solid var(--borda); border-radius: var(--raio); padding: var(--s1) var(--s2); min-height: 40px;
+  }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .aviso { background: var(--aviso-bg); color: var(--aviso-tx); border-radius: var(--raio); padding: var(--s1) var(--s2); margin-bottom: var(--s2); }
+  .aviso[hidden] { display: none; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--s2); margin-bottom: var(--s2); }
+  .cartao { background: var(--card); border: 1px solid var(--borda); border-radius: var(--raio); padding: var(--s2) var(--s3); }
+  .kpi-rotulo { font-size: 13px; color: var(--texto-2); margin: 0; }
+  .kpi-valor { font-size: 32px; line-height: 40px; font-weight: 600; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .kpi-delta { font-size: 14px; margin: 0; }
+  .pos { color: var(--positivo); } .neg { color: var(--negativo); } .neu { color: var(--neutro); }
+  .graficos { display: grid; grid-template-columns: 2fr 1fr; gap: var(--s2); margin-bottom: var(--s2); }
+  .graficos h2, .tabela h2 { font-size: 16px; line-height: 24px; margin: 0 0 var(--s2); }
+  .area-grafico { position: relative; height: 320px; }
+  .tabela { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--borda); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-size: 13px; color: var(--texto-2); font-weight: 600; }
+  th button { all: unset; cursor: pointer; }
+  footer { margin-top: var(--s3); font-size: 13px; color: var(--texto-2); display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 900px) { .graficos { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .kpi-valor { font-size: 24px; line-height: 32px; } .cartao { padding: var(--s2); } }
+  @media print { .filtros, #trocar { display: none; } .cartao { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <div>
+      <h1 id="titulo">Receita por Região</h1>
+      <p class="subtitulo" id="conclusao" aria-live="polite"></p>
+    </div>
+    <div class="filtros" role="group" aria-label="Filtros">
+      <label>Ano <select id="f-ano"></select></label>
+      <label>Região <select id="f-cat"><option value="">Todas</option></select></label>
+      <label id="trocar">Trocar dados (CSV) <input type="file" id="f-csv" accept=".csv,text/csv"></label>
+    </div>
+  </header>
+
+  <p class="aviso" id="aviso-exemplo" hidden>Dados de exemplo. Substitua pelos dados reais antes de compartilhar.</p>
+  <p class="aviso" id="aviso-erro" role="alert" hidden></p>
+
+  <section class="kpis" aria-label="Indicadores">
+    <article class="cartao"><p class="kpi-rotulo">Receita AV</p><p class="kpi-valor" id="k-av">–</p><p class="kpi-delta" id="k-av-d"></p></article>
+    <article class="cartao"><p class="kpi-rotulo">Receita AA (mesmos meses)</p><p class="kpi-valor" id="k-aa">–</p><p class="kpi-delta neu" id="k-aa-d"></p></article>
+    <article class="cartao"><p class="kpi-rotulo">Pedidos AV</p><p class="kpi-valor" id="k-ped">–</p><p class="kpi-delta" id="k-ped-d"></p></article>
+    <article class="cartao"><p class="kpi-rotulo">Ticket médio AV</p><p class="kpi-valor" id="k-tic">–</p><p class="kpi-delta" id="k-tic-d"></p></article>
+  </section>
+
+  <section class="graficos">
+    <article class="cartao">
+      <h2>Receita mensal: AV × AA</h2>
+      <div class="area-grafico"><canvas id="g-linha" role="img" aria-label="Gráfico de linhas da receita mensal"></canvas></div>
+    </article>
+    <article class="cartao">
+      <h2>Receita AV por região</h2>
+      <div class="area-grafico"><canvas id="g-barra" role="img" aria-label="Gráfico de barras da receita por região"></canvas></div>
+    </article>
+  </section>
+
+  <section class="cartao tabela" aria-labelledby="t-tit">
+    <h2 id="t-tit">Detalhe por região</h2>
+    <table>
+      <caption class="sr-only">Receita AV, AA e variação por região. Clique no cabeçalho para ordenar.</caption>
+      <thead><tr id="t-cab"></tr></thead>
+      <tbody id="t-corpo"></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <span>Fonte: <span id="r-fonte"></span></span>
+    <span>Dados de: <span id="r-data"></span></span>
+    <span>Linhas: <span id="r-linhas"></span></span>
+    <span id="r-controle"></span>
+  </footer>
+</div>
+
+<!-- Dados embutidos. Agregados e calculados em código pela IA. -->
+<script type="application/json" id="dados">
+{"meta":{"titulo":"Receita por Região","fonte":"vendas_exemplo.csv","extraido_em":"2026-10-01","linhas_fonte":84,"total_controle":8383618.16,"exemplo":true},
+ "linhas":[
+  {"data":"2025-01-01","regiao":"Sudeste","receita":157316.12,"pedidos":497},
+  {"data":"2025-01-01","regiao":"Sul","receita":86926.3,"pedidos":277},
+  {"data":"2025-01-01","regiao":"Nordeste","receita":63040.62,"pedidos":194},
+  {"data":"2025-01-01","regiao":"Centro-Oeste","receita":37828.32,"pedidos":114},
+  {"data":"2025-02-01","regiao":"Sudeste","receita":158244.47,"pedidos":483},
+  {"data":"2025-02-01","regiao":"Sul","receita":83922.48,"pedidos":267},
+  {"data":"2025-02-01","regiao":"Nordeste","receita":65104.78,"pedidos":189},
+  {"data":"2025-02-01","regiao":"Centro-Oeste","receita":40072.22,"pedidos":125},
+  {"data":"2025-03-01","regiao":"Sudeste","receita":183211.32,"pedidos":526},
+  {"data":"2025-03-01","regiao":"Sul","receita":96025.47,"pedidos":294},
+  {"data":"2025-03-01","regiao":"Nordeste","receita":74667.3,"pedidos":239},
+  {"data":"2025-03-01","regiao":"Centro-Oeste","receita":47258.35,"pedidos":146},
+  {"data":"2025-04-01","regiao":"Sudeste","receita":181297.07,"pedidos":576},
+  {"data":"2025-04-01","regiao":"Sul","receita":97999.83,"pedidos":286},
+  {"data":"2025-04-01","regiao":"Nordeste","receita":70883.28,"pedidos":212},
+  {"data":"2025-04-01","regiao":"Centro-Oeste","receita":48627.59,"pedidos":149},
+  {"data":"2025-05-01","regiao":"Sudeste","receita":200034.01,"pedidos":640},
+  {"data":"2025-05-01","regiao":"Sul","receita":98406.51,"pedidos":309},
+  {"data":"2025-05-01","regiao":"Nordeste","receita":79226.13,"pedidos":242},
+  {"data":"2025-05-01","regiao":"Centro-Oeste","receita":48383.9,"pedidos":145},
+  {"data":"2025-06-01","regiao":"Sudeste","receita":200278.68,"pedidos":622},
+  {"data":"2025-06-01","regiao":"Sul","receita":110785.08,"pedidos":327},
+  {"data":"2025-06-01","regiao":"Nordeste","receita":75591.2,"pedidos":227},
+  {"data":"2025-06-01","regiao":"Centro-Oeste","receita":50577.79,"pedidos":146},
+  {"data":"2025-07-01","regiao":"Sudeste","receita":205089.74,"pedidos":637},
+  {"data":"2025-07-01","regiao":"Sul","receita":111923.08,"pedidos":355},
+  {"data":"2025-07-01","regiao":"Nordeste","receita":76389.09,"pedidos":224},
+  {"data":"2025-07-01","regiao":"Centro-Oeste","receita":47256.35,"pedidos":143},
+  {"data":"2025-08-01","regiao":"Sudeste","receita":178492.66,"pedidos":530},
+  {"data":"2025-08-01","regiao":"Sul","receita":104430.71,"pedidos":313},
+  {"data":"2025-08-01","regiao":"Nordeste","receita":78101.05,"pedidos":242},
+  {"data":"2025-08-01","regiao":"Centro-Oeste","receita":49004.55,"pedidos":146},
+  {"data":"2025-09-01","regiao":"Sudeste","receita":182015.38,"pedidos":554},
+  {"data":"2025-09-01","regiao":"Sul","receita":99522.68,"pedidos":286},
+  {"data":"2025-09-01","regiao":"Nordeste","receita":69746.94,"pedidos":207},
+  {"data":"2025-09-01","regiao":"Centro-Oeste","receita":42232.69,"pedidos":124},
+  {"data":"2025-10-01","regiao":"Sudeste","receita":172687.25,"pedidos":493},
+  {"data":"2025-10-01","regiao":"Sul","receita":93325.82,"pedidos":290},
+  {"data":"2025-10-01","regiao":"Nordeste","receita":64748.68,"pedidos":192},
+  {"data":"2025-10-01","regiao":"Centro-Oeste","receita":39473.09,"pedidos":120},
+  {"data":"2025-11-01","regiao":"Sudeste","receita":153799.28,"pedidos":488},
+  {"data":"2025-11-01","regiao":"Sul","receita":79871.67,"pedidos":234},
+  {"data":"2025-11-01","regiao":"Nordeste","receita":59470.91,"pedidos":185},
+  {"data":"2025-11-01","regiao":"Centro-Oeste","receita":39708.17,"pedidos":115},
+  {"data":"2025-12-01","regiao":"Sudeste","receita":149098.97,"pedidos":454},
+  {"data":"2025-12-01","regiao":"Sul","receita":84178.64,"pedidos":243},
+  {"data":"2025-12-01","regiao":"Nordeste","receita":64353.47,"pedidos":186},
+  {"data":"2025-12-01","regiao":"Centro-Oeste","receita":38371.57,"pedidos":117},
+  {"data":"2026-01-01","regiao":"Sudeste","receita":167591.37,"pedidos":485},
+  {"data":"2026-01-01","regiao":"Sul","receita":100546.75,"pedidos":318},
+  {"data":"2026-01-01","regiao":"Nordeste","receita":56289.27,"pedidos":176},
+  {"data":"2026-01-01","regiao":"Centro-Oeste","receita":39982.69,"pedidos":121},
+  {"data":"2026-02-01","regiao":"Sudeste","receita":181590.14,"pedidos":566},
+  {"data":"2026-02-01","regiao":"Sul","receita":92241.36,"pedidos":282},
+  {"data":"2026-02-01","regiao":"Nordeste","receita":60719.93,"pedidos":182},
+  {"data":"2026-02-01","regiao":"Centro-Oeste","receita":46332.82,"pedidos":137},
+  {"data":"2026-03-01","regiao":"Sudeste","receita":191213.81,"pedidos":571},
+  {"data":"2026-03-01","regiao":"Sul","receita":108051.24,"pedidos":346},
+  {"data":"2026-03-01","regiao":"Nordeste","receita":69480.5,"pedidos":203},
+  {"data":"2026-03-01","regiao":"Centro-Oeste","receita":48780.22,"pedidos":142},
+  {"data":"2026-04-01","regiao":"Sudeste","receita":199200.44,"pedidos":611},
+  {"data":"2026-04-01","regiao":"Sul","receita":105572.68,"pedidos":314},
+  {"data":"2026-04-01","regiao":"Nordeste","receita":65473.37,"pedidos":209},
+  {"data":"2026-04-01","regiao":"Centro-Oeste","receita":47127.7,"pedidos":148},
+  {"data":"2026-05-01","regiao":"Sudeste","receita":205911.68,"pedidos":659},
+  {"data":"2026-05-01","regiao":"Sul","receita":108263.7,"pedidos":342},
+  {"data":"2026-05-01","regiao":"Nordeste","receita":68585.18,"pedidos":211},
+  {"data":"2026-05-01","regiao":"Centro-Oeste","receita":47767.75,"pedidos":138},
+  {"data":"2026-06-01","regiao":"Sudeste","receita":217108.65,"pedidos":687},
+  {"data":"2026-06-01","regiao":"Sul","receita":114007.69,"pedidos":351},
+  {"data":"2026-06-01","regiao":"Nordeste","receita":72294.51,"pedidos":229},
+  {"data":"2026-06-01","regiao":"Centro-Oeste","receita":54447.96,"pedidos":155},
+  {"data":"2026-07-01","regiao":"Sudeste","receita":209626.32,"pedidos":636},
+  {"data":"2026-07-01","regiao":"Sul","receita":109660.13,"pedidos":349},
+  {"data":"2026-07-01","regiao":"Nordeste","receita":71038.09,"pedidos":221},
+  {"data":"2026-07-01","regiao":"Centro-Oeste","receita":53522.72,"pedidos":169},
+  {"data":"2026-08-01","regiao":"Sudeste","receita":188746.02,"pedidos":542},
+  {"data":"2026-08-01","regiao":"Sul","receita":112220.04,"pedidos":355},
+  {"data":"2026-08-01","regiao":"Nordeste","receita":70170.1,"pedidos":225},
+  {"data":"2026-08-01","regiao":"Centro-Oeste","receita":49324.72,"pedidos":141},
+  {"data":"2026-09-01","regiao":"Sudeste","receita":200507.37,"pedidos":593},
+  {"data":"2026-09-01","regiao":"Sul","receita":101924.48,"pedidos":313},
+  {"data":"2026-09-01","regiao":"Nordeste","receita":62733.49,"pedidos":184},
+  {"data":"2026-09-01","regiao":"Centro-Oeste","receita":46562.01,"pedidos":136}
+ ]}
+</script>
+
+<script>
+"use strict";
+// Mapeamento de colunas: a IA ajusta aqui, não no resto do código.
+const CONFIG = {
+  colData: "data",          // AAAA-MM-DD
+  colCategoria: "regiao",
+  colValor: "receita",
+  colQtd: "pedidos",
+  moeda: "BRL",
+  localidade: "pt-BR"
+};
+
+const fmtMoeda = new Intl.NumberFormat(CONFIG.localidade, { style: "currency", currency: CONFIG.moeda, maximumFractionDigits: 0 });
+const fmtCompacto = new Intl.NumberFormat(CONFIG.localidade, { style: "currency", currency: CONFIG.moeda, notation: "compact", maximumFractionDigits: 1 });
+const fmtInt = new Intl.NumberFormat(CONFIG.localidade, { maximumFractionDigits: 0 });
+const fmtPct = new Intl.NumberFormat(CONFIG.localidade, { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1, signDisplay: "exceptZero" });
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+
+const $ = (id) => document.getElementById(id);
+const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+// Data "AAAA-MM-DD" lida como texto: new Date("2026-01-01") é UTC e vira 31/12 no Brasil.
+function partesData(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s || ""));
+  return m ? { ano: +m[1], mes: +m[2], dia: +m[3] } : null;
+}
+function dataBR(s) {
+  const p = partesData(s);
+  return p ? `${String(p.dia).padStart(2, "0")}/${String(p.mes).padStart(2, "0")}/${p.ano}` : "não informada";
+}
+// br = true quando o CSV usa ";": aí "." é milhar e "," é decimal ("1.234,56", "1.234").
+// br = false: "1234.56". Números já numéricos (JSON) passam direto.
+let csvBR = false;
+function numero(v, br = csvBR) {
+  if (typeof v === "number") return v;
+  let s = String(v ?? "").trim().replace(/[R$\s\u00a0]/g, "");
+  if (s === "") return NaN;
+  s = br ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
+  return Number(s);
+}
+const soma = (arr, f) => arr.reduce((a, r) => a + f(r), 0);
+const delta = (av, aa) => (aa ? (av - aa) / Math.abs(aa) : null);
+
+function mostrarErro(msg) { const e = $("aviso-erro"); e.textContent = msg; e.hidden = false; }
+
+let base = { meta: {}, linhas: [] };
+let graficos = {};
+let ordem = { col: "av", desc: true };
+
+function carregarEmbutido() {
+  try { base = JSON.parse($("dados").textContent); }
+  catch (e) { mostrarErro("Não foi possível ler os dados embutidos: " + e.message); }
+  normalizar();
+}
+
+function normalizar() {
+  const inval = [];
+  base.linhas = base.linhas.map((r, i) => {
+    const p = partesData(r[CONFIG.colData]);
+    const v = numero(r[CONFIG.colValor]);
+    const q = numero(r[CONFIG.colQtd]);
+    if (!p || Number.isNaN(v)) inval.push(i + 2);
+    return { ano: p?.ano, mes: p?.mes, cat: String(r[CONFIG.colCategoria] ?? "(vazio)"), v, q: Number.isNaN(q) ? 0 : q };
+  }).filter((r) => r.ano && !Number.isNaN(r.v));
+  if (inval.length) mostrarErro(`${inval.length} linha(s) ignorada(s) por data ou valor inválido (ex.: linha ${inval.slice(0, 5).join(", ")}).`);
+  montarFiltros();
+  rodape();
+  desenhar();
+}
+
+function montarFiltros() {
+  const anos = [...new Set(base.linhas.map((r) => r.ano))].sort((a, b) => b - a);
+  const cats = [...new Set(base.linhas.map((r) => r.cat))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+  const fa = $("f-ano"); fa.replaceChildren(...anos.map((a) => new Option(a, a)));
+  const fc = $("f-cat"); fc.replaceChildren(new Option("Todas", ""), ...cats.map((c) => new Option(c, c)));
+}
+
+function rodape() {
+  const m = base.meta || {};
+  $("titulo").textContent = m.titulo || "Dashboard";
+  document.title = m.titulo || document.title;
+  $("r-fonte").textContent = m.fonte || "não informada";
+  $("r-data").textContent = dataBR(m.extraido_em);
+  $("r-linhas").textContent = fmtInt.format(m.linhas_fonte ?? base.linhas.length);
+  $("aviso-exemplo").hidden = !m.exemplo;
+  const total = soma(base.linhas, (r) => r.v);
+  const ctrl = $("r-controle");
+  if (typeof m.total_controle === "number") {
+    const ok = Math.abs(total - m.total_controle) < 0.01;
+    ctrl.textContent = ok
+      ? `✔ Total confere com a fonte (${fmtMoeda.format(total)})`
+      : `⚠ Total diverge da fonte: painel ${fmtMoeda.format(total)} × fonte ${fmtMoeda.format(m.total_controle)}`;
+    ctrl.className = ok ? "pos" : "neg";
+  } else {
+    ctrl.textContent = "Total de controle não informado";
+  }
+}
+
+function desenhar() {
+  const ano = +$("f-ano").value;
+  const cat = $("f-cat").value;
+  const sel = base.linhas.filter((r) => !cat || r.cat === cat);
+  const av = sel.filter((r) => r.ano === ano);
+  const mesesAV = new Set(av.map((r) => r.mes));
+  // AA comparável: mesmos meses do ano anterior.
+  const aa = sel.filter((r) => r.ano === ano - 1 && mesesAV.has(r.mes));
+
+  const recAV = soma(av, (r) => r.v), recAA = soma(aa, (r) => r.v);
+  const pedAV = soma(av, (r) => r.q), pedAA = soma(aa, (r) => r.q);
+  const ticAV = pedAV ? recAV / pedAV : 0, ticAA = pedAA ? recAA / pedAA : 0;
+
+  kpi("k-av", fmtMoeda.format(recAV), delta(recAV, recAA));
+  $("k-aa").textContent = fmtMoeda.format(recAA);
+  $("k-aa-d").textContent = aa.length ? `${mesesAV.size} meses de ${ano - 1}` : "sem dados do ano anterior";
+  kpi("k-ped", fmtInt.format(pedAV), delta(pedAV, pedAA));
+  kpi("k-tic", fmtMoeda.format(ticAV), delta(ticAV, ticAA));
+
+  // Título-conclusão calculado, nunca escrito à mão.
+  const d = delta(recAV, recAA);
+  const porCat = agrupar(av, aa);
+  const melhor = [...porCat].filter((c) => c.d !== null).sort((a, b) => b.d - a.d)[0];
+  const pior = [...porCat].filter((c) => c.d !== null).sort((a, b) => a.d - b.d)[0];
+  let frase = d === null ? `Receita de ${ano}: ${fmtMoeda.format(recAV)}.`
+    : `Receita ${d >= 0 ? "cresceu" : "caiu"} ${fmtPct.format(Math.abs(d)).replace("+", "")} sobre ${ano - 1} nos mesmos meses.`;
+  if (!cat && melhor && pior && melhor !== pior) frase += ` ${melhor.cat} lidera (${fmtPct.format(melhor.d)}); ${pior.cat} tem a pior variação (${fmtPct.format(pior.d)}).`;
+  $("conclusao").textContent = frase;
+
+  if (typeof Chart === "undefined") {
+    mostrarErro("A biblioteca de gráficos não carregou (sem internet ou CDN bloqueada). Os indicadores e a tabela continuam válidos.");
+  } else {
+    linha(av, aa, ano);
+    barras(porCat);
+  }
+  tabela(porCat);
+}
+
+function kpi(id, valor, d) {
+  $(id).textContent = valor;
+  const el = $(id + "-d");
+  if (d === null) { el.textContent = "sem base no AA"; el.className = "kpi-delta neu"; return; }
+  // Sinal e seta além da cor: informação não depende só de cor.
+  el.textContent = `${d > 0 ? "▲" : d < 0 ? "▼" : "■"} ${fmtPct.format(d)} vs AA`;
+  el.className = "kpi-delta " + (d > 0 ? "pos" : d < 0 ? "neg" : "neu");
+}
+
+function agrupar(av, aa) {
+  const m = new Map();
+  for (const r of av) { const c = m.get(r.cat) || { cat: r.cat, av: 0, aa: 0 }; c.av += r.v; m.set(r.cat, c); }
+  for (const r of aa) { const c = m.get(r.cat) || { cat: r.cat, av: 0, aa: 0 }; c.aa += r.v; m.set(r.cat, c); }
+  return [...m.values()].map((c) => ({ ...c, d: delta(c.av, c.aa) }));
+}
+
+function opcoesBase() {
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { labels: { color: cssVar("--texto-2"), usePointStyle: true } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: cssVar("--texto-2") } },
+      y: { beginAtZero: true, grid: { color: cssVar("--borda") }, ticks: { color: cssVar("--texto-2"), callback: (v) => fmtCompacto.format(v) } }
+    }
+  };
+}
+
+function linha(av, aa, ano) {
+  const porMes = (arr) => MESES.map((_, i) => { const x = arr.filter((r) => r.mes === i + 1); return x.length ? soma(x, (r) => r.v) : null; });
+  const sAV = porMes(av), sAA = porMes(aa);
+  const dados = {
+    labels: MESES,
+    datasets: [
+      { label: `AV ${ano}`, data: sAV, borderColor: cssVar("--accent"), backgroundColor: cssVar("--accent"), borderWidth: 3, pointRadius: 3, spanGaps: false },
+      { label: `AA ${ano - 1}`, data: sAA, borderColor: cssVar("--serie-aa"), backgroundColor: cssVar("--serie-aa"), borderWidth: 2, borderDash: [6, 4], pointRadius: 0 }
+    ]
+  };
+  const op = opcoesBase();
+  op.interaction = { mode: "index", intersect: false };
+  op.plugins.tooltip = { callbacks: { label: (c) => `${c.dataset.label}: ${fmtMoeda.format(c.parsed.y)}` } };
+  if (graficos.linha) { graficos.linha.data = dados; graficos.linha.update("none"); }
+  else graficos.linha = new Chart($("g-linha"), { type: "line", data: dados, options: op });
+  $("g-linha").setAttribute("aria-label", `Receita mensal de ${ano} comparada a ${ano - 1}. Total AV ${fmtMoeda.format(soma(av, (r) => r.v))}.`);
+}
+
+function barras(porCat) {
+  const ord = [...porCat].sort((a, b) => b.av - a.av);
+  const dados = {
+    labels: ord.map((c) => c.cat),
+    datasets: [{ label: "Receita AV", data: ord.map((c) => c.av), backgroundColor: cssVar("--accent"), borderRadius: 4 }]
+  };
+  const op = opcoesBase();
+  op.indexAxis = "y";
+  op.plugins.legend = { display: false };
+  op.plugins.tooltip = { callbacks: { label: (c) => fmtMoeda.format(c.parsed.x) } };
+  op.scales = { x: { ...op.scales.y }, y: { grid: { display: false }, ticks: { color: cssVar("--texto-2") } } };
+  if (graficos.barra) { graficos.barra.data = dados; graficos.barra.update("none"); }
+  else graficos.barra = new Chart($("g-barra"), { type: "bar", data: dados, options: op });
+  $("g-barra").setAttribute("aria-label", "Receita AV por região: " + ord.map((c) => `${c.cat} ${fmtMoeda.format(c.av)}`).join("; "));
+}
+
+function tabela(porCat) {
+  const cols = [["cat", "Região"], ["av", "Receita AV"], ["aa", "Receita AA"], ["d", "Δ%"]];
+  $("t-cab").replaceChildren(...cols.map(([k, rot]) => {
+    const th = document.createElement("th");
+    th.scope = "col";
+    th.setAttribute("aria-sort", ordem.col === k ? (ordem.desc ? "descending" : "ascending") : "none");
+    const b = document.createElement("button");
+    b.textContent = rot + (ordem.col === k ? (ordem.desc ? " ▼" : " ▲") : "");
+    b.addEventListener("click", () => { ordem = { col: k, desc: ordem.col === k ? !ordem.desc : true }; tabela(porCat); });
+    th.append(b);
+    return th;
+  }));
+  const ord = [...porCat].sort((a, b) => {
+    const x = a[ordem.col], y = b[ordem.col];
+    const c = typeof x === "string" ? x.localeCompare(y, "pt-BR") : (x ?? -Infinity) - (y ?? -Infinity);
+    return ordem.desc ? -c : c;
+  });
+  const linhas = ord.map((c) => {
+    const tr = document.createElement("tr");
+    const cel = (txt, cls) => { const td = document.createElement("td"); td.textContent = txt; if (cls) td.className = cls; tr.append(td); };
+    cel(c.cat); // textContent: texto vindo dos dados nunca vira HTML
+    cel(fmtMoeda.format(c.av));
+    cel(fmtMoeda.format(c.aa));
+    cel(c.d === null ? "–" : `${c.d > 0 ? "▲" : c.d < 0 ? "▼" : "■"} ${fmtPct.format(c.d)}`, c.d > 0 ? "pos" : c.d < 0 ? "neg" : "neu");
+    return tr;
+  });
+  const tot = { av: soma(porCat, (c) => c.av), aa: soma(porCat, (c) => c.aa) };
+  const trT = document.createElement("tr");
+  [["Total"], [fmtMoeda.format(tot.av)], [fmtMoeda.format(tot.aa)], [tot.aa ? fmtPct.format(delta(tot.av, tot.aa)) : "–"]].forEach(([t]) => {
+    const td = document.createElement("td"); td.textContent = t; td.style.fontWeight = "600"; trT.append(td);
+  });
+  $("t-corpo").replaceChildren(...linhas, trT);
+}
+
+// Troca de dados por CSV local. Aceita ";" ou "," e decimal com vírgula.
+$("f-csv").addEventListener("change", (ev) => {
+  const arq = ev.target.files[0];
+  if (!arq) return;
+  if (typeof Papa === "undefined") { mostrarErro("O leitor de CSV não carregou. Verifique a internet."); return; }
+  Papa.parse(arq, {
+    header: true, skipEmptyLines: true, delimiter: "",
+    complete: (res) => {
+      const falta = [CONFIG.colData, CONFIG.colCategoria, CONFIG.colValor].filter((c) => !res.meta.fields.includes(c));
+      if (falta.length) { mostrarErro(`Colunas ausentes no CSV: ${falta.join(", ")}. Esperado: ${Object.values(CONFIG).slice(0, 4).join(", ")}.`); return; }
+      $("aviso-erro").hidden = true;
+      csvBR = res.meta.delimiter === ";";
+      base = { meta: { titulo: base.meta.titulo, fonte: arq.name, extraido_em: new Date().toLocaleDateString("sv-SE"), linhas_fonte: res.data.length }, linhas: res.data };
+      normalizar();
+    },
+    error: (e) => mostrarErro("Erro ao ler o CSV: " + e.message)
+  });
+});
+
+$("f-ano").addEventListener("change", desenhar);
+$("f-cat").addEventListener("change", desenhar);
+carregarEmbutido();
+</script>
+</body>
+</html>
