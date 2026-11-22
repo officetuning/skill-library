@@ -1,6 +1,6 @@
 ---
 name: dashboard-layout
-description: Wireframe, grid e sistema visual de relatórios Power BI — base 8px, grid 12×9 sobre canvas 1920×1080, conversão para x/y/width/height do visual.json, zonas reservadas e modos de filtro do Background Builder, tooltip em três tamanhos (320×240, 400×304, 600×456), paleta derivada de Accent/Navy e o bug de fuso horário em "última atualização" no Service. Use para definir onde cada visual fica, padronizar layout entre páginas, montar um relatório a partir do Background Builder, diagnosticar relatório desalinhado ou data de atualização errada no Service. Para escolher o visual use powerbi-visuais.
+description: Wireframe, grid e sistema visual de relatórios Power BI — base 8px, grid 12×9 sobre canvas 1920×1080, conversão para x/y/width/height do visual.json, zonas reservadas, barra lateral de filtros (Encaixe 1/1, 1/2, 1/3) e slots do cabeçalho do Background Builder, tooltip em três tamanhos (320×240, 400×304, 600×456), paleta derivada de Accent/Navy e o bug de fuso horário em "última atualização" no Service. Use para definir onde cada visual fica, padronizar layout entre páginas, montar um relatório a partir do Background Builder, diagnosticar relatório desalinhado ou data de atualização errada no Service. Para escolher o visual use powerbi-visuais.
 ---
 
 # Layout e sistema visual
@@ -88,12 +88,14 @@ ao visual construído e checklist: `references/wireframe.md`.
 O fundo gerado reserva, em pixel exato, onde cada visual real deve ficar.
 Relatório "torto" = visual fora da área reservada. Três mudanças:
 
-1. **Filtros saem do grid** e vão para o cabeçalho, conforme o modo:
-   1 filtro → `header-1` · 2 filtros → `header-2` · 3+ → `sidebar` (painel
-   lateral que consome colunas do corpo).
-2. **O corpo começa abaixo do cabeçalho e termina acima do rodapé.** Altura útil
-   = 1080 − cabeçalho − rodapé. Recalcule a linha e confira o múltiplo de 8. A
-   altura do cabeçalho vem do guia de montagem exportado do projeto; não chute.
+1. **Filtros saem do grid** e vão para a **barra lateral** (344×936 em x=16,
+   y=128), que aparece a partir de 1 filtro. Cada filtro ocupa 1/1, 1/2 ou 1/3
+   da linha (data completa: 296×120), agrupado por 5W2H. Com barra, o corpo
+   vai de x=376 a 1904; na Detalhe, sem barra, de x=16 a 1904.
+2. **O corpo vai de y=128 a y=1064**, abaixo do cabeçalho; não há rodapé
+   reservado. A faixa x=1904–1920 é de marca e fica livre. A última
+   atualização é um card no cabeçalho, (1728, 48) 160×32, ausente na Detalhe.
+   Se o Builder mudar, vale o guia de montagem exportado; não chute.
 3. **Tooltip tem canvas próprio, fora do grid**, em um dos três tamanhos do
    Builder: **320×240** (visual único), **400×304** (vários visuais) ou
    **600×456** (mini relatório). Todos múltiplos de 8; a escolha fica em
@@ -101,7 +103,8 @@ Relatório "torto" = visual fora da área reservada. Três mudanças:
 
 Evite posicionar visual sobre os cantos reservados à ilustração.
 
-Estrutura das páginas, modos de filtro, paleta, guia de montagem em 12 passos e
+O que vem na coleção, estrutura das páginas, slots do cabeçalho, barra lateral,
+paleta, script TMDL, guia de montagem em 13 passos e
 o que revisar num relatório feito com o Background Builder:
 `references/background-builder.md`. Ciclo de trabalho (regenerar PNG e
 fundos), células do menu, painel de filtros e coordenadas do corpo:
@@ -112,6 +115,8 @@ fundos), células do menu, painel de filtros e coordenadas do corpo:
 `TODAY()` e `NOW()` usam o fuso local no Desktop, mas rodam em **UTC no
 Service**. A data exibida diverge assim que o relatório é publicado.
 
-Solução: capturar o momento do refresh no Power Query numa tabela de interface
-(`TabIntAtualização`) e aplicar o deslocamento de fuso numa medida. Estrutura
+Solução: capturar o momento do refresh no Power Query, já em hora local,
+numa tabela de interface (`TabIntAtualização`), e comparar com
+`UTCNOW()` deslocado na medida `[Atualização]`. O script TMDL do Background
+Builder cria tudo isso. Estrutura
 completa em `references/background-builder.md`.

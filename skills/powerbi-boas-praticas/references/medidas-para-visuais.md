@@ -25,7 +25,7 @@ painel global de filtros.
 
 > **Exceção à regra 6.1.** A regra 6.1 proíbe `FORMAT()` dentro da medida porque
 > devolve texto. A exceção vale só para **medida de texto usada como título**
-> (cartão, título dinâmico, "Você está vendo:"), que nunca entra em eixo, soma
+> (cartão, título dinâmico, card da seleção na página Detalhe), que nunca entra em eixo, soma
 > ou ordenação. Medida numérica continua com a propriedade Formato.
 
 ## Avisar na descrição

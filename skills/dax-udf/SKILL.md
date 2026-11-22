@@ -11,7 +11,7 @@ GA no Desktop e no Service desde **junho/2026**; exige nível de
 compatibilidade **1702** ou superior.
 
 Antes de escrever uma função do zero, procure na **Code Library UDF DAX**
-(functionlibrary.officetuning.com.br/dax/udf/biblioteca): calendário,
+([officetuning.ai/biblioteca/udf](https://officetuning.ai/biblioteca/udf/)): calendário,
 comparativo AV/AA/Δ (`Delta.*`), datas fiscais, feriados, texto, estatística.
 
 ## Fluxo de trabalho

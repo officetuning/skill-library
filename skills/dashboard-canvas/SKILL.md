@@ -6,7 +6,7 @@ description: Método Dashboard Canvas (OfficeTuning) para planejar um relatório
 # Dashboard Canvas
 
 Método de planejamento usado **antes** do Power BI Desktop. O usuário preenche
-o canvas no web app ([dashboardcanvas.officetuning.com.br](https://dashboardcanvas.officetuning.com.br/metodologia)),
+o canvas no web app ([dashboardcanvas.officetuning.ai](https://dashboardcanvas.officetuning.ai/metodologia)),
 que gera uma especificação técnica em Markdown. Essa especificação:
 
 - alimenta o **Background Builder** (sistema visual, skill `dashboard-layout`);
@@ -114,6 +114,11 @@ A skill `dashboard-layout` transforma a Posição qualitativa em coordenadas.
 
 Três campos opcionais do Canvas vão direto para o Background Builder:
 **Idealização/Realização** (créditos), **Subtítulo** e **ícone de cabeçalho**.
+
+A ponte também funciona no sentido contrário: a Ficha Técnica exportada pelo
+Builder (`<Projeto> - Background Builder.md`, com JSON) entra no Canvas por
+**Importar do Background Builder**, trazendo H1, H2, tagline, páginas de corpo,
+filtros já classificados em 5W2H, fontes de dados e equipe.
 
 ## Revisar um modelo existente contra o Canvas
 
