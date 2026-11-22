@@ -11,7 +11,8 @@ Complementa a regra 7.11 `ENSURE_ALTTEXT` de `powerbi-boas-praticas`
   testada gerou em italiano): conferir o idioma antes de aplicar; se não for o
   do relatório, escreva você.
 - Caminho: `visual.visualContainerObjects.general[0].properties.altText`
-  (literal). Vale também para cascata, área, mapa e árvore. [verificado em
+  (literal). Vale também para cascata, área, mapa e árvore hierárquica
+  (árvore de decomposição, `decompositionTreeVisual`). [verificado em
   projetos; anote a versão do Desktop ao registrar novos tipos de visual]
 - Nunca sobrescrever um texto que o autor já escreveu.
 - Cartão de cabeçalho de detalhe: "exibe o item em análise", sem citar valores
