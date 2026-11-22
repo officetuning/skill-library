@@ -14,13 +14,19 @@ Esta referência descreve a versão **1.031** do Builder (campo `_appVersion` da
 Ficha Técnica). Se a versão do projeto for outra, vale o guia de montagem
 exportado com ele.
 
+A Ficha guarda a versão do app que a gerou (`_appVersion`). O Builder só avisa
+"alguns campos podem não ter sido recuperados" quando a Ficha é mais antiga que
+a **versão do contrato** (1.028): Fichas da 1.028 em diante abrem sem aviso,
+mesmo que o app já esteja numa versão maior. Campo novo opcional não muda o
+contrato.
+
 ## O que vem na coleção (`<Projeto> - Coleção.zip`)
 
 | Arquivo | Uso |
 |---|---|
 | `<Projeto> - Início.png`, `- <Página de corpo>.png`, `- Sobre.png`, `- Detalhe.png` | Tela de fundo de cada página, 1920×1080 |
 | `<Projeto> - Dica de Ferramenta.png` | Uma dica escolhida: nome simples |
-| `<Projeto> - Dica de Ferramenta - <Uso> <L>x<A>.png` | Duas ou três dicas: nome completo, ex.: `Visual único 320x240`, `Vários visuais 400x304`, `Mini relatório 600x456` |
+| `<Projeto> - Dica de Ferramenta - <Uso> (<L>x<A>).png` | Duas ou três dicas: nome completo, ex.: `Visual único (320x240)`, `Vários visuais (400x304)`, `Mini relatório (600x456)` |
 | `<Projeto> - Tema.json` | Tema do relatório (paleta, sentimento, divergentes, fundo da página) |
 | `<Projeto> - Script.TMDL` | Tabelas `TabIntAtualização`, `TabDimCalendário` e `TabIntMedida` |
 | `<Projeto> - Background Builder.md` | Ficha Técnica com o JSON completo do projeto |
@@ -32,16 +38,22 @@ exportado com ele.
 - **Cabeçalho flutuante branco**, cantos arredondados, igual em todas as
   páginas (exceto Dica). Zona do cabeçalho até y=112.
   - Esquerda: ícone de cabeçalho 40×40 + H1 (Poppins bold) + H2 (manuscrita,
-    sublinhada na cor de acento). O ícone padrão é o símbolo transparente do
+    sublinhada na cor de acento; o H2 é opcional, ver
+    `background-builder-ciclo.md`). O ícone padrão é o símbolo transparente do
     Builder nas cores do relatório, com contraste mínimo de 3:1; um ícone
     enviado pelo usuário o substitui.
   - Centro: menu (Início, páginas de corpo, Sobre). Células de **largura
-    idêntica**, requisito do visual **Navegador**.
+    idêntica**, requisito do visual **Navegador**. O passo e a fonte se ajustam
+    à quantidade de itens e ao tamanho do título (ver
+    `background-builder-ciclo.md`).
   - Direita: card de **última atualização** (Início, corpo e Sobre) ou
     "Você está vendo" + Voltar (Detalhe).
 - **Sem rodapé reservado.** O rodapé fica livre em toda a largura até x=1904.
 - **Faixa de marca** vertical de x=1904 a x=1920: sempre livre. A assinatura é
-  centralizada na altura útil y=128–1064 (centro em y=596).
+  centralizada na altura útil y=128–1064 (centro em y=596). O texto é
+  "© {ano} officetuning.ai · Feito com Background Builder" (versão curta:
+  "© {ano} officetuning.ai"). No modo **sem marca** (white label, `Ctrl+Alt+8`
+  no Builder) a assinatura some do PNG; o texto não é trocado.
 
 | Página | Corpo | Direita do cabeçalho |
 |---|---|---|
@@ -68,6 +80,27 @@ A página Detalhe **não** leva o card de última atualização.
 Nove opções (5 claras e 4 escuras, ex.: Papel `#FAFAF7`). O fundo escolhido já
 está no PNG e no `background` do tema: as áreas reservadas são calculadas sobre
 ele. Trocar o fundo exige regenerar PNG e tema juntos.
+
+## Cor dos nichos
+
+"Nichos" são os retângulos reservados para segmentações, cards (última
+atualização, seleção do Detalhe) e as caixas de Versão e Data da página Sobre.
+Por padrão o tom é derivado do accent (accent a 12% sobre o fundo; nos fundos
+escuros, um tom próprio). Desde a 1.031 o formulário tem o seletor **Cor dos
+nichos**, no bloco de Filtros, e a cor escolhida vale para todos os nichos do
+PNG.
+
+- **O tema não muda.** O `Tema.json` não leva a cor dos nichos: ela existe só
+  no fundo. Os visuais herdam a paleta do tema, e a cor do nicho serve de
+  referência para o encaixe, não de cor de dado.
+- **Contraste.** Se a cor escolhida não tiver contraste suficiente sobre o
+  fundo (4,5:1 nos fundos claros), o Builder avisa e usa uma versão ajustada
+  no PNG. A Ficha guarda a cor escolhida (`customSlot`), não a ajustada.
+- **Troca de tema.** Sem cor escolhida, o nicho acompanha o tema. Com cor
+  escolhida, o Builder pergunta se mantém a sua cor ou usa a proporcional ao
+  novo tema.
+- **Na montagem:** a cor do nicho não é mais necessariamente um tom do accent.
+  Confira o encaixe pelo PNG, não pela paleta.
 
 ## Barra lateral de filtros
 
@@ -130,6 +163,18 @@ o formulário. Para "um dashboard de [área]" do zero, sugira olhar a galeria an
 JSON reabre o projeto no Builder (**Abrir Ficha Técnica**) e entra no Dashboard
 Canvas (**Importar do Background Builder**). Ao mudar identidade, páginas ou
 filtros, edite pelo Builder e regenere; ver `background-builder-ciclo.md`.
+
+Campos do JSON que ajudam a diagnosticar um projeto:
+
+| Campo | Significado |
+|---|---|
+| `_appVersion` | Versão do Builder que gerou a Ficha |
+| `pageBackground` | Chave do fundo escolhido (ex.: `paper`) |
+| `dicaSizes` | Dicas geradas: `single` (320×240), `multi` (400×304), `mini` (600×456); ausente = só `multi` |
+| `filterAutoApply` | `true` (padrão): só o botão de limpar; `false`: aplicar + limpar |
+| `use5W2HGrouping` | Agrupamento dos filtros por 5W2H (padrão `true`) |
+| `customSlot` | Cor dos nichos, só quando o usuário escolheu |
+| `resolvedPalette` e `filtrosForaDoPainel` | Só saída: o Builder ignora os dois ao reabrir a Ficha |
 
 ## Guia de montagem (13 passos)
 
