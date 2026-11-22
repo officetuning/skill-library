@@ -57,6 +57,13 @@ Explorer, no painel Dados, no tooltip do campo e no TMDL.
 
 Rode a camada 3 primeiro: é a mais barata e pega o erro mais comum (campo renomeado).
 
+Na camada 3, acrescente as sete checagens baratas que já pegaram erro real
+(título ligado sem texto, `visualTooltip.section` para página inexistente,
+chave de drillthrough fora das páginas principais, posições não inteiras e
+outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`.
+Texto alternativo e ordem de tabulação no PBIR (regra 7.11 `ENSURE_ALTTEXT`):
+`references/acessibilidade-pbir.md`.
+
 **Regras de relatório:** o BPA cobre só o modelo. Para as regras da Seção 7 de
 `powerbi-boas-praticas` (visuais por página, campos por visual, rolagem, cores
 do tema), use o [PBI-Inspector](https://github.com/NatVanG/PBI-Inspector)
@@ -70,6 +77,7 @@ Killer. Versione o arquivo de regras e ajuste `paramMaxAllowedPageHeight` para
 - Rodar contra a pasta TMDL/PBIR versionada no Git, nunca contra "o que deveria estar".
 - Versionar o arquivo de regras do BPA no repositório.
 - Falhar o pipeline em regra de severidade Alta.
+- Regenerar o dicionário de dados (`.docx`) a cada mudança de modelo publicada.
 
 **Como o Tabular Editor 2 falha o pipeline:** não existe opção
 `--error-on-violation`. O CLI retorna **exit code 1** quando há saída de nível

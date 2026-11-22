@@ -1,6 +1,6 @@
 ---
 name: powerbi-visuais
-description: Escolha, configuração e crítica de visuais no Power BI — barras, linhas, pizza, KPI, gauge, tabela, matriz, mapa, visuais de IA, segmentação, formatação condicional, tooltip page, small multiples, painel de análise, temas e visuais gerados por medida DAX (SVG e HTML). Use quando o usuário perguntar qual visual usar, pizza ou barras, gauge ou KPI, como configurar ou melhorar um gráfico, dashboard poluído, formatação condicional, tooltip, sparkline ou barra de progresso por DAX. Para a mensagem da página use data-storytelling; para planejar o dashboard use dashboard-canvas.
+description: Escolha, configuração e crítica de visuais no Power BI — barras, linhas, pizza, KPI, gauge, tabela, matriz, mapa, visuais de IA, segmentação, formatação condicional, tooltip page, cartões e títulos, small multiples, painel de análise, temas e visuais gerados por medida DAX (SVG e HTML). Use quando o usuário perguntar qual visual usar, pizza ou barras, gauge ou KPI, como configurar ou melhorar um gráfico, dashboard poluído, formatação condicional, tooltip, sparkline ou barra de progresso por DAX. Para a mensagem da página use data-storytelling; para planejar o dashboard use dashboard-canvas; para páginas de Detalhe e Dica use powerbi-detalhe-dica.
 ---
 
 # Visuais no Power BI
@@ -33,13 +33,17 @@ dimensões:
   sem rolagem vertical.
 - Barras sempre com base zero. Rótulo de dado ativo → eixo de valor e grade desligados.
 - Cor só com significado. Teste para daltonismo.
+- Cartões e títulos (tamanho de fonte, `maxTiles`, unidades, título por tipo
+  de visual, `displayName`): `references/cartoes-e-titulos.md`.
 
 **Preferir**
 - Barras horizontais ordenadas no lugar de pizza, rosca e gauge.
 - Visual KPI em vez de gauge; cartão só quando não há meta.
 - Formatação condicional por limite de negócio, não estatístico.
-- Tooltip page de **400×304 px** (padrão do ecossistema OfficeTuning, múltiplo
-  de 8; o padrão genérico do Power BI é 320×240).
+- Tooltip page no tamanho do Background Builder conforme o conteúdo:
+  **320×240** (visual único), **400×304** (vários visuais) ou **600×456**
+  (mini relatório). Todos múltiplos de 8. Par Detalhe + Dica: skill
+  `powerbi-detalhe-dica`.
 - Small multiples quando a pergunta é "o padrão se repete entre categorias?".
 - Linha de meta ou média pelo painel de Análise.
 - Árvore de Decomposição para causa raiz; Principais Influenciadores para "o que explica?".

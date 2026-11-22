@@ -209,7 +209,7 @@ de negócio, não enfeita.
 
 ### Tooltip page
 1. Nova página → Configurações de Página → Tipo de Página → Dica de Ferramenta.
-2. Tamanho personalizado **400 × 304 px** (padrão do ecossistema; ver skill `dashboard-layout`).
+2. Tamanho personalizado conforme o conteúdo: **320 × 240** (visual único), **400 × 304** (vários visuais) ou **600 × 456 px** (mini relatório), os três tamanhos do Background Builder; ver skill `powerbi-detalhe-dica`.
 3. Visuais de contexto (histórico, comparação).
 4. No visual principal: Formatar → Dica de ferramenta → Tipo → Página do relatório.
 [Docs](https://learn.microsoft.com/pt-br/power-bi/create-reports/desktop-tooltips)
