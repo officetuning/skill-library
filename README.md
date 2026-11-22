@@ -84,6 +84,17 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+**1.5.1 (nov/2026)**, atualização de `dashboard-layout` com as mudanças do
+Background Builder 1.029 a 1.031:
+
+- **Correção:** o nome do PNG da dica tem o tamanho entre parênteses, como em
+  `Visual único (320x240).png`.
+- **Menu:** passo único em múltiplos de 8 px, margens de 24 px, fonte que
+  reduz por degraus e menu centralizado.
+- **H2 opcional:** em branco não há texto nem sublinhado, e a tagline sobe 96 px.
+- **Cor dos nichos (`customSlot`):** seletor opcional; o `Tema.json` não muda.
+- **Assinatura e white label**, versão do contrato da Ficha e campos do JSON.
+
 **1.5.0 (22/11/2026)**, alinhada ao Background Builder 1.031
 ([backgroundbuilder.officetuning.ai](https://backgroundbuilder.officetuning.ai/)):
 

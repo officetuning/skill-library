@@ -15,6 +15,10 @@ Mudou H1, H2, tagline, páginas de corpo, filtros ou fontes de dados?
 4. **Reposicione** o navegador e as segmentações conforme o PNG novo.
 5. Reabra o projeto sem salvar e confira com captura de tela.
 
+O próprio Builder ajuda a conferir antes de exportar: **Comparar** mostra lado a
+lado a prévia e o PNG real, e **Conferir medidas** audita a geometria (grade de
+8 px, painel lateral, assinatura) e exibe "Tudo cabe no Power BI" quando passa.
+
 O H2 e a tagline reaparecem no hero da página Início: mudar identidade exige
 regenerar o fundo.
 
@@ -22,7 +26,10 @@ regenerar o fundo.
 - **H1** = o assunto do relatório, não o departamento. Só se sustenta se
   existir uma página que o represente.
 - **H2** = frase manuscrita curta, com ritmo (pergunta ou promessa). Sem
-  espaço inicial: o Builder grava como veio.
+  espaço inicial: o Builder grava como veio. É **opcional**: em branco, o PNG
+  não desenha texto nem sublinhado no cabeçalho de nenhuma página nem no hero
+  do Início, e a tagline sobe 96 px. Vazio ↔ preenchido muda todos os PNGs:
+  regenere tudo.
 - **Tagline** = o que o relatório **entrega**. Confronte cada promessa com o
   conteúdo real antes de aceitar.
 - **Fontes de dados** em linguagem de leitor, uma por linha; sem endereços nem
@@ -38,8 +45,25 @@ O menu do PNG tem uma célula por item (Início + páginas de corpo + Sobre). O
 | 5 | 200 px | 512 | 976 | 16 / 96 |
 | 8 | 160 px | 368 | 1280 | 16 / 96 |
 
-Regra geral: largura = itens × célula; ler a posição dos rótulos no PNG. Cada
-página nova muda o menu, o PNG e a ficha. Nome de página descreve conteúdo;
+A tabela é um exemplo medido com o título padrão, não uma fórmula fixa. O
+Builder calcula o menu assim (1.029 em diante):
+
+- **Passo único** entre os itens, em múltiplos de 8 px: os separadores "·"
+  ficam sempre equidistantes. Em coleções normais o passo vai de 80 a 200 px.
+- **Limites:** o menu começa depois do título (o maior entre H1 e H2) com 24 px
+  de folga e termina no máximo em x=1680, 24 px antes do ícone de atualização.
+  Fica **centralizado** nesse espaço. Título longo e muitos itens diminuem o
+  passo.
+- **Rótulo que não cabe:** o Builder reduz a fonte por degraus (15, 14, 13 e
+  12 px, com padding menor) e só em último caso usa reticências. Passo abaixo
+  de 80 px só aparece quando o menu transbordaria, e continua múltiplo de 8.
+- **Coleção que já cabia fica idêntica**: nada muda até que um rótulo seja
+  cortado ou o menu passe de 1680.
+
+Por isso, a regra prática: largura = itens × passo; **ler a posição dos
+rótulos no PNG**, nunca calcular de cabeça.
+
+Cada página nova muda o menu, o PNG e a ficha. Nome de página descreve conteúdo;
 nunca é nome de medida.
 
 ## Painel de filtros (global)
@@ -71,4 +95,4 @@ nunca é nome de medida.
   600×456 (mini relatório); margem interna de 8 px. Escolha em
   `powerbi-detalhe-dica`. Com uma dica, o PNG sai como
   `<Projeto> - Dica de Ferramenta.png`; com duas ou três, como
-  `<Projeto> - Dica de Ferramenta - <Uso> <L>x<A>.png`.
+  `<Projeto> - Dica de Ferramenta - <Uso> (<L>x<A>).png`.
