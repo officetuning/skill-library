@@ -9,15 +9,17 @@ em um `.pbip`. **[verificado]** = confirmado em arquivo gravado pelo Desktop.
 2. Script reexecutável (idempotente) que lê o JSON, altera e grava.
 3. Validar: **bindings** (todo campo existe no TMDL) e **schema** do `visual.json`.
 4. **Conferir que o Desktop está fechado, antes e depois de escrever**:
-   `Get-Process PBIDesktop -ErrorAction SilentlyContinue` (sem saída = fechado).
+   `Get-Process PBIDesktop -ErrorAction SilentlyContinue` no PowerShell (sem
+   saída = fechado); no Git Bash, `tasklist | grep -i PBIDesktop`.
    Se estiver aberto, peça ao autor que feche **sem salvar**. O Desktop só lê o
    projeto ao abrir; salvar com a versão antiga em memória sobrescreve a edição
    externa. [verificado] Já houve perda de trabalho do autor por salvar com a
    sessão antiga aberta. [relato do autor] Depois de gravar, repita a conferência
    e só então reabra o `.pbip`.
 5. Conferir com captura de tela; **dizer que o render não foi visto**.
-6. Antes de commitar: `git diff --cached --stat` (ver "Git: separar o trabalho do
-   autor do seu" abaixo).
+6. Antes de commitar: `git diff --cached --stat` para ver só o que entra no
+   commit. Se o arquivo mistura trabalho do autor com o seu, siga "Git: separar o
+   trabalho do autor do seu" abaixo.
 
 ## Descobrir o valor certo de uma propriedade
 Não deduza enums de outro relatório. Faça: o usuário configura **um** visual no
@@ -107,7 +109,8 @@ Quando um arquivo mistura mudanças em andamento do autor com as suas:
    `git ls-files --eol caminho` (`i/lf` ou `i/crlf`). Com `core.autocrlf=true`,
    os blobs do mesmo repositório ficam em LF em alguns arquivos e em CRLF em
    outros (já houve `.tmdl` em CRLF no HEAD). Grave a versão "só sua" **com o
-   mesmo fim de linha do HEAD**. [relato do autor]
+   mesmo fim de linha do HEAD**. Se o arquivo é novo e não tem HEAD, siga o dos
+   arquivos vizinhos do mesmo tipo. [relato do autor]
 3. Coloque-a no índice sem tocar no diretório de trabalho e **sem filtros**,
    para o Git não converter o fim de linha:
    `git hash-object -w --no-filters arquivo` e
@@ -138,7 +141,7 @@ comando, sem alterar a configuração global. [relato do autor]
   `.encode("utf-8")`; sem isso o literal pode sair em outra codificação e
   corromper os acentos no arquivo. [relato do autor]
 - Arquivos temporários: não use `/tmp`. No Windows, ele não existe fora do Git Bash
-  e cada ferramenta o resolve de um jeito; use `%TEMP%` ou a pasta de
-  rascunho da sessão. [relato do autor]
+  e cada ferramenta o resolve de um jeito; use `$env:TEMP` (PowerShell; no Git
+  Bash, `$TEMP`) ou a pasta de rascunho da sessão. [relato do autor]
 - Em scripts que percorrem pastas, normalize as barras do caminho antes de
   `split("/")`.
