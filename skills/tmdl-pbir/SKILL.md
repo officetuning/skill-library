@@ -186,7 +186,8 @@ arquivo inteiro ao salvar.
 
 Propriedades já confirmadas, efeitos colaterais do Desktop, armadilhas de
 arquivo e checagens baratas para o QA: `references/edicao-por-script-e-desktop.md`
-(adendo com Git e texto alternativo por tipo: `references/edicao-por-script-adendo.md`).
+(inclui o ciclo seguro com o Desktop fechado, o Git com fim de linha e o texto
+alternativo por tipo de visual).
 
 ## Posição dos visuais
 

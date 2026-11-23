@@ -39,6 +39,8 @@ dimensões:
   inclusive o valor central da rosca: `references/exibir-unidades-nenhum.md`.
 - **Segmentações no padrão** (cabeçalho, fundo e borda desligados; texto em
   Suspenso; data em Seletor de data): `references/segmentacoes-padrao.md`.
+- **Tabela e matriz** (largura, cabeçalho, `rowHeaders`) e **cor fixa por valor**
+  (ex.: Sexo): `references/tabelas-matrizes-e-cores-fixas.md`.
 
 **Preferir**
 - Barras horizontais ordenadas no lugar de pizza, rosca e gauge.

@@ -39,6 +39,8 @@ posições X/Y/Width/Height, que o `visual.json` do PBIR persiste em pixels.
 **Preferir**
 - Elemento dominante ocupa **mais colunas**, não necessariamente a linha de cima.
 - Anotar o `tabOrder` pretendido no wireframe.
+- Página **Início** como abertura (`landingPageName`) e versão e data da página
+  **Sobre** atualizadas a cada leva de edições: `references/pagina-inicial-e-sobre.md`.
 - Congelar o wireframe com aprovação do stakeholder antes do primeiro visual.
 
 **Evitar**

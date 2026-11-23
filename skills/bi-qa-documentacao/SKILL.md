@@ -61,8 +61,9 @@ Na camada 3, acrescente as sete checagens baratas que já pegaram erro real
 (título ligado sem texto, `visualTooltip.section` para página inexistente,
 chave de drillthrough fora das páginas principais, posições não inteiras e
 outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`. As
-checagens 8 a 15 (unidades, segmentações, navegador, ordem das páginas,
-dicionário, Dica e texto alternativo): `references/checagens-adicionais.md`.
+checagens 8 a 17 (unidades, segmentações, navegador, ordem das páginas,
+dicionário, Dica, texto alternativo, campo do modelo antigo no `.Report` e
+qualquer unidade diferente de `1D`): `references/checagens-adicionais.md`.
 Texto alternativo e ordem de tabulação no PBIR (regra 7.11 `ENSURE_ALTTEXT`):
 `references/acessibilidade-pbir.md`.
 

@@ -1,0 +1,27 @@
+name: Verificar versão
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  versao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Comparar a versão do pacote nos quatro lugares
+        run: |
+          v_plugin=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json', encoding='utf-8'))['version'])")
+          v_market=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json', encoding='utf-8'))['plugins'][0]['version'])")
+          v_log=$(grep -m1 -oE '^## [0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          v_readme=$(awk '/^## Novidades/{f=1;next} f && /^#+ [0-9]+\.[0-9]+\.[0-9]+/{print $2; exit}' README.md)
+          echo "plugin.json:      $v_plugin"
+          echo "marketplace.json: $v_market"
+          echo "CHANGELOG.md:     $v_log"
+          echo "README.md:        $v_readme"
+          if [ -z "$v_plugin" ] || [ "$v_plugin" != "$v_market" ] || [ "$v_plugin" != "$v_log" ] || [ "$v_plugin" != "$v_readme" ]; then
+            echo "::error::As versões não coincidem. Atualize plugin.json, marketplace.json, CHANGELOG.md e o bloco Novidades do README."
+            exit 1
+          fi
+          echo "Versões coincidem: $v_plugin"

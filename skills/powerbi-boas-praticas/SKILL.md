@@ -134,3 +134,5 @@ Ideias de conteúdo a partir das regras: `references/ideias-de-pauta.md`.
 Padrões DAX que sustentam o visual (KEEPFILTERS, `RANKX` com `ALLSELECTED`,
 saldo acumulado, medida de seleção, exceção do `FORMAT` em título):
 `references/medidas-para-visuais.md`.
+Tabela de detalhe com "Não há memória suficiente" e dados corretos (relação
+extra no caminho do visual): `references/diagnostico-memoria.md`.
