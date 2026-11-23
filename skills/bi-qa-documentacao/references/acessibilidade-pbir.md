@@ -20,6 +20,19 @@ Complementa a regra 7.11 `ENSURE_ALTTEXT` de `powerbi-boas-praticas`
 - Visual decorativo (imagem): `altText` vazio e `tabOrder = -9999000`.
   [doc; texto vazio a confirmar no Desktop]
 
+## Texto em português e o `pbip_a11y.py`
+**[relato do autor]**
+- O `pbip_a11y.py` da skill `pbip-accessibility` só gera o texto alternativo em
+  **italiano**. Para português, **não use o texto que ele gera**: escreva com regra
+  própria, por tipo de visual (ver `tmdl-pbir/references/edicao-por-script-e-desktop.md`,
+  "Texto alternativo por tipo de visual"). A ordem de tabulação dele pode ser
+  aproveitada, depois de conferida.
+- **Ordem de leitura:** cabeçalho → filtros → KPIs → corpo, em **múltiplos de
+  1000** e **sem tocar em `z`**. Confira em Exibição › Painel de seleção › Ordem
+  de tabulação qual extremo recebe o foco primeiro (ver abaixo).
+- **Visual personalizado e mapa ficam para texto alternativo manual:** o script
+  não sabe quais campos o visual mostra. Liste-os para o autor revisar.
+
 ## Ordem de tabulação
 - Por página, de cima para baixo e da esquerda para a direita: menu →
   atualização → botão → indicadores → segmentações → gráficos.
