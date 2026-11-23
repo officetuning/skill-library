@@ -32,6 +32,9 @@ posições X/Y/Width/Height, que o `visual.json` do PBIR persiste em pixels.
   `dashboard-canvas`). O wireframe decide **onde**, não **o quê**.
 - Margem e vão de **16 px** entre visuais, bordas, cabeçalho e painel;
   posições `x`/`y`/`width`/`height` sempre **inteiras**.
+- **Refazer a posição do navegador de páginas depois de toda regeneração do
+  Builder**: o menu do PNG depende do H1 e a ordem das páginas pode mudar
+  (`references/background-builder-regeneracao.md`).
 
 **Preferir**
 - Elemento dominante ocupa **mais colunas**, não necessariamente a linha de cima.
@@ -108,7 +111,9 @@ paleta, script TMDL, guia de montagem em 13 passos e
 o que revisar num relatório feito com o Background Builder:
 `references/background-builder.md`. Ciclo de trabalho (regenerar PNG e
 fundos), células do menu, painel de filtros e coordenadas do corpo:
-`references/background-builder-ciclo.md`.
+`references/background-builder-ciclo.md`. Regenerar sem quebrar o relatório
+(menu deslocado pelo H1, ordem das páginas, ficha de ida e volta, cópias do
+fundo por Detalhe): `references/background-builder-regeneracao.md`.
 
 ## Bug: fuso horário em "última atualização"
 

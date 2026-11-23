@@ -67,3 +67,7 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
 5. Coluna-chave de drillthrough que não está em nenhum visual de página principal.
 6. Segmentação fora da posição reservada pelo fundo.
 7. Posições não inteiras.
+
+As checagens 8 a 15 estão em
+`../../bi-qa-documentacao/references/checagens-adicionais.md`. Lições de lotes por
+script e de Git: `edicao-por-script-adendo.md`.

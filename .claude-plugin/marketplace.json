@@ -8,7 +8,7 @@
       "name": "data-analyst-advisor",
       "source": "./",
       "description": "Skills de Power BI, DAX, Power Query M, modelagem dimensional, UDF DAX, storytelling, layout, TMDL/PBIR, Git, MCP, QA e dashboard HTML com IA.",
-      "version": "1.5.1"
+      "version": "1.6.0"
     }
   ]
 }
