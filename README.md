@@ -91,6 +91,16 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 1.7.1 (23/11/2026)
+
+Ajustes de revisão em `tmdl-pbir` (`edicao-por-script-e-desktop.md`):
+
+- O passo 6 do ciclo seguro diz que `git diff --cached --stat` mostra o que entra
+  no commit; separar o trabalho do autor só vale quando o arquivo mistura os dois.
+- Comandos por shell: `tasklist | grep -i PBIDesktop` no Git Bash, e
+  `$env:TEMP` (PowerShell) ou `$TEMP` (Git Bash) para temporários.
+- Arquivo novo sem HEAD: seguir o fim de linha dos arquivos vizinhos do mesmo tipo.
+
 ### 1.7.0 (23/11/2026)
 
 Lições de edição por script e de QA vindas de projetos reais, mais higiene do
