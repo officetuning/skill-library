@@ -1,0 +1,50 @@
+# Dicionário de dados em todo projeto (acrescentar a `bi-qa-documentacao`)
+
+Regra do autor: **todo projeto tem o dicionário de dados atualizado**. Em quatro
+projetos, só dois tinham; os outros dois não tinham a tabela nem as descrições
+(95 e 66 objetos sem `///`).
+
+## Obrigatório
+- **Toda tabela, coluna e medida com descrição (`///`).** O dicionário é gerado
+  das descrições; sem elas, a linha sai vazia.
+- **Tabela `TabIntDicionário`** (estática) com 7 colunas: Tabela, Descrição da
+  Tabela, Tipo (Medida ou Coluna), Nome, Fórmula DAX (em uma linha), Descrição,
+  Tipo de Dados (Text, Integer, Number, Currency, Date). Sem relacionamentos.
+- **Tabela no nicho "Dicionário de Dados" da página Sobre** (fundo do Builder:
+  x656, y656, 608×312), com texto alternativo e sem título próprio (o nicho já
+  tem nome). Ordem de tabulação: menu, atualização, tabela, textos.
+- **Regenerar** sempre que tabela, coluna ou medida for criada, renomeada ou
+  tiver a descrição alterada. Compare as linhas do dicionário com o modelo antes
+  de publicar.
+
+## Como gerar
+1. Leia o modelo com o parser TMDL (`scripts/tmdl_parser.py`): descrições,
+   expressões, `dataType` e `formatString`.
+2. Monte as linhas na ordem: tabela de medidas, calendário, tabelas de negócio,
+   dimensões, internas e, por último, o próprio dicionário (ele descreve a si
+   mesmo; gere em **duas passadas**: crie o arquivo, releia o modelo, grave as
+   linhas).
+3. Serialize como JSON, comprima (deflate) e grave em base64 no M:
+   `Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("…",
+   BinaryEncoding.Base64), Compression.Deflate)), type table [...])`, com
+   renomeação para os nomes em português.
+4. Registre `ref table TabIntDicionário` no `model.tmdl`, e a tabela em
+   `PBI_QueryOrder` (grupo de consulta Internas).
+
+## Armadilhas
+- **Tipo de dado de coluna calculada sem `dataType`:** o parser devolve vazio e
+  o tipo cai em Text. Infira: nome terminado em "#", Ano, Dia, Dia do Ano e
+  Semana do Mês viram Integer; Data Referência vira Date.
+- **Descrição de calendário e município:** reaproveite as de um projeto
+  maduro (as colunas são as mesmas).
+- **Aspas:** o parser TMDL e a DAX Query View escapam aspas de forma diferente;
+  a diferença é só de formatação, não de conteúdo.
+- **Dados pessoais (LGPD):** descreva a coluna como dado protegido e peça que
+  só seja exibida a quem tiver autorização.
+
+## Validação barata
+- **Tabular Editor 2** em linha de comando carrega a pasta TMDL e salva um
+  `.bim`: serve como validador de sintaxe sem abrir o Desktop
+  (`TabularEditor.exe <definition> -B saida.bim`).
+- `scripts/check_visual_bindings.py` confirma que a tabela da página Sobre
+  referencia colunas que existem.

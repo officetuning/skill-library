@@ -60,7 +60,9 @@ Rode a camada 3 primeiro: é a mais barata e pega o erro mais comum (campo renom
 Na camada 3, acrescente as sete checagens baratas que já pegaram erro real
 (título ligado sem texto, `visualTooltip.section` para página inexistente,
 chave de drillthrough fora das páginas principais, posições não inteiras e
-outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`.
+outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`. As
+checagens 8 a 15 (unidades, segmentações, navegador, ordem das páginas,
+dicionário, Dica e texto alternativo): `references/checagens-adicionais.md`.
 Texto alternativo e ordem de tabulação no PBIR (regra 7.11 `ENSURE_ALTTEXT`):
 `references/acessibilidade-pbir.md`.
 
@@ -78,6 +80,8 @@ Killer. Versione o arquivo de regras e ajuste `paramMaxAllowedPageHeight` para
 - Versionar o arquivo de regras do BPA no repositório.
 - Falhar o pipeline em regra de severidade Alta.
 - Regenerar o dicionário de dados (`.docx`) a cada mudança de modelo publicada.
+- Incluir o dicionário no modelo (`TabIntDicionário`) e a tabela na página
+  Sobre no checklist de publicação: `references/dicionario-de-dados.md`.
 
 **Como o Tabular Editor 2 falha o pipeline:** não existe opção
 `--error-on-violation`. O CLI retorna **exit code 1** quando há saída de nível

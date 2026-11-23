@@ -84,6 +84,21 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+**1.6.0 (nov/2026)**, oito referências novas das lições dos projetos de
+portfólio, e ajustes em seis skills:
+
+- **`dashboard-layout`:** regenerar o fundo sem quebrar o relatório (menu
+  deslocado pelo H1, ordem das páginas, ficha de ida e volta).
+- **`data-storytelling`:** identidade do relatório (teste do H1, combinações de
+  H2 e tagline, Período como "Quando").
+- **`powerbi-detalhe-dica`:** Dica com cartão único em Grade e **rodapé de
+  drillthrough em todas as Dicas** (antes, só nas que tinham Detalhe).
+- **`powerbi-visuais`:** Exibir unidades = Nenhum e padrão das segmentações.
+- **`bi-qa-documentacao`:** dicionário de dados no modelo e checagens 8 a 15.
+- **`tmdl-pbir`:** adendo sobre edição por script e Git.
+- Itens **a confirmar no Desktop** vêm marcados nas referências (`tabOrder`,
+  texto alternativo vazio, rótulo "Alongar" e a propriedade Pesquisar).
+
 **1.5.1 (nov/2026)**, atualização de `dashboard-layout` com as mudanças do
 Background Builder 1.029 a 1.031:
 

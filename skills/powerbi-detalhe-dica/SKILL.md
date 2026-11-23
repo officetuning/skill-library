@@ -35,11 +35,15 @@ alcançável**.
   escolha a dimensão que ainda não tem dica.
 - **Dica = um cartão + um gráfico (+ rodapé).** O cartão é **um só**; o título
   do cartão é a medida de seleção e os indicadores ficam dentro dele.
-- **Rodapé padrão, só na dica que tem detalhe irmão**:
+- **Rodapé padrão em todas as Dicas**, inclusive nas que não têm detalhe
+  irmão:
   "🔍 *Para explorar o detalhe*: clique com o **botão direito** sobre o dado de
   interesse, selecione **Drillthrough/Detalhamento** e escolha a página de
   destino no menu." (itálico em "Para explorar o detalhe"; negrito em
-  "botão direito" e "Drillthrough/Detalhamento").
+  "botão direito" e "Drillthrough/Detalhamento"; 8 pt).
+- **Ordem de tabulação da Dica:** cartão → gráfico → rodapé. Layout em Grade,
+  geometria, texto alternativo sem o nome técnico da medida de seleção:
+  `references/dica-cartao-unico.md`.
 - Detalhe e Dica ficam **ocultos** (`HiddenInViewMode`); a Dica tem `type: Tooltip`.
 
 **Preferir**
@@ -48,7 +52,7 @@ alcançável**.
 
   | Tamanho | Uso | Exemplo |
   |---|---|---|
-  | **320×240** | Visual único | Campo de poucos valores (Categoria, Tipo de pessoa, Transação): só o cartão, sem rodapé |
+  | **320×240** | Visual único | Campo de poucos valores (Categoria, Tipo de pessoa, Transação): cartão e rodapé (a geometria com rodapé ainda não foi medida) |
   | **400×304** | Vários visuais | Cartão + um gráfico pequeno |
   | **600×456** | Mini relatório | Cartão + gráfico com eixo legível + rodapé |
 - Detalhe com: indicadores em faixa, evolução no tempo, composição e uma
@@ -68,7 +72,7 @@ alcançável**.
 - Dois cartões na dica (um de título, outro de indicadores): o título do
   cartão único cumpre os dois papéis.
 - Cartão da dica com rolagem. Veja `powerbi-visuais` (cartões).
-- Mensagem de ajuda ("clique com o botão direito") em dica sem detalhe.
+- Dica sem o rodapé padrão de drillthrough.
 
 ## Armadilhas verificadas
 - No **modo de edição** da página de Dica não há filtro: a medida de seleção
@@ -91,7 +95,7 @@ alcançável**.
 ## Checklist
 1. Contei os eixos e escolhi o campo? Existe visual principal com a chave?
 2. Medida de seleção criada, descrita e testada com o mouse?
-3. Dica com um cartão, título = medida, rodapé só se houver detalhe?
+3. Dica com um cartão, título = medida e rodapé padrão?
 4. Cada visual de origem aponta para a dica correta (e só uma)?
 5. Detalhe oculto, com o card da seleção (não `BLANK()`) ao lado do ícone de olho e o botão Voltar?
 6. Tamanho da Dica (320×240, 400×304 ou 600×456) coerente com o conteúdo?

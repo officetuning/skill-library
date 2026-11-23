@@ -86,12 +86,17 @@ design, Big Idea, arco, checklist): `references/blocos.md`.
 - **H2 em forma de pergunta** (ou promessa) curta, com ritmo.
 - **Tagline = o que o relatório entrega.** Confira cada promessa com o
   conteúdo real antes de aceitar.
-- **Nome de página descreve o conteúdo**, nunca é nome de medida.
+- **Nome de página descreve o conteúdo**, nunca o tipo de visual nem o nome de
+  uma medida.
 - O arco narrativo é uma **sequência de perguntas**: cada página responde uma,
   e a ordem das páginas segue a ordem das perguntas.
 
 No Background Builder, H1, H2 e tagline vão para o fundo: mudar identidade
 exige regenerar os PNGs (`dashboard-layout/references/background-builder-ciclo.md`).
+
+Teste do H1, três combinações de H2 e tagline para o autor escolher, Período
+como "Quando" e fontes de dados em linguagem de leitor:
+`references/identidade-do-relatorio.md`.
 
 ## Checklist antes de publicar
 
