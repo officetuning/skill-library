@@ -17,3 +17,9 @@ Padrão sugerido pelo autor (convenção, não regra universal).
   dos números.
 - Se a versão vem de uma medida ou de um texto fixo, registre onde está no
   dicionário do modelo, para a próxima leva não esquecer.
+- Formato: duas caixas de texto no cartão Versão, **Segoe UI Semibold 12,
+  centralizadas**. Versão com três casas depois do ponto (`1.001`, `1.002`...);
+  data com dia da semana abreviado (`Ter 24/11/2026`).
+- Cartão Equipe Técnica com **nomes**: Idealização (idealizadores),
+  Especificação de Negócio (especificadores de negócio) e Realização
+  (realizadores).

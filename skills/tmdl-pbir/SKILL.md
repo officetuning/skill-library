@@ -22,7 +22,7 @@ medida gera diff em um único arquivo de tabela.
 table Vendas
 
     /// Valor bruto das notas emitidas, sem devoluções.
-    measure 'Faturado (AV)' = SUM ( Vendas[Valor da Venda] )
+    measure 'Faturado (AV)' = SUM ( 'Vendas'[Valor da Venda] )
         formatString: R$ #,##0.00
         displayFolder: Faturamento
 
@@ -55,7 +55,7 @@ papel da tabela está no `queryGroup`.
 | Regra | Sintaxe |
 |---|---|
 | Declarar objeto | `<tipo> <nome>` |
-| Nome com espaço, `.`, `=`, `:` ou `'` | `'Nome do Objeto'` (aspas simples internas duplicadas `''`). Acento **não** exige aspas: `table Calendário` |
+| Nome com espaço, `.`, `=`, `:` ou `'` | `'Nome do Objeto'` (aspas simples internas duplicadas `''`). Acento **não** exige aspas na declaração: `table Calendário`. Na **fórmula DAX** dentro do TMDL, a tabela vai sempre entre aspas: `'Calendário'[Data]` |
 | Propriedade comum | `propriedade: valor` |
 | Booleano verdadeiro | só o nome: `isHidden` |
 | Propriedade padrão / expressão | `measure Nome = <expressão>` |
@@ -73,7 +73,7 @@ createOrReplace
 
     ref table Vendas
         /// Pedidos distintos com ao menos um item faturado.
-        measure '# Pedidos' = DISTINCTCOUNT ( Vendas[Código do Pedido] )
+        measure '# Pedidos' = DISTINCTCOUNT ( 'Vendas'[Código do Pedido] )
             formatString: #,##0
 ```
 

@@ -121,7 +121,7 @@ variações: `references/padroes-udf.md`.
 - ⚠️ **OLS não passa para a função.** Não exponha objeto protegido em nome ou
   descrição de função.
 - Nome sem tabela (`[Valor]`) é lido como medida: dentro de UDF, sempre
-  qualifique colunas (`Vendas[Valor]`).
+  qualifique colunas (`'Vendas'[Valor]`).
 - Parâmetro `EXPR` não usado no corpo nunca é calculado.
 
 ## Listar e auditar

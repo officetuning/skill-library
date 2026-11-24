@@ -30,7 +30,10 @@ definition/
 
 ### Declaração e propriedades
 - `<tipo TOM> <nome>`; aspas simples se o nome tiver `.`, `=`, `:`, `'` ou
-  espaço. Acento não exige aspas (`table Calendário`).
+  espaço. Acento não exige aspas (`table Calendário`). Isso vale só para a
+  declaração: dentro da expressão de uma medida, a fórmula é DAX e a tabela vai
+  sempre entre aspas simples (`'Atualização'[Momento da Última Atualização]`;
+  sem aspas, a medida dá erro).
 - `propriedade: valor`. Aspas duplas em texto são opcionais, obrigatórias com
   espaço no início ou fim; aspas duplas internas duplicadas `""`.
 - Booleano: `isHidden` sozinho equivale a `isHidden: true`.
@@ -38,7 +41,7 @@ definition/
 ```tmdl
 table Vendas
     measure 'Faturado (AV)' =
-            VAR vResultado = SUMX ( Vendas, Vendas[Quantidade] * Vendas[Preço Líquido] )
+            VAR vResultado = SUMX ( 'Vendas', 'Vendas'[Quantidade] * 'Vendas'[Preço Líquido] )
             RETURN vResultado
         formatString: R$ #,##0
         displayFolder: " Medidas ""Principais"""
@@ -100,7 +103,7 @@ Serialização em camelCase; leitura sem diferenciar maiúsculas e minúsculas.
 createOrReplace
 
     ref table Vendas
-        measure '# Produtos Vendidos' = DISTINCTCOUNT ( Vendas[Código do Produto] )
+        measure '# Produtos Vendidos' = DISTINCTCOUNT ( 'Vendas'[Código do Produto] )
             formatString: #,##0
 
     table Produto

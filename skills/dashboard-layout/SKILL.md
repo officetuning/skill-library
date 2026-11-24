@@ -128,5 +128,8 @@ Solução: capturar o momento do refresh no Power Query, já em hora local,
 numa tabela interna (`Atualização`, grupo Internas), e comparar com
 `UTCNOW()` deslocado na medida `[Última Atualização]`. O script TMDL do
 Background Builder cria tudo isso (o 1.031 ainda com os nomes antigos: tabela
-de renomeação na referência). Estrutura
+de renomeação na referência). Até o 1.033, a medida `Data da Última
+Atualização` sai sem aspas na tabela (`Atualização[...]`) e dá erro: em DAX a
+tabela vai sempre entre aspas simples, `'Atualização'[...]`. O card fica com
+fonte 12, centralizado e sem rótulo. Estrutura
 completa em `references/background-builder.md`.

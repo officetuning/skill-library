@@ -31,7 +31,7 @@ Como: no Tabular Editor, `IsAvailableInMdx = false` em chaves e colunas técnica
 O motor avalia muito mais combinações na propagação de filtro.
 Como: relacionamento unidirecional; `CROSSFILTER` só na medida que precisa.
 ```dax
-CALCULATE ( [Faturado], CROSSFILTER ( Produto[Código do Produto], Vendas[Código do Produto], BOTH ) )
+CALCULATE ( [Faturado], CROSSFILTER ( 'Produto'[Código do Produto], 'Vendas'[Código do Produto], BOTH ) )
 ```
 
 **1.4 — Reduza coluna calculada com `RELATED`** · 🟠
@@ -99,7 +99,7 @@ Como: configure Incremental Refresh (Pro, PPU, Premium e Embedded). Ver skill `p
 A regra de RLS é avaliada em toda consulta; condições caras multiplicam o custo.
 Como: tabela de segurança dedicada com relacionamento simples; atributos de segurança desnormalizados na fato quando der.
 ```dax
-[Regiao] = LOOKUPVALUE ( Usuarios[Regiao], Usuarios[Email], USERPRINCIPALNAME () )
+[Regiao] = LOOKUPVALUE ( 'Usuarios'[Regiao], 'Usuarios'[Email], USERPRINCIPALNAME () )
 ```
 
 **1.17 — Agregações com DirectQuery** · 🔵
@@ -130,8 +130,8 @@ Como: centralize, de preferência no Power Query.
 
 **2.3 — `TREATAS` em vez de `INTERSECT`** · 🟠
 `TREATAS` propaga filtro com índices; `INTERSECT` materializa tabelas.
-❌ `CALCULATE ( [Vendas], INTERSECT ( VALUES ( Datas[Ano] ), VALUES ( Anos[Ano] ) ) )`
-✅ `CALCULATE ( [Vendas], TREATAS ( VALUES ( Anos[Ano] ), Datas[Ano] ) )`
+❌ `CALCULATE ( [Vendas], INTERSECT ( VALUES ( 'Datas'[Ano] ), VALUES ( 'Anos'[Ano] ) ) )`
+✅ `CALCULATE ( [Vendas], TREATAS ( VALUES ( 'Anos'[Ano] ), 'Datas'[Ano] ) )`
 
 **2.4 — Use `DIVIDE`** · 🟠
 Divisão por zero com `/` quebra o visual.
@@ -148,14 +148,14 @@ Como: use a original; para nome diferente, use sinônimo ou pasta de exibição.
 
 **2.7 — Sintaxe de filtro por coluna** · 🟠
 Predicado direto usa o índice; `FILTER` itera linha a linha.
-❌ `CALCULATE ( [Vendas], FILTER ( ALL ( Produtos ), Produtos[Categoria] = "A" ) )`
-✅ `CALCULATE ( [Vendas], Produtos[Categoria] = "A" )`
-⚠️ Não são idênticas: `ALL ( Produtos )` remove filtros de **todas** as colunas de Produtos. A forma direta remove só o filtro de `Categoria`. Confira se a remoção extra era intencional.
+❌ `CALCULATE ( [Vendas], FILTER ( ALL ( 'Produtos' ), 'Produtos'[Categoria] = "A" ) )`
+✅ `CALCULATE ( [Vendas], 'Produtos'[Categoria] = "A" )`
+⚠️ Não são idênticas: `ALL ( 'Produtos' )` remove filtros de **todas** as colunas de Produtos. A forma direta remove só o filtro de `Categoria`. Confira se a remoção extra era intencional.
 
 **2.8 — Filtre por coluna, não pela tabela** · 🟠
 Filtro de tabela inteira não aproveita índice de coluna.
-❌ `CALCULATE ( [Vendas], FILTER ( Clientes, Clientes[Tipo] = "VIP" ) )`
-✅ `CALCULATE ( [Vendas], Clientes[Tipo] = "VIP" )`
+❌ `CALCULATE ( [Vendas], FILTER ( 'Clientes', 'Clientes'[Tipo] = "VIP" ) )`
+✅ `CALCULATE ( [Vendas], 'Clientes'[Tipo] = "VIP" )`
 
 **2.9 — Relacionamento inativo nunca ativado** · 🟠
 Ocupa metadado e confunde.
@@ -266,7 +266,7 @@ Padrão completo: skill `bi-nomenclatura`.
 Sem formato, decimais excessivos e sem separador de milhar.
 Como: defina a **propriedade** Formato (Ferramentas de Medida → Formato, ou `formatString` no TMDL). Não use `FORMAT()` dentro da medida: ele devolve texto, quebra ordenação, soma e eixo. Exceção: medida de texto usada só como título (ver `references/medidas-para-visuais.md`).
 ```tmdl
-measure Faturado = SUM ( Vendas[Valor da Venda] )
+measure Faturado = SUM ( 'Vendas'[Valor da Venda] )
     formatString: R$ #,##0.00
 ```
 
@@ -360,7 +360,7 @@ Limite recomendado: até 4 fatias; acima disso, barras horizontais ordenadas.
 **7.13 [Visuais] — Evite medidas implícitas** · 🔴 · Measure Killer
 Não têm formato nem descrição.
 Como: ative a propriedade **Desestimular medidas implícitas** do modelo (Model Explorer → modelo → Propriedades; no Tabular Editor, `DiscourageImplicitMeasures = true`) e crie medidas explícitas.
-❌ arrastar `Vendas[Valor da Venda]` · ✅ `Faturado = SUM ( Vendas[Valor da Venda] )`
+❌ arrastar `'Vendas'[Valor da Venda]` · ✅ `Faturado = SUM ( 'Vendas'[Valor da Venda] )`
 
 **7.14 [Relatório] — Limite os indicadores** · 🔵 · Measure Killer
 Máximo 10 indicadores (bookmarks). Prefira navegador de páginas, parâmetros de

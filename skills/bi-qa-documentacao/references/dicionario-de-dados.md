@@ -8,11 +8,15 @@ projetos, só dois tinham; os outros dois não tinham a tabela nem as descriçõ
 - **Toda tabela, coluna e medida com descrição (`///`).** O dicionário é gerado
   das descrições; sem elas, a linha sai vazia.
 - **Tabela `Dicionário`** (grupo de consultas Internas, oculta) (estática) com 7 colunas: Tabela, Descrição da
-  Tabela, Tipo (Medida ou Coluna), Nome, Fórmula DAX (em uma linha), Descrição,
-  Tipo de Dados (Text, Integer, Number, Currency, Date). Sem relacionamentos.
-- **Tabela no nicho "Dicionário de Dados" da página Sobre** (fundo do Builder:
-  x656, y656, 608×312), com texto alternativo e sem título próprio (o nicho já
-  tem nome). Ordem de tabulação: menu, atualização, tabela, textos.
+  Tabela, Tipo (Campo, Campo Calculado ou Medida), Campo/Medida, Fórmula DAX (em
+  uma linha), Descrição, Tipo de Dados (Text, Integer, Number, Currency, Date).
+  Sem relacionamentos. Campo Calculado = coluna calculada em DAX; Campo = coluna
+  que vem da origem ou do Power Query.
+- **Visual Tabela no nicho "Dicionário de Dados" da página Sobre** (fundo do
+  Builder: x656, y656, 608×312), com texto alternativo e sem título próprio (o
+  nicho já tem nome). Mostra 5 colunas, nesta ordem: **Campo/Medida, Tipo de
+  Dados, Tipo, Tabela, Descrição**. Descrição da Tabela e Fórmula DAX ficam na
+  tabela (para o `.docx` e para consulta), fora do visual. Ordem de tabulação: menu, atualização, tabela, textos.
 - **Regenerar** sempre que tabela, coluna ou medida for criada, renomeada ou
   tiver a descrição alterada. Compare as linhas do dicionário com o modelo antes
   de publicar.

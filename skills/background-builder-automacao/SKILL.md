@@ -48,6 +48,10 @@ JSON preparado pelo agente, **Exportar coleção**, salvar o ZIP. O script
      aparece no PNG. Compactar com o Encaixe, tirar filtro ou levar para outra
      página, e exportar de novo.
    - Comparar a lista de PNGs com as páginas do relatório.
+   - No `Script.TMDL`, toda fórmula DAX com a tabela entre aspas simples
+     (`'Atualização'[...]`, `'Calendário'[...]`). Até o Builder 1.033 a medida
+     `Data da Última Atualização` sai sem aspas e dá erro: corrigir antes de
+     aplicar (ver `dashboard-layout`, `references/background-builder.md`).
 6. **Aplicar no relatório.** Substituir os fundos, reposicionar navegador e
    segmentações, aplicar o `Tema.json` e, na primeira vez, o `Script.TMDL`.
    Passo a passo e coordenadas em `dashboard-layout`
@@ -110,6 +114,7 @@ aponta outro endereço do Builder (o padrão é
 | Playwright não instalado | Primeira vez nesta máquina | Rodar a instalação acima e repetir |
 | H1 não apareceu no formulário | A interface do Builder mudou ou o JSON é inválido | Validar o JSON; se estiver certo, abrir a ficha à mão em **Projeto › Abrir Ficha Técnica** e avisar que o script precisa de ajuste |
 | ZIP bloqueado pela verificação de pixels | Uma página saiu chapada | Exportar de novo; se repetir, é problema no Builder: informar a página |
+| Medida `Data da Última Atualização` com erro depois do script | Builder 1.033 ou anterior gerou `Atualização[...]` sem aspas | Trocar por `'Atualização'[Momento da Última Atualização]` |
 | Tempo esgotado no download | Muitas páginas ou máquina lenta | Rodar de novo com `--visivel` para ver onde para |
 
 O caminho manual continua valendo sempre: o usuário abre a mesma ficha no

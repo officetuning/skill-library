@@ -24,7 +24,7 @@ descartado; texto longo demais é cortado. Crase dentro do JSON vai como
   "filterAutoApply": true,
   "dataSources": "ERP de vendas\nCadastro de clientes",
   "idealizacao": "Diretoria Comercial",
-  "especificacaoNegocio": "Acompanhar receita e margem por região e canal",
+  "especificacaoNegocio": "Gerência de Vendas; Controladoria",
   "realizacao": "Time de Dados & BI"
 }
 ```
@@ -48,8 +48,7 @@ aprovadas na verificação de pixels.
 | `filterAutoApply` | booleano | padrão `true` | `false` = botões Aplicar + Limpar |
 | `dicaSizes` | lista | `single` `multi` `mini` (até 3) | Ausente = `multi` (400×304) |
 | `dataSources` | texto | 4000 | Uma fonte por linha (`\n`) |
-| `idealizacao`, `realizacao` | texto | 300 | Página Sobre |
-| `especificacaoNegocio` | texto | 4000 | Página Sobre |
+| `idealizacao`, `especificacaoNegocio`, `realizacao` | texto | 300 | Página Sobre, cartão Equipe Técnica: **nomes** dos idealizadores, dos especificadores de negócio e dos realizadores. Até o Builder 1.033, `especificacaoNegocio` aceitava 4000 caracteres de descrição; a partir da 1.034, nomes, cortados em 300 |
 | `pageBackground` | chave | `paper` `white` `ice` `lightgray` `tint` `charcoal` `slate` `navy` `darktint` | Ausente = `paper` |
 | `customAccent`, `customNavy` | `#RRGGBB` | | Marca do cliente |
 | `customDataColors` | lista de 8 | `""` ou `#RRGGBB` | Posições 0 e 2 sempre `""` |
