@@ -46,7 +46,7 @@ DEFINE
 
 EVALUATE
     ROW (
-        "Top 10 (medida)", Vendas.TopClientesMedida ( [Total de Vendas] ),
+        "Top 10 (medida)", Vendas.TopClientesMedida ( [Faturado] ),
         "Top 5 (expressão)", Vendas.TopClientes ( SUM ( Vendas[Valor da Venda] ), 5 )
     )
 ```
@@ -127,8 +127,8 @@ Uso em várias medidas, cada uma com **Formato → Dinâmico**:
 
 | Medida | Expressão de formato |
 |---|---|
-| Total de Vendas | `Formato.Escala ( SELECTEDMEASURE () )` |
-| Custo Total | `Formato.Escala ( SELECTEDMEASURE () )` |
+| Faturado | `Formato.Escala ( SELECTEDMEASURE () )` |
+| Custo | `Formato.Escala ( SELECTEDMEASURE () )` |
 | # Pedidos | `Formato.Escala ( SELECTEDMEASURE (), 0 )` |
 
 Mudou a regra (ex.: passar a usar "k" em vez de "mil")? Altere só a função.

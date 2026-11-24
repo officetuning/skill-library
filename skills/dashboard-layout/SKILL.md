@@ -123,7 +123,8 @@ fundo por Detalhe): `references/background-builder-regeneracao.md`.
 Service**. A data exibida diverge assim que o relatório é publicado.
 
 Solução: capturar o momento do refresh no Power Query, já em hora local,
-numa tabela de interface (`TabIntAtualização`), e comparar com
-`UTCNOW()` deslocado na medida `[Atualização]`. O script TMDL do Background
-Builder cria tudo isso. Estrutura
+numa tabela interna (`Atualização`, grupo Internas), e comparar com
+`UTCNOW()` deslocado na medida `[Última Atualização]`. O script TMDL do
+Background Builder cria tudo isso (o 1.031 ainda com os nomes antigos: tabela
+de renomeação na referência). Estrutura
 completa em `references/background-builder.md`.

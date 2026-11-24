@@ -56,21 +56,21 @@ trabalhosa em DAX: `data:image/svg+xml;base64,`.
 
 ### Sparkline 12 meses
 
-Pressupõe `[Índice Mês]` (1 a 12 na janela) e `[Receita Máxima 12M]`.
+Pressupõe `[Índice Mês]` (1 a 12 na janela) e `[Receita Máxima (12M)]`.
 
 ```dax
 Sparkline 12M =
-VAR vMaximo = [Receita Máxima 12M]
+VAR vMaximo = [Receita Máxima (12M)]
 VAR vPontos =
     CONCATENATEX (
-        VALUES ( 'Calendário'[MêsAno] ),
+        VALUES ( 'Calendário'[Mês e Ano] ),
         VAR vX = ( [Índice Mês] - 1 ) * 15
-        VAR vY = 40 - DIVIDE ( [Receita Total], vMaximo, 0 ) * 40
+        VAR vY = 40 - DIVIDE ( [Receita], vMaximo, 0 ) * 40
         RETURN
             SUBSTITUTE ( FORMAT ( vX, "0.0" ), ",", "." ) & ","
                 & SUBSTITUTE ( FORMAT ( vY, "0.0" ), ",", "." ),
         " ",
-        'Calendário'[MêsAno], ASC
+        'Calendário'[Mês e Ano], ASC
     )
 RETURN
     "data:image/svg+xml;utf8,"
@@ -79,7 +79,7 @@ RETURN
         & "</svg>"
 ```
 
-⚠️ Ordene por uma coluna que ordene de fato no tempo. Se `MêsAno` for texto
+⚠️ Ordene por uma coluna que ordene de fato no tempo. Se `Mês e Ano` for texto
 ("jan/2026"), use a coluna numérica de ordenação no argumento de ordem.
 
 ### Checklist SVG

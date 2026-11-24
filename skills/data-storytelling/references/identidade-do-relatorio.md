@@ -1,4 +1,4 @@
-# Identidade do relatório: H1, H2, tagline e nomes de página (acrescentar a `data-storytelling`)
+# Identidade do relatório: H1, H2, tagline e nomes de página
 
 Lições de revisar a identidade de três projetos de portfólio.
 

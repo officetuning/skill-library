@@ -18,21 +18,28 @@ medida gera diff em um único arquivo de tabela.
 ## TMDL essencial
 
 ```tmdl
+/// Vendas faturadas, uma linha por item de nota fiscal.
 table Vendas
 
-    /// Soma o valor líquido das vendas. Exclui cancelados e devoluções.
-    measure 'Total de Vendas' = SUM ( Vendas[Valor da Venda] )
+    /// Valor bruto das notas emitidas, sem devoluções.
+    measure 'Faturado (AV)' = SUM ( Vendas[Valor da Venda] )
         formatString: R$ #,##0.00
-        displayFolder: Vendas
+        displayFolder: Faturamento
 
     column 'Código do Cliente'
         dataType: int64
         isHidden
         summarizeBy: none
-        sourceColumn: CodigoCliente
+        sourceColumn: Código do Cliente
+
+    column 'Valor da Venda'
+        dataType: decimal
+        isHidden
+        sourceColumn: Valor da Venda
 
     partition Vendas = m
         mode: import
+        queryGroup: Fatos
         source =
             let
                 Origem = Sql.Database(Servidor, Banco),
@@ -41,10 +48,14 @@ table Vendas
                 Dados
 ```
 
+Nomes seguem `bi-nomenclatura`: a tabela tem nome de negócio (o prefixo
+`TabFat`/`VwFat` fica no SQL), a medida mora na tabela a que pertence e o
+papel da tabela está no `queryGroup`.
+
 | Regra | Sintaxe |
 |---|---|
 | Declarar objeto | `<tipo> <nome>` |
-| Nome com espaço, `.`, `=`, `:` ou `'` | `'Nome do Objeto'` (aspas simples internas duplicadas `''`) |
+| Nome com espaço, `.`, `=`, `:` ou `'` | `'Nome do Objeto'` (aspas simples internas duplicadas `''`). Acento **não** exige aspas: `table Calendário` |
 | Propriedade comum | `propriedade: valor` |
 | Booleano verdadeiro | só o nome: `isHidden` |
 | Propriedade padrão / expressão | `measure Nome = <expressão>` |
@@ -61,6 +72,7 @@ table Vendas
 createOrReplace
 
     ref table Vendas
+        /// Pedidos distintos com ao menos um item faturado.
         measure '# Pedidos' = DISTINCTCOUNT ( Vendas[Código do Pedido] )
             formatString: #,##0
 ```
@@ -123,9 +135,11 @@ definition\
   Desktop e pode quebrar referências.
 - ⚠️ `visual.json` e bookmarks podem guardar **valores de dados** (filtro
   `'Company' = 'Contoso'`, seleção de slicer). Cuidado ao versionar em repositório público.
-- ⚠️ Converter PBIR-Legacy → PBIR **não se desfaz pela interface**. Salve uma cópia antes.
+- ⚠️ Editar e salvar um relatório PBIR-Legacy o converte para PBIR sem aviso.
+  Salve uma cópia antes; há backup automático de 30 dias no Desktop e de 28
+  dias no Service (`references/pbir.md`).
 
-Status (02/10/2026): PBIP e PBIR estão em **disponibilidade geral (GA)** e o
+Status (24/11/2026): PBIP e PBIR estão em **disponibilidade geral (GA)** e o
 PBIR é o formato padrão de relatório. Ao editar e salvar um relatório
 PBIR-Legacy, o Power BI converte para PBIR. Status muda: confirme na
 documentação antes de afirmar.
@@ -179,6 +193,23 @@ Ciclo seguro para alterar `visual.json`, `page.json` ou TMDL fora do Desktop:
 4. **Fechar o Desktop sem salvar e reabrir o `.pbip`**: salvar com a versão
    antiga em memória sobrescreve a edição.
 5. Conferir com captura de tela.
+
+**Variante com o Power BI Desktop Bridge (preview).** Com o Desktop aberto e a
+opção *Opções → Segurança → Desktop Bridge* ligada (padrão), a CLI
+[`@microsoft/powerbi-desktop-bridge-cli`](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-desktop-bridge-overview)
+troca os passos 4 e 5:
+
+| Passo | Comando | Faz |
+|---|---|---|
+| Antes de editar | `powerbi-desktop status` | Arquivo aberto e **alterações não salvas** (complementa o `Get-Process PBIDesktop`) |
+| 4 | `powerbi-desktop reload` | Recarrega o PBIR (e o modelo, se pedido) sem fechar o Desktop |
+| 5 | `powerbi-desktop screenshot-all` | PNG de cada página de `pages.json` |
+
+Uma operação por vez por janela; só local. Por estar em preview, o ciclo com o
+Desktop fechado continua sendo o padrão seguro. A recarga também existe pela
+interface (*Detect and reload external PBIP changes*, preview): fora dela não
+se editam `definition.pbir`, `report.json`, `mobileState.json` e
+`semanticModelDiagramLayout.json`.
 
 ⚠️ O Desktop pode declarar `visualContainer/2.14.0`, versão que talvez ainda
 não esteja no repositório público de schemas. Grava CRLF sem BOM e reescreve o

@@ -21,9 +21,17 @@ nomeia, documenta e valida como a casa faz.
 
 A Microsoft recomenda o **hospedado** quando o ambiente permite (nada a
 instalar). Para quem desenvolve no Desktop ou em PBIP: **local** (Windows; não
-roda no macOS). Só com permissão *Build* no modelo, o agente consulta com DAX
-mas não altera. ⚠️ Não registre os dois ao mesmo
-tempo: o agente vê ferramentas duplicadas e gasta tokens à toa.
+roda no macOS). ⚠️ Não registre os dois ao mesmo tempo: o agente vê
+ferramentas duplicadas e gasta tokens à toa.
+
+| Pré-requisito | Detalhe |
+|---|---|
+| Permissão | *Write* para alterar; só com *Build*, o agente consulta com DAX mas não altera |
+| Modo do servidor local | `--readwrite` (padrão) pede confirmação uma vez por modelo antes de gravar; `--readonly` impede qualquer escrita |
+| Modelo em workspace pelo local | Endpoint XMLA em **Leitura e Gravação** na capacidade |
+| Servidor hospedado | Configuração de tenant *Users can use the Power BI Model Context Protocol server endpoint* |
+| Pipeline de CI | Servidor local com `--authmode serviceprincipal` (ver `bi-qa-documentacao`) |
+| Rastro de auditoria | Hospedado: `ModifiedByPowerBIMCP`/`ReadByPowerBIMCP` no log de auditoria do Fabric. Local: log em disco com `--audit-log-path`; recomendado em projeto de cliente |
 
 Para **responder perguntas de negócio** a partir do modelo, o servidor certo é
 o Fabric IQ, não o de authoring.
@@ -37,19 +45,41 @@ o Fabric IQ, não o de authoring.
    de IA. Sem autorização, não use em modelo com dado pessoal ou sigiloso;
    prefira o modo somente leitura (`--readonly`) para explorar.
 
+## Qual ferramenta edita o modelo
+
+Segue a ordem da skill oficial `semantic-model-authoring`:
+
+1. **MCP conectado** → ele é a fonte da verdade. O agente lê e grava pelo MCP e
+   **não** abre nem escreve `.tmdl` à mão durante a sessão (o disco fica
+   desatualizado). Conectado a uma pasta PBIP, grava o modelo de volta em
+   `definition` no fim da sessão.
+2. **Sem MCP, com PBIP** → edita o TMDL (ciclo seguro de `tmdl-pbir`).
+3. **`.pbix` sem MCP** → **para** e pede para salvar como PBIP.
+
+O MCP não altera páginas do relatório nem o diagrama: depois de renomear no
+modelo, os vínculos dos visuais (`visual.json`) se corrigem à parte, e a
+checagem de bindings da `bi-qa-documentacao` confirma.
+
 ## Fluxo de trabalho do agente
 
 1. **Conectar e inventariar (só leitura).** Liste tabelas, colunas, medidas,
    relacionamentos e UDFs. Não altere nada nesta etapa.
-2. **Diagnosticar com as skills da casa.** Nomes contra `bi-nomenclatura`;
+2. **Diagnosticar com as skills da casa.** Nomes contra `bi-nomenclatura`
+   (tabela com nome de negócio e papel no grupo de consultas; renomear vale
+   para tabela com prefixo técnico no modelo e para coluna ou medida sem nome
+   amigável);
    modelo contra as regras de modelo (seções 1 a 6) de `powerbi-boas-praticas`
    (cite número e severidade); UDFs contra `dax-udf`.
 3. **Propor um plano** em tabela: objeto, ação, antes → depois, motivo.
    Agrupe por risco. **Espere o "pode aplicar" do usuário.**
-4. **Aplicar em transação** (servidor local): abra, aplique o lote, valide,
-   confirme. Erro no meio → desfaça a transação inteira.
-5. **Validar com DAX.** Rode `EVALUATE` das medidas alteradas antes e depois
-   e compare os números. Mudança de nome não pode mudar valor.
+4. **Aplicar em transação** (servidor local), na ordem partição → colunas →
+   relacionamentos → medidas, conferindo antes que as colunas usadas existem.
+   Erro no meio → desfaça a transação inteira.
+5. **Validar com DAX.** `EVALUATE { [Medida] }` em cada medida nova;
+   `EVALUATE INFO.MEASURES()` sem `ErrorMessage`; totais agregados das medidas
+   alteradas antes e depois (a consulta devolve no máximo **100 mil linhas**:
+   compare totais, não a tabela inteira). Tabela nova → atualizar e conferir
+   linhas. Mudança de nome não pode mudar valor.
 6. **Documentar.** Descrição `///` em toda medida e UDF nova (ver
    `bi-qa-documentacao`).
 7. **Fechar.** Mostre o diff do Git e sugira a mensagem de commit. Quem faz o
@@ -61,6 +91,10 @@ o Fabric IQ, não o de authoring.
 - Renomear em lote: listar **todas** as dependências (medidas, RLS, visuais em
   PBIR) antes; renome que quebra visual não entra no lote.
 - Não mexer em RLS/OLS, partições ou fonte de dados sem pedido explícito.
+  Quem pertence a uma função de RLS se administra no portal, nunca pelo agente.
+- Instruções de IA, esquema de dados para IA e respostas verificadas
+  ("Prep data for AI") são configurados pelo usuário na interface; o agente só
+  sugere.
 - Uma mudança por objetivo: não "aproveitar" para corrigir outras coisas fora
   do plano aprovado.
 
@@ -69,7 +103,11 @@ o Fabric IQ, não o de authoring.
 A Microsoft publica skills de Power BI no repositório
 [`microsoft/skills-for-fabric`](https://github.com/microsoft/skills-for-fabric)
 (MIT). O plugin `powerbi-authoring` traz as skills de modelo semântico
-(`semantic-model-authoring`) e de relatório (PBIR) e registra o MCP local.
+(`semantic-model-authoring`) e de relatório (`powerbi-report-cli`: planejar,
+desenhar, criar e validar PBIR, com captura de tela) e registra o MCP local.
+A validação do relatório usa o **Power BI Desktop Bridge** (preview), servidor
+local dentro do Desktop aberto que recarrega o projeto e captura cada página
+sem fechar o Desktop (ver `tmdl-pbir`, "Editar por script").
 
 ```
 /plugin marketplace add microsoft/skills-for-fabric
@@ -83,12 +121,15 @@ repositório antes de instalar.
 | Assunto | Quem manda |
 |---|---|
 | Sintaxe, comportamento da ferramenta, APIs, sequência técnica da operação | Skills Microsoft e Microsoft Learn |
-| Nome de tabela, coluna, medida e UDF; AV/AA/Δ | `bi-nomenclatura`, `dax-udf` |
+| Nome de tabela, coluna, medida e UDF; (AV)/(AA)/(Δ) | `bi-nomenclatura`, `dax-udf` (alinhadas ao padrão oficial; a casa acrescenta português, medida sem "Total" e o comparativo entre parênteses) |
 | Regras de modelagem e severidade | `powerbi-boas-praticas` |
 | Visual, layout, storytelling | `powerbi-visuais`, `dashboard-layout`, `data-storytelling` |
 
 Quando as duas orientações conflitarem num ponto de padrão (ex.: nome em
 inglês × português), siga a OfficeTuning e avise o usuário do conflito.
+Em modelo existente, a skill oficial manda manter o padrão já usado, a menos
+que o usuário peça para padronizar: ao padronizar, use `bi-nomenclatura` e
+siga a checagem 16 da `bi-qa-documentacao` para achar visuais quebrados.
 
 ## Pedidos que funcionam bem
 
@@ -105,4 +146,7 @@ inglês × português), siga a OfficeTuning e avise o usuário do conflito.
 - [Power BI MCP servers overview](https://learn.microsoft.com/power-bi/developer/mcp/mcp-servers-overview)
 - [Power BI Agentic overview](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-agentic-overview)
 - [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric)
+- [Power BI Desktop Bridge](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-desktop-bridge-overview)
+- [Power BI Report skill](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-report-skill-overview)
+- [powerbi-modeling-mcp (opções de linha de comando)](https://github.com/microsoft/powerbi-modeling-mcp)
 - Guia passo a passo em português: [officetuning.ai/biblioteca/guias/dax-mcp-setup](https://officetuning.ai/biblioteca/guias/dax-mcp-setup)

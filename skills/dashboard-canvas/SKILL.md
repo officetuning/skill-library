@@ -51,7 +51,8 @@ Duas etapas, mais um cronograma calculado:
 
 ### Fase 4 — Execução
 10. **Cálculos** — dicionário único de métricas: nome, fórmula, granularidade e
-    origem, no padrão AV/AA/Δ/Δ%/Δi (skill `bi-nomenclatura`). Alimenta também
+    origem, com o nome de negócio mais curto e o comparativo entre parênteses:
+    (AV), (AA), (Δ), (Δ%), (Δi) (skill `bi-nomenclatura`). Alimenta também
     os filtros e os visuais do Canvas 2.
 11. **Cronograma & Esforço** — só da **Fundação** (ETL, modelagem e
     governança): início, entrega, horas, responsáveis e status. A construção
@@ -64,11 +65,16 @@ Duas etapas, mais um cronograma calculado:
 
 ## Taxonomia
 
-| Tabela | Prefixo físico | Papel |
-|---|---|---|
-| Fato | `TabFat` | Eventos e transações |
-| Dimensão | `TabDim` | Entidades para filtrar e agrupar |
-| Monolítica | `TabFlt` | Tudo numa estrutura; protótipo, legado ou escopo simples |
+| Tabela | Prefixo no SQL | Grupo no Power Query | Nome no modelo | Papel |
+|---|---|---|---|---|
+| Fato | `TabFat` | Fatos | Plural de negócio (`Vendas`) | Eventos e transações |
+| Dimensão | `TabDim` | Dimensões | Singular de negócio (`Cliente`) | Entidades para filtrar e agrupar |
+| Ponte | `TabPon` | Pontes | As duas entidades (`Cliente Produto`) | Resolve muitos-para-muitos |
+| Monolítica | `TabFlt` | Monolíticas | Negócio + recorte (`Vendas Camisetas`) | Tudo numa estrutura; protótipo, legado ou escopo simples |
+| Interna | — | Internas | Função (`Atualização`, `Dicionário`) | Apoio ao relatório; oculta |
+
+O prefixo fica na camada física (SQL). No modelo semântico o papel é dado pelo
+grupo de consultas, e o nome é de negócio (skill `bi-nomenclatura`).
 
 | Campo | Papel |
 |---|---|
@@ -155,8 +161,9 @@ só um dos dois no Power BI.
 
 Ao inspecionar um modelo (TMDL, MCP do Power BI, print ou PDF), avalie:
 
-1. Cada tabela se comporta como Fato, Dimensão ou Monolítica, e o nome físico
-   reflete isso? Sinalize `TabFatDados`, `TabFatBase`.
+1. Cada tabela se comporta como Fato, Dimensão, Ponte, Monolítica ou Interna,
+   está no grupo de consultas correspondente e tem nome de negócio? Sinalize
+   nomes genéricos (`Dados`, `Base`) e prefixo técnico no modelo (`TabFatVendas`).
 2. Chaves e colunas técnicas ocultas?
 3. Chave substituta inteira nos relacionamentos fato-dimensão?
 4. Tabela monolítica usada em várias páginas com fan-out? Recomende estrela.
@@ -164,5 +171,6 @@ Ao inspecionar um modelo (TMDL, MCP do Power BI, print ou PDF), avalie:
 6. Descritores com sumarização numérica? Troque para "Não resumir".
 7. Tipo de segmentação compatível com o tipo de dado (Matriz 1)?
 8. Prefixo técnico exposto em objeto visível?
-9. Medidas com nome amigável, contagem com `#`, comparativo em AV/AA/Δ/Δ%/Δi?
+9. Medidas com o nome de negócio mais curto, sem "Total", contagem com `#`,
+   comparativo no formato `Faturado (AV)`, `(AA)`, `(Δ)`, `(Δ%)`, `(Δi)`?
 10. Sem especificação? Recomende montar um Canvas retroativo, ao menos para handoff.

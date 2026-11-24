@@ -35,6 +35,10 @@ dimensões:
 - Cor só com significado. Teste para daltonismo.
 - Cartões e títulos (tamanho de fonte, `maxTiles`, unidades, título por tipo
   de visual, `displayName`): `references/cartoes-e-titulos.md`.
+- **Rótulo do campo encurtado pelo contexto**, só no visual: `Nome do Cliente`
+  vira `Cliente`, `Latitude do Município` vira `Latitude` no mapa, `Faturado
+  (AV)` vira `AV` numa matriz intitulada "Faturado" (princípio e cenários em
+  `bi-nomenclatura`, seção 6).
 - **Exibir unidades = Nenhum em todo visual cabível** (sem "mil", "mi" ou "bi"),
   inclusive o valor central da rosca: `references/exibir-unidades-nenhum.md`.
 - **Segmentações no padrão** (cabeçalho, fundo e borda desligados; texto em
@@ -58,9 +62,11 @@ dimensões:
 - Eixo truncado em barras, 3D, arco-íris em dado ordenado, empilhado com mais
   de 3 séries, mais de uma linha sobre colunas em combo.
 - Mapa só porque existe campo geográfico. Use mapa quando a geografia **é** o insight.
-- Visual Q&A: a Microsoft anunciou a descontinuação (remoção prevista para
-  dez/2026 na data desta base). Indique Copilot. Confirme o status na
+- Visual Q&A: as experiências de Q&A saem em **fevereiro de 2027** (adiado de
+  dez/2026; conferido em 24/11/2026). Indique Copilot. Confirme o status na
   documentação antes de afirmar datas.
+- Visuais R e Python: descontinuados em **maio de 2027**; não crie novos
+  (`references/catalogo-visuais.md`).
 
 ## Referência rápida
 

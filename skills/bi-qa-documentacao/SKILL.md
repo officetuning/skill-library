@@ -23,11 +23,11 @@ DEFINE
     /// Exclui pedidos cancelados e devoluções.
     /// Retorna BLANK() quando não há vendas no período filtrado.
     /// Usada nos KPIs comerciais e financeiros.
-    MEASURE Vendas[Total de Vendas Líquidas] =
-        SUM ( Vendas[Valor Líquido] )
+    MEASURE Vendas[Faturado Líquido] =
+        SUM ( Vendas[Valor Líquido da Venda] )
 
 EVALUATE
-    ROW ( "Total de Vendas Líquidas", [Total de Vendas Líquidas] )
+    ROW ( "Faturado Líquido", [Faturado Líquido] )
 ```
 
 Depois, execute **Atualizar modelo com alterações** (CodeLens acima do
@@ -40,8 +40,11 @@ Explorer, no painel Dados, no tooltip do campo e no TMDL.
   onde é usada. Pense no próximo dev e no Copilot.
 - Não repita a fórmula na descrição. Nada de "Calcula vendas" ou "Medida de teste".
 - Fórmula mudou → descrição muda junto.
-- A tabela no `MEASURE` é a tabela semântica visível (`Vendas`), e as colunas
-  usam o nome semântico (`[Valor Líquido]`), nunca o físico (skill `bi-nomenclatura`).
+- A tabela no `MEASURE` é a tabela de negócio onde a medida mora (`Vendas`, sem
+  prefixo e sem uma tabela única "Medidas"), e as colunas usam o nome semântico
+  (`[Valor Líquido da Venda]`), nunca o físico (skill `bi-nomenclatura`).
+- A descrição também é lida pelo Copilot e pelo *Prep data for AI*: escreva para
+  quem não conhece o modelo, com o termo de negócio que o usuário vai perguntar.
 
 [DAX Query View](https://learn.microsoft.com/pt-br/power-bi/transform-model/dax-query-view)
 
@@ -61,7 +64,7 @@ Na camada 3, acrescente as sete checagens baratas que já pegaram erro real
 (título ligado sem texto, `visualTooltip.section` para página inexistente,
 chave de drillthrough fora das páginas principais, posições não inteiras e
 outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`. As
-checagens 8 a 17 (unidades, segmentações, navegador, ordem das páginas,
+checagens 8 a 18 (unidades, segmentações, navegador, ordem das páginas,
 dicionário, Dica, texto alternativo, campo do modelo antigo no `.Report` e
 qualquer unidade diferente de `1D`): `references/checagens-adicionais.md`.
 Texto alternativo e ordem de tabulação no PBIR (regra 7.11 `ENSURE_ALTTEXT`):
@@ -81,7 +84,7 @@ Killer. Versione o arquivo de regras e ajuste `paramMaxAllowedPageHeight` para
 - Versionar o arquivo de regras do BPA no repositório.
 - Falhar o pipeline em regra de severidade Alta.
 - Regenerar o dicionário de dados (`.docx`) a cada mudança de modelo publicada.
-- Incluir o dicionário no modelo (`TabIntDicionário`) e a tabela na página
+- Incluir o dicionário no modelo (tabela `Dicionário`, grupo Internas) e a tabela na página
   Sobre no checklist de publicação: `references/dicionario-de-dados.md`.
 
 **Como o Tabular Editor 2 falha o pipeline:** não existe opção

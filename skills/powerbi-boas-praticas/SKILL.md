@@ -53,8 +53,16 @@ description: Auditoria e boas práticas de modelo semântico e relatório Power 
   vez de `FILTER` sobre a tabela inteira.
 - Medida explícita para toda métrica. Colunas de fato e FKs ocultas.
   `SummarizeBy = None` em IDs, anos e códigos. Format string em toda medida visível.
-- Prefixo técnico na camada física, nome de negócio na semântica (skill
-  `bi-nomenclatura`).
+- Tabela do modelo com nome de negócio e papel no grupo de consultas; prefixo
+  técnico só no SQL e nas consultas não carregadas; coluna e medida com nome
+  amigável, chaves ocultas (skill `bi-nomenclatura`).
+- Medidas na tabela a que pertencem, organizadas por pasta de exibição; **sem
+  tabela única de medidas**.
+- Calendário vindo da fonte; sem ela, criado em **Power Query** (tabela
+  calculada em DAX só em último caso), contíguo, `dataCategory: Time`, meses
+  com `sortByColumn`.
+- `discourageImplicitMeasures` ligado; coluna que alimenta medida oculta.
+- Descrição em toda tabela, coluna e medida visível.
 
 **Preferir**
 - Transformação pesada na fonte. `RELATED` em coluna calculada vira merge no
@@ -66,6 +74,8 @@ description: Auditoria e boas práticas de modelo semântico e relatório Power 
 
 **Evitar**
 - `IFERROR` para esconder causa. Medida duplicada ou medida que só repete outra.
+- Tabela solta sem relacionamento, salvo utilitária e documentada (4.3).
+- Chave composta em relacionamento; chave substituta criada na fato.
 - Relacionamento inativo que nenhuma medida ativa.
 - Mais de 20 visuais por página ou mais de 6 campos num visual.
 - Página com rolagem vertical. A página padrão é Full HD (1920 × 1080).
@@ -88,6 +98,10 @@ description: Auditoria e boas práticas de modelo semântico e relatório Power 
   *Information Dashboard Design*, de Stephen Few. Nenhuma ferramenta pontua
   essas regras.
 - A severidade de relatório segue a do Measure Killer.
+- "Regras que valem sempre" incorpora a orientação de modelagem da skill oficial
+  da Microsoft para agentes
+  ([`semantic-model-authoring/modeling-guidelines.md`](https://github.com/microsoft/skills-for-fabric/blob/main/skills/semantic-model-authoring/references/modeling-guidelines.md),
+  MIT; conferida em 24/11/2026).
 
 ## Limites padrão das regras de relatório
 

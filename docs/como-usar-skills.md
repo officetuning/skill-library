@@ -6,7 +6,8 @@
 > idioma da sua conta.
 
 As skills do **Data Analyst Advisor** ensinam a IA a trabalhar do jeito
-OfficeTuning: nomenclatura `TabDim`/`TabFat`, comparativo AV/AA/Δ, Query
+OfficeTuning: nomenclatura alinhada ao padrão oficial da Microsoft (prefixo no
+SQL, nome de negócio no modelo), comparativo `Faturado (AV)`/`(AA)`/`(Δ)`, Query
 Folding, as 90 regras de boas práticas, grid de 8 px, QA de PBIP e dashboard
 HTML com IA. Elas ficam no repositório público [officetuning/skill-library](https://github.com/officetuning/skill-library).
 
@@ -49,7 +50,7 @@ conversão.
 | `powerbi-detalhe-dica` | Página de detalhe (drillthrough), tooltip page, medida "você está vendo" |
 | `powerbi-boas-praticas` | Modelo lento, revisão de DAX, revisão de relatório, as 90 regras e a severidade de cada uma |
 | `power-query-m` | Query Folding, refresh lento no ETL, função M, Incremental Refresh |
-| `bi-nomenclatura` | Nome de tabela, coluna e medida; AV/AA/Δ/Δ%/Δi |
+| `bi-nomenclatura` | Nome de tabela, grupo de consultas, coluna e medida; (AV)/(AA)/(Δ)/(Δ%)/(Δi) |
 | `data-storytelling` | Mensagem principal, Big Idea, poluição visual |
 | `dashboard-canvas` | Briefing, os 12 blocos, 5W2H |
 | `dashboard-layout` | Wireframe, grid 8 px, Background Builder |

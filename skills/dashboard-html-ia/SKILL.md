@@ -79,8 +79,8 @@ quando a regra de negócio precisa ser única para todos.
   (`data-storytelling`).
 - 3 a 5 KPIs no topo, 1 gráfico protagonista, 1 de apoio, tabela de detalhe.
   Filtros no cabeçalho, no mesmo lugar em todas as páginas.
-- Comparativo com a convenção **AV / AA / Δ / Δ%** de `bi-nomenclatura`, com AA
-  nos **mesmos meses** do AV.
+- Comparativo com a convenção **(AV) / (AA) / (Δ) / (Δ%)** de `bi-nomenclatura`
+  (ex.: `Receita (AV)`), com (AA) nos **mesmos meses** do (AV).
 - Espaçamento em múltiplos de 8 px; cores como tokens em `:root` (copie
   `dataColors` do tema `.json` do Background Builder para manter a identidade).
 - Modo escuro por `prefers-color-scheme` e estilo de impressão.
@@ -156,7 +156,7 @@ Depois:
 - Embuta os dados agregados em <script type="application/json" id="dados">
   com meta: fonte, data dos dados, linhas e total de controle.
 - Rodapé confere o total do painel contra o total de controle.
-- Formato pt-BR (R$, 1.234,56, dd/mm/aaaa); comparativo AV/AA/Δ%.
+- Formato pt-BR (R$, 1.234,56, dd/mm/aaaa); comparativo no formato `Faturado (AV)`, `(AA)`, `(Δ%)`.
 - Título como conclusão, calculado a partir dos números.
 - Texto dos dados com textContent; acessível; responsivo; modo escuro.
 - Chart.js com versão fixa; se não carregar, KPIs e tabela continuam.
@@ -195,7 +195,7 @@ Depois:
 | Mensagem principal, título-conclusão, poluição visual | `data-storytelling` |
 | Qual gráfico, pizza × barras | `powerbi-visuais` |
 | Grid 8 px, paleta Accent/Navy, fuso de "última atualização" | `dashboard-layout` |
-| Nome de KPI e AV/AA/Δ/Δ% | `bi-nomenclatura` |
+| Nome de KPI e comparativo (AV), (AA), (Δ), (Δ%) | `bi-nomenclatura` |
 
 ## Fontes
 

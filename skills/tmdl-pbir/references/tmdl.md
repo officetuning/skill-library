@@ -29,18 +29,19 @@ definition/
 ## Linguagem
 
 ### Declaração e propriedades
-- `<tipo TOM> <nome>`; aspas simples se o nome tiver `.`, `=`, `:`, `'` ou espaço.
+- `<tipo TOM> <nome>`; aspas simples se o nome tiver `.`, `=`, `:`, `'` ou
+  espaço. Acento não exige aspas (`table Calendário`).
 - `propriedade: valor`. Aspas duplas em texto são opcionais, obrigatórias com
   espaço no início ou fim; aspas duplas internas duplicadas `""`.
 - Booleano: `isHidden` sozinho equivale a `isHidden: true`.
 
 ```tmdl
-table Sales
-    measure 'Sales Amount' =
-            var result = SUMX ( Sales, Sales[Quantity] * Sales[Net Price] )
-            return result
-        formatString: $ #,##0
-        displayFolder: " My ""Amazing"" Measures"
+table Vendas
+    measure 'Faturado (AV)' =
+            VAR vResultado = SUMX ( Vendas, Vendas[Quantidade] * Vendas[Preço Líquido] )
+            RETURN vResultado
+        formatString: R$ #,##0
+        displayFolder: " Medidas ""Principais"""
 ```
 
 ### Objetos filhos
@@ -98,29 +99,30 @@ Serialização em camelCase; leitura sem diferenciar maiúsculas e minúsculas.
 ```tmdl
 createOrReplace
 
-    ref table Sales
-        measure '# Products (with Sales)' = DISTINCTCOUNT ( Sales[ProductKey] )
+    ref table Vendas
+        measure '# Produtos Vendidos' = DISTINCTCOUNT ( Vendas[Código do Produto] )
             formatString: #,##0
 
-    table Product
+    table Produto
 
-        measure '# Products' = COUNTROWS ( Product )
+        measure '# Produtos' = COUNTROWS ( Produto )
             formatString: #,##0
 
-        column Product
+        column 'Nome do Produto'
             dataType: string
             isDefaultLabel
             summarizeBy: none
-            sourceColumn: Product
+            sourceColumn: Nome do Produto
 
-        partition Product-partition = m
+        partition Produto = m
             mode: import
+            queryGroup: Dimensões
             source =
                 let
-                    Source = #"RAW-Product",
-                    #"Renamed Columns" = Table.RenameColumns(Source, {{"Product Name", "Product"}})
+                    Origem = CnsProdutoTratado,
+                    Renomeado = Table.RenameColumns(Origem, {{"NomeProduto", "Nome do Produto"}})
                 in
-                    #"Renamed Columns"
+                    Renomeado
 ```
 
 - Um verbo por script.
@@ -153,7 +155,7 @@ using (var server = new Microsoft.AnalysisServices.Tabular.Server())
 }
 
 // Serializar um objeto só
-var texto = TmdlSerializer.SerializeObject(model.Tables["Product"].Columns["ProductKey"], qualifyObject: true);
+var texto = TmdlSerializer.SerializeObject(model.Tables["Produto"].Columns["Código do Produto"], qualifyObject: true);
 ```
 
 `MetadataSerializationContext` (namespace

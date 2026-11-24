@@ -1,4 +1,4 @@
-# Regenerar o fundo sem quebrar o relatório (acrescentar a `background-builder-ciclo.md`)
+# Regenerar o fundo sem quebrar o relatório
 
 Lições de regenerar os PNGs depois de mudar identidade, ordem de páginas ou
 nome. **[verificado]** = visto em arquivo gravado pelo Desktop ou na saída do

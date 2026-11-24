@@ -1,6 +1,6 @@
 # Padrões de código M
 
-## Função documentada com `Value.ReplaceType`
+## Função documentada com `Value.ReplaceType` (forma completa)
 
 Funções documentadas assim aparecem no Power Query Editor com nome, descrição
 e exemplo para qualquer pessoa que as reutilize.
@@ -8,21 +8,23 @@ e exemplo para qualquer pessoa que as reutilize.
 ```m
 let
     // Implementação
-    FnCalcularMargem = (receita as number, custo as number) as nullable number =>
+    Financeiro.Margem = (receita as number, custo as number) as nullable number =>
         if receita = 0 then null else (receita - custo) / receita,
 
     // Metadados de documentação
-    FnCalcularMargemTipo = type function (
+    vTipo = type function (
         receita as (type number meta [
             Documentation.FieldCaption = "Receita",
-            Documentation.FieldDescription = "Valor total da receita, antes de deduzir o custo"
+            Documentation.FieldDescription = "Receita do período, antes de deduzir o custo",
+            Documentation.SampleValues = {1000}
         ]),
         custo as (type number meta [
             Documentation.FieldCaption = "Custo",
-            Documentation.FieldDescription = "Valor total do custo associado à receita"
+            Documentation.FieldDescription = "Custo associado à mesma receita",
+            Documentation.SampleValues = {600}
         ])
     ) as nullable number meta [
-        Documentation.Name = "FnCalcularMargem",
+        Documentation.Name = "Financeiro.Margem",
         Documentation.Description = "Calcula a margem percentual a partir de receita e custo.",
         Documentation.LongDescription = "Retorna (receita - custo) / receita. Retorna null quando a receita é zero.",
         Documentation.Category = "Financeiro",
@@ -31,16 +33,19 @@ let
         Documentation.Examples = {
             [
                 Description = "Receita 1000, custo 600 → margem de 40%",
-                Code = "FnCalcularMargem(1000, 600)",
+                Code = "Financeiro.Margem(1000, 600)",
                 Result = "0.4"
             ]
         }
     ]
 in
-    Value.ReplaceType(FnCalcularMargem, FnCalcularMargemTipo)
+    Value.ReplaceType(Financeiro.Margem, vTipo)
 ```
 
-Nome da consulta: `FnCalcularMargem` (prefixo `Fn`, ver skill `bi-nomenclatura`).
+Nome da consulta: `Financeiro.Margem`, no grupo Funções (padrão `Grupo.Acao`,
+ver `references/funcoes-personalizadas-m.md`). `Documentation.AllowedValues =
+{...}` num parâmetro troca a caixa de texto por lista suspensa na janela de
+invocação.
 
 ## Tratamento de erro auditável
 

@@ -124,7 +124,7 @@ Baseado nos princípios de Stephen Few e na documentação Microsoft Learn.
 
 ```dax
 Subtítulo Receita =
-VAR vVariacao = [Δ% Total de Vendas]
+VAR vVariacao = [Faturado (Δ%)]
 RETURN
     IF (
         ISBLANK ( vVariacao ),
@@ -196,7 +196,13 @@ saída sai com o separador da localidade (vírgula em pt-BR). Teste no Service.
   botão (padrão, hover, pressionado); oculte as abas e use navegação própria.
 - **Imagem:** logo; imagem dinâmica com coluna em Categoria de Dados = URL da Imagem.
 - **Relatório paginado:** layout pixel-perfect para impressão e PDF.
-- **Visuais R e Python:** estatística avançada; interatividade limitada.
+- **Visuais R e Python:** ⚠️ **descontinuados em maio de 2027**
+  ([fonte](https://learn.microsoft.com/power-bi/create-reports/script-visuals-overview#retirement-of-r-and-python-visuals)).
+  No Service param de funcionar, inclusive em relatório já publicado; não crie
+  novos. Para achar os existentes no PBIR, procure `visualType` igual a
+  `scriptVisual` (R) ou `pythonVisual` (checagem 18 da `bi-qa-documentacao`;
+  visuais personalizados que usam R não aparecem nessa busca). Substitua por
+  visual nativo, visual personalizado ou o cálculo no Power Query.
 
 ---
 
@@ -218,8 +224,8 @@ de negócio, não enfeita.
 DAX no próprio visual, sem contexto de filtro do modelo.
 
 ```dax
-Total Acumulado = RUNNINGSUM ( [Receita Total] )
-% do Total = DIVIDE ( [Receita Total], COLLAPSE ( [Receita Total], ROWS ) )
+Total Acumulado = RUNNINGSUM ( [Receita] )
+% do Total = DIVIDE ( [Receita], COLLAPSE ( [Receita], ROWS ) )
 ```
 [Docs](https://learn.microsoft.com/pt-br/power-bi/transform-model/desktop-visual-calculations-overview)
 
