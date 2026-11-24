@@ -93,6 +93,25 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.2.1 (24/11/2026)
+
+Correções vindas do uso do Background Builder, junto com o Builder 1.034.
+
+- **Aspas simples em DAX:** a medida `Data da Última Atualização` gerada pelo
+  Builder até a 1.033 usava `Atualização[...]` sem aspas e dava erro por causa
+  do `ç`. Regra da casa na `bi-nomenclatura`: em DAX, toda tabela entre aspas
+  simples (`'Atualização'[...]`). A `tmdl-pbir` agora deixa claro que "acento
+  não exige aspas" vale só para a declaração TMDL, não para a fórmula DAX.
+  `dashboard-layout` traz a correção para quem usou o 1.033, e a
+  `background-builder-automacao` confere as aspas no `Script.TMDL`.
+- **Card de última atualização:** fonte 12, valor centralizado e rótulo
+  desligado.
+- **Página Sobre:** Equipe Técnica com nomes (Idealização, Especificação de
+  Negócio, Realização; `especificacaoNegocio` passa a 300 caracteres na Ficha);
+  Dicionário de Dados como visual Tabela com Campo/Medida, Tipo de Dados, Tipo
+  (Campo, Campo Calculado, Medida), Tabela e Descrição; Versão e Data em caixas
+  de texto Segoe UI Semibold 12, centralizadas (`1.001`, `Ter 24/11/2026`).
+
 ### 2.2.0 (24/11/2026)
 
 Nova skill **`calendario-inteligencia-tempo`**: inteligência de tempo a partir

@@ -31,7 +31,7 @@ DEFINE
     /// @param {INT64} [n] - Quantidade de clientes; padrão 10
     FUNCTION Vendas.TopClientesMedida =
         ( medida : MEASUREREF, n : INT64 = 10 ) =>
-            SUMX ( TOPN ( n, VALUES ( Cliente[Nome do Cliente] ), medida ), medida )
+            SUMX ( TOPN ( n, VALUES ( 'Cliente'[Nome do Cliente] ), medida ), medida )
 
     /// Aceita qualquer expressão escalar: o CALCULATE garante a transição
     /// de contexto em cada cliente.
@@ -40,14 +40,14 @@ DEFINE
     FUNCTION Vendas.TopClientes =
         ( valorExpr : SCALAR EXPR, n : INT64 = 10 ) =>
             SUMX (
-                TOPN ( n, VALUES ( Cliente[Nome do Cliente] ), CALCULATE ( valorExpr ) ),
+                TOPN ( n, VALUES ( 'Cliente'[Nome do Cliente] ), CALCULATE ( valorExpr ) ),
                 CALCULATE ( valorExpr )
             )
 
 EVALUATE
     ROW (
         "Top 10 (medida)", Vendas.TopClientesMedida ( [Faturado] ),
-        "Top 5 (expressão)", Vendas.TopClientes ( SUM ( Vendas[Valor da Venda] ), 5 )
+        "Top 5 (expressão)", Vendas.TopClientes ( SUM ( 'Vendas'[Valor da Venda] ), 5 )
     )
 ```
 

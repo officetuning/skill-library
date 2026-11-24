@@ -131,7 +131,7 @@ medida-base sem sufixo. Use o símbolo literal.
 | `(Δi)` | Farol: ✔️ positivo │ ⚠️ estável │ ❗ negativo | `Faturado (Δi)` |
 
 ```dax
-Faturado (AV) = SUM ( Vendas[Valor da Venda] )
+Faturado (AV) = SUM ( 'Vendas'[Valor da Venda] )
 
 Faturado (AA) =
 CALCULATE ( [Faturado (AV)], SAMEPERIODLASTYEAR ( 'Calendário'[Data] ) )
@@ -182,11 +182,16 @@ lado de `Cidade da Loja`) ou quando o nome curto colide com outro campo
 
 | Linguagem | Quando | Exemplo |
 |---|---|---|
-| DAX | Nome de tabela com espaço, acento ou caractere especial | `'Calendário'[Data]`, `'Cliente Produto'[Peso]` |
+| DAX | **Sempre** no nome da tabela (regra da casa); obrigatório com espaço, acento (`ç`, `ã`, `é`...) ou caractere especial | `'Calendário'[Data]`, `'Atualização'[Momento da Última Atualização]`, `'Vendas'[Valor]` |
 | M | Nome de **consulta** com espaço ou acento | `#"Calendário"`; campo entre colchetes dispensa: `[Data da Venda]` |
 | TMDL | Só com espaço, `.`, `=`, `:` ou `'` (acento não exige) | `table Calendário`, `measure 'Faturado (AV)'` |
 
-Sem aspas onde elas são exigidas, a fórmula dá erro.
+Sem aspas onde elas são exigidas, a fórmula dá erro: `MAX ( Atualização[Momento da Última Atualização] )`
+não roda; `MAX ( 'Atualização'[Momento da Última Atualização] )` roda. Em DAX
+use aspas simples em **toda** referência a tabela, mesmo sem acento: o padrão
+único evita o erro quando a tabela é renomeada. A regra de TMDL vale só para a
+**declaração** (`table Atualização`); a fórmula DAX dentro do TMDL segue a
+regra de DAX.
 
 ## 8. Nomes e IA (Copilot)
 
@@ -207,4 +212,4 @@ tela **Prep data for AI**.
 5. Medida curta, sem "Total", sem colidir com tabela ou coluna, com `///`?
 6. Comparativo com `(AV)` e `(AA)` e as variações entre parênteses?
 7. Rótulo do visual encurtado pelo contexto, sem mexer no modelo?
-8. Aspas certas em DAX, M e TMDL?
+8. Aspas certas em DAX, M e TMDL? Em DAX, toda tabela entre aspas simples?

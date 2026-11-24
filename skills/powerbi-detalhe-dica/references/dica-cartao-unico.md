@@ -5,7 +5,7 @@ em arquivo gravado pelo Desktop.
 
 ## Obrigatório
 - **Um único `cardVisual`** com o **título ligado a uma medida de seleção**
-  (`title.text.expr.Measure`, medida `SELECTEDVALUE ( Dim[Campo], "-" )` na pasta
+  (`title.text.expr.Measure`, medida `SELECTEDVALUE ( 'Dim'[Campo], "-" )` na pasta
   Seleção) e o corpo só com **medidas numéricas** (indicadores).
 - Layout **Grade** (`orientation 0D`), `autoGrid true`, `columnCount` e
   `maxTiles` iguais ao número de indicadores, `rowCount 1` (ou N linhas se a

@@ -23,8 +23,8 @@ DEFINE
     /// Exclui pedidos cancelados e devoluções.
     /// Retorna BLANK() quando não há vendas no período filtrado.
     /// Usada nos KPIs comerciais e financeiros.
-    MEASURE Vendas[Faturado Líquido] =
-        SUM ( Vendas[Valor Líquido da Venda] )
+    MEASURE 'Vendas'[Faturado Líquido] =
+        SUM ( 'Vendas'[Valor Líquido da Venda] )
 
 EVALUATE
     ROW ( "Faturado Líquido", [Faturado Líquido] )
