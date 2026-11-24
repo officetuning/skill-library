@@ -28,7 +28,7 @@ contrato.
 | `<Projeto> - Dica de Ferramenta.png` | Uma dica escolhida: nome simples |
 | `<Projeto> - Dica de Ferramenta - <Uso> (<L>x<A>).png` | Duas ou três dicas: nome completo, ex.: `Visual único (320x240)`, `Vários visuais (400x304)`, `Mini relatório (600x456)` |
 | `<Projeto> - Tema.json` | Tema do relatório (paleta, sentimento, divergentes, fundo da página) |
-| `<Projeto> - Script.TMDL` | Tabelas `TabIntAtualização`, `TabDimCalendário` e `TabIntMedida` |
+| `<Projeto> - Script.TMDL` | Tabelas de atualização e calendário e as medidas do cabeçalho (nomes: seção "Script TMDL") |
 | `<Projeto> - Background Builder.md` | Ficha Técnica com o JSON completo do projeto |
 | `Leiame.md` | Guia de montagem em 13 passos + aviso de direitos |
 | `Icones-Estatisticos/svg` e `/png` | Soma, Média, Mediana, Mínimo, Máximo, Desvio Padrão, Variância |
@@ -68,9 +68,9 @@ contrato.
 | Slot | Posição e tamanho | Conteúdo |
 |---|---|---|
 | Ícone de relógio | (1696, 48) 24×32 | Só ícone, sem rótulo escrito |
-| Última atualização | (1728, 48) 160×32 | Card transparente com a medida `[Atualização]`; só o valor visível |
+| Última atualização | (1728, 48) 160×32 | Card transparente com a medida `[Última Atualização]`; só o valor visível |
 | Ícone de olho (Detalhe) | (1200, 48) 24×32 | Só ícone, sem rótulo "Você está vendo:" escrito |
-| Seleção (Detalhe) | (1232, 48) 496×32 | Card com `[VocêEstáVendo]` ou a medida de seleção |
+| Seleção (Detalhe) | (1232, 48) 496×32 | Card com a medida de seleção (`Você Está Vendo` especializada) |
 | Voltar (Detalhe) | (1744, 40) 144×48 | Botão Voltar |
 
 A página Detalhe **não** leva o card de última atualização.
@@ -194,41 +194,43 @@ Campos do JSON que ajudam a diagnosticar um projeto:
 9. Filtros na barra lateral (seção acima).
 10. Cards nativos do cabeçalho (slots acima).
 11. Versão e Data da Versão como caixa de texto manual no cartão Versão da Sobre.
-12. Script TMDL e medida `[Atualização]` (bug de fuso, abaixo).
-13. Personalizar `[VocêEstáVendo]` e colocá-la no card da Detalhe.
+12. Script TMDL e medida `[Última Atualização]` (bug de fuso, abaixo).
+13. Especializar `[Você Está Vendo]` como `<Campo> Selecionado(a)` e colocá-la no card da Detalhe.
 
 ## Script TMDL e bug de fuso horário
 
 `TODAY()`/`NOW()` usam o fuso local no Desktop e **UTC no Service**: perto da
 virada do dia em Brasília o relatório acusa "desatualizado" com o refresh em dia.
 
-O script (`createOrReplace`, colar na exibição TMDL e Aplicar; depois Atualizar)
-cria, no grupo de consultas **Internas**:
+### Padrão de nomes e de estrutura (2.0.0)
 
-1. **`TabIntAtualização`** (oculta): uma linha com o momento do refresh,
-   capturado no **Power Query** já em hora local
-   (`DateTimeZone.SwitchZone(DateTimeZone.UtcNow(), -3, 0)`), não em DAX.
-2. **`TabDimCalendário`** (tabela calculada): colunas de ano, semestre,
-   trimestre, mês, semana, quinzena, dia da semana, fim de semana, estação
-   (com cor) e hemisfério, com nomes traduzidos pela localidade. Período fixo
-   (5 anos até o fim do ano atual) ou flexível pelas datas das fatos.
-   ⚠️ Exige **um refresh manual** da tabela depois do script; sem ele, fica com
-   0 linhas.
-3. **`TabIntMedida`** (desconectada):
-   - `Idioma do Projeto`: código de localidade (`"pt-BR"`, `"en-US"`...),
-     **fonte única** de idioma, hemisfério, primeiro dia da semana e formato
-     de data. Manual de propósito.
-   - `Idioma do Usuário (Detectado)`: `USERCULTURE()`, só para exibir num
-     visual. O motor bloqueia `USERCULTURE()` em qualquer cadeia que alimente
-     tabela calculada; só personaliza de verdade em Premium/PPU/Embedded.
-   - `Hemisfério do Projeto`, `Primeiro Dia da Semana do Projeto`,
-     `Formato de Data`: derivadas da localidade.
-   - `Data Última Atualização` e `Atualização`: status ✔️ (hoje), ⚠️ (ontem),
-     ❗ (mais antigo), comparando com `UTCNOW() - TIME(3,0,0)`, + data no
-     formato do idioma. Pasta `Cabeçalho`.
-   - `VocêEstáVendo`: **medida-modelo** (devolve `BLANK()`) a personalizar com
-     `SELECTEDVALUE('SuaTabela'[SeuCampo], "vários itens")`. Pasta
-     `Detalhe/Drillthrough`. Ver `powerbi-detalhe-dica`.
+O padrão segue a orientação oficial de modelagem da Microsoft: tabela com nome
+de negócio, papel no grupo de consultas, medidas distribuídas pelas tabelas (sem
+tabela única de medidas) e calendário em Power Query.
+
+| Objeto | Grupo de consultas | Conteúdo |
+|---|---|---|
+| **`Atualização`** (oculta) | Internas | Uma linha com o momento do refresh, capturado no **Power Query** já em hora local (`DateTimeZone.SwitchZone(DateTimeZone.UtcNow(), -3, 0)`), não em DAX. Medidas `Data da Última Atualização` e `Última Atualização` (status ✔️ hoje, ⚠️ ontem, ❗ mais antigo, comparando com `UTCNOW() - TIME(3,0,0)`, + data no formato do idioma), pasta `Cabeçalho` |
+| **`Calendário`** | Dimensões | Tabela em **Power Query** (não calculada em DAX): ano, semestre, trimestre, mês, semana, quinzena, dia da semana, fim de semana, estação (com cor) e hemisfério, com nomes traduzidos pela localidade; período fixo (5 anos até o fim do ano atual) ou flexível pelas datas das fatos. `dataCategory: Time`, marcada como Tabela de Datas, meses com `sortByColumn`. Medidas `Idioma do Projeto`, `Idioma Detectado do Usuário` (`USERCULTURE()`, só para exibir; só personaliza de verdade em Premium/PPU/Embedded), `Hemisfério do Projeto`, `Primeiro Dia da Semana do Projeto`, `Formato de Data` |
+| **`Você Está Vendo`** | — | **Medida-modelo transitória** (devolve `BLANK()`), pasta `Seleção`. Ao definir o campo do Detalhe, renomeie para `<Campo> Selecionado(a)`, mova para a tabela do campo e escreva `SELECTEDVALUE ( coluna, "-" )`. Ver `powerbi-detalhe-dica` |
+
+`Idioma do Projeto` (código de localidade, `"pt-BR"`, `"en-US"`...) é a **fonte
+única** de idioma, hemisfério, primeiro dia da semana e formato de data. Manual
+de propósito.
+
+### Builder 1.031 e anteriores: nomes antigos
+
+O script atual do Builder ainda gera o padrão anterior. Ao montar um projeto,
+renomeie (e confira os visuais com a checagem 16 da `bi-qa-documentacao`):
+
+| Gerado pelo Builder 1.031 | Padrão 2.0.0 |
+|---|---|
+| `TabIntAtualização` | `Atualização` |
+| `TabDimCalendário` (tabela calculada em DAX; exige refresh manual depois do script, senão fica com 0 linhas) | `Calendário` (Power Query) |
+| `TabIntMedida` (tabela única de medidas) | medidas movidas para `Atualização` e `Calendário`; a tabela deixa de existir |
+| `[Atualização]` / `Data Última Atualização` | `[Última Atualização]` / `Data da Última Atualização` |
+| `Idioma do Usuário (Detectado)` | `Idioma Detectado do Usuário` |
+| `VocêEstáVendo` com `"vários itens"` | `Você Está Vendo`, especializada com `"-"` |
 
 Fora do Brasil, ajuste o offset -3 nos dois pontos marcados; com horário de
 verão, troque o deslocamento fixo por um fuso nomeado. Os nomes das colunas do
@@ -249,5 +251,5 @@ card de atualização no cabeçalho, barra lateral de filtros com cabeçalhos
 4. Páginas de corpo iguais às do Builder (nome e ordem) para o Navegador.
 5. Detalhe com o card da seleção personalizado (não `BLANK()`) e Voltar.
 6. Nenhum visual sobre os cantos de ilustração nem na faixa de marca.
-7. Card de última atualização ligado a `[Atualização]`, ausente na Detalhe.
-8. `TabDimCalendário` com linhas (refresh feito) e `Idioma do Projeto` correto.
+7. Card de última atualização ligado a `[Última Atualização]`, ausente na Detalhe.
+8. `Calendário` com linhas e `Idioma do Projeto` correto; nenhum nome antigo do Builder 1.031 (`TabInt…`, `TabDim…`, `VocêEstáVendo`) sobrando.

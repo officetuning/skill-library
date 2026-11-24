@@ -1,4 +1,4 @@
-# Dicionário de dados em todo projeto (acrescentar a `bi-qa-documentacao`)
+# Dicionário de dados em todo projeto
 
 Regra do autor: **todo projeto tem o dicionário de dados atualizado**. Em quatro
 projetos, só dois tinham; os outros dois não tinham a tabela nem as descrições
@@ -7,7 +7,7 @@ projetos, só dois tinham; os outros dois não tinham a tabela nem as descriçõ
 ## Obrigatório
 - **Toda tabela, coluna e medida com descrição (`///`).** O dicionário é gerado
   das descrições; sem elas, a linha sai vazia.
-- **Tabela `TabIntDicionário`** (estática) com 7 colunas: Tabela, Descrição da
+- **Tabela `Dicionário`** (grupo de consultas Internas, oculta) (estática) com 7 colunas: Tabela, Descrição da
   Tabela, Tipo (Medida ou Coluna), Nome, Fórmula DAX (em uma linha), Descrição,
   Tipo de Dados (Text, Integer, Number, Currency, Date). Sem relacionamentos.
 - **Tabela no nicho "Dicionário de Dados" da página Sobre** (fundo do Builder:
@@ -20,15 +20,15 @@ projetos, só dois tinham; os outros dois não tinham a tabela nem as descriçõ
 ## Como gerar
 1. Leia o modelo com o parser TMDL (`scripts/tmdl_parser.py`): descrições,
    expressões, `dataType` e `formatString`.
-2. Monte as linhas na ordem: tabela de medidas, calendário, tabelas de negócio,
-   dimensões, internas e, por último, o próprio dicionário (ele descreve a si
+2. Monte as linhas na ordem: fatos (com suas medidas), calendário e demais dimensões, pontes,
+   monolíticas, internas e, por último, o próprio dicionário (ele descreve a si
    mesmo; gere em **duas passadas**: crie o arquivo, releia o modelo, grave as
    linhas).
 3. Serialize como JSON, comprima (deflate) e grave em base64 no M:
    `Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("…",
    BinaryEncoding.Base64), Compression.Deflate)), type table [...])`, com
    renomeação para os nomes em português.
-4. Registre `ref table TabIntDicionário` no `model.tmdl`, e a tabela em
+4. Registre `ref table Dicionário` no `model.tmdl`, e a tabela em
    `PBI_QueryOrder` (grupo de consulta Internas).
 
 ## Armadilhas

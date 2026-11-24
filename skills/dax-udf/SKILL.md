@@ -12,7 +12,7 @@ compatibilidade **1702** ou superior.
 
 Antes de escrever uma função do zero, procure nas **UDFs da Biblioteca**
 ([officetuning.ai/biblioteca/udf](https://officetuning.ai/biblioteca/udf)): calendário,
-comparativo AV/AA/Δ (`Delta.*`), datas fiscais, feriados, texto, estatística.
+comparativo (AV)/(AA)/(Δ) (`Delta.*`), datas fiscais, feriados, texto, estatística.
 
 ## Fluxo de trabalho
 
@@ -46,9 +46,9 @@ EVALUATE
 
 | Regra | Padrão OfficeTuning |
 |---|---|
-| Nome da função | `Grupo.Acao` com ponto para agrupar: `Vendas.Margem`, `Delta.AA`, `Formato.Escala`. Sem espaço, sem ponto no início/fim, sem nome de função nativa ou palavra reservada |
-| Nome do parâmetro | camelCase, sem ponto. Parâmetro `EXPR` termina em `Expr` (`valorExpr`) para quem chama saber que será calculado dentro da função |
-| Documentação | `///` acima da função com `@param {TIPO} nome - descrição`, `[nome]` para opcional e `@returns`. Comentário `//` não aparece no IntelliSense |
+| Nome da função | `Grupo.Acao` com ponto para agrupar: `Vendas.Margem`, `Delta.AA`, `Formato.Escala`. **Sem acento** (a Microsoft só garante letras e dígitos, `_` e ponto; é a única exceção à regra de acento do modelo), sem espaço, sem ponto no início/fim nem ponto duplo, sem nome de função nativa ou palavra reservada. O mesmo padrão vale para função M (`power-query-m`) |
+| Nome do parâmetro | camelCase, sem acento, sem ponto. Parâmetro `EXPR` termina em `Expr` (`valorExpr`) para quem chama saber que será calculado dentro da função |
+| Documentação | `///` acima da função com `@param {TIPO} nome - descrição`, `[nome]` para opcional e `@returns`. Comentário `//` não aparece no IntelliSense. O parâmetro não tem descrição própria no modelo: o `@param` é a única documentação dele |
 | Tipo | O mais específico que resolve: o IntelliSense e a validação recusam o argumento errado já na chamada |
 | Teste | Todo exemplo traz um `EVALUATE` com o resultado esperado em comentário |
 
@@ -114,7 +114,8 @@ variações: `references/padroes-udf.md`.
 - Sem recursão (nem mútua), sem sobrecarga, sem tipo de retorno declarado.
 - Não dá para ocultar, colocar em pasta de exibição nem traduzir a função.
 - Não funciona em modelo sem tabelas.
-- Conexão dinâmica: medidas de relatório chamam a UDF, sem IntelliSense.
+- Conexão dinâmica: medidas de relatório chamam a UDF, sem IntelliSense, e as
+  UDFs do modelo de origem não aparecem no Model Explorer.
   Modelo composto: medidas do modelo local não chamam UDF do modelo de origem.
 - ⚠️ **OLS não passa para a função.** Não exponha objeto protegido em nome ou
   descrição de função.
@@ -128,8 +129,9 @@ variações: `references/padroes-udf.md`.
 EVALUATE INFO.USERDEFINEDFUNCTIONS ()   -- nome, expressão, estado, erro
 ```
 
-Metadados completos podem exigir permissão de escrita ou de administrador do
-modelo, conforme o host. `State = Error` + `ErrorMessage` mostram
+`INFO.USERDEFINEDFUNCTIONS` exige permissão de escrita. Com permissão só de
+leitura, `EVALUATE INFO.FUNCTIONS ( "ORIGIN", "2" )` lista as UDFs com
+metadados reduzidos. `State = Error` + `ErrorMessage` mostram
 função quebrada depois de renomear tabela ou coluna.
 
 ## Fontes

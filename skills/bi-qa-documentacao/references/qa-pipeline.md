@@ -70,7 +70,7 @@ Pré-requisitos: workspace com XMLA habilitado (Premium, PPU ou Fabric),
 ```powershell
 $servidor = "powerbi://api.powerbi.com/v1.0/myorg/StagingWorkspace"
 $banco    = "VendasAurora"
-$medidas  = @("Total de Vendas AV", "Ticket Médio", "Margem Bruta (%)", "Δ% Total de Vendas")
+$medidas  = @("Faturado (AV)", "Ticket Médio", "Margem Bruta (%)", "Faturado (Δ%)")
 $falhas   = @()
 
 foreach ($m in $medidas) {

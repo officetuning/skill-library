@@ -1,4 +1,4 @@
-# Exibir unidades = Nenhum nos visuais cabíveis (acrescentar a `powerbi-visuais`)
+# Exibir unidades = Nenhum nos visuais cabíveis
 
 Regra do autor: **todo visual onde cabe deve ter "Exibir unidades: Nenhum"**
 (sem "mil", "mi" ou "bi" abreviando valores). O valor gravado é
@@ -22,7 +22,7 @@ nuvem de palavras e visuais personalizados sem esse objeto. Não invente o nome.
 ## Obrigatório
 - Em visual novo, gravar `1D` desde a criação.
 - Excluir do cartão as medidas **de texto**: seleção (Categoria, UF, Conceito,
-  VocêEstáVendo, "… Selecionado") e a data de atualização.
+  `<Campo> Selecionado(a)`, "Você Está Vendo") e a data de atualização.
 
 ## Como auditar e corrigir (idempotente)
 1. Percorra todos os `visual.json` do relatório, por tipo.

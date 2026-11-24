@@ -41,8 +41,10 @@ const codigo = texto => texto.split("\n").map(l => new Paragraph({
   children: [new TextRun({ text: l || " ", font: "Consolas", size: 18 })],
 }));
 
-const papel = nome => nome.startsWith("TabFat") ? "Fato" : nome.startsWith("TabDim") ? "Dimensão"
-  : nome.startsWith("TabFlt") ? "Monolítica" : nome.startsWith("TabPon") ? "Ponte" : "A classificar";
+// Papel vem do extrair_modelo.py (grupo de consultas > prefixo antigo > relacionamentos).
+const papel = t => t.papel
+  ? (t.papel_origem && t.papel_origem !== "grupo de consultas" ? `${t.papel} (por ${t.papel_origem})` : t.papel)
+  : "A classificar";
 
 const filhos = [
   new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun(titulo)] }),
@@ -51,8 +53,8 @@ const filhos = [
   new Paragraph({ children: [new PageBreak()] }),
 
   new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun("Tabelas")] }),
-  tabela(["Tabela", "Papel", "Armazenamento", "Colunas", "Medidas"],
-    m.tabelas.map(t => [t.nome, papel(t.nome), t.modo, t.colunas.length, t.medidas.length]), [3, 2, 2, 1.3, 1.3]),
+  tabela(["Tabela", "Papel", "Grupo", "Armazenamento", "Colunas", "Medidas"],
+    m.tabelas.map(t => [t.nome, papel(t), t.grupo ?? "—", t.modo, t.colunas.length, t.medidas.length]), [2.6, 2.4, 1.8, 1.6, 1, 1]),
 ];
 
 for (const t of m.tabelas) {

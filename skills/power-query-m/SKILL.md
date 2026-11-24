@@ -1,6 +1,6 @@
 ---
 name: power-query-m
-description: Boas práticas de Power Query M no Power BI — Query Folding, consultas em camadas (Cns), Incremental Refresh com RangeStart/RangeEnd, função M documentada com Value.ReplaceType e tratamento de erro auditável. Use quando o usuário citar refresh lento pelo lado do ETL, "query folding", "exibir consulta nativa", função M, Table.Buffer, incremental refresh, erro na transformação ou consulta com passos demais. Não use para otimização do modelo semântico ou DAX (use powerbi-boas-praticas).
+description: Boas práticas de Power Query M no Power BI — Query Folding, consultas em camadas (Cns) e grupos de consultas por papel, Incremental Refresh com RangeStart/RangeEnd, funções personalizadas M (nome Grupo.Acao, padrão de código, documentação com Value.ReplaceType, uso, desempenho e teste) e tratamento de erro auditável. Use quando o usuário citar refresh lento pelo lado do ETL, "query folding", "exibir consulta nativa", função M, função personalizada, invocar função, grupo de consultas, Table.Buffer, incremental refresh, erro na transformação ou consulta com passos demais. Não use para otimização do modelo semântico ou DAX (use powerbi-boas-praticas).
 ---
 
 # Power Query M
@@ -24,12 +24,19 @@ sozinha.
 - Verificar Query Folding em toda consulta sobre fonte relacional. Perder o
   folding no meio faz a máquina local processar linha a linha, e o refresh sai
   de minutos para horas.
-- Nomear toda consulta de ETL com prefixo `Cns`, separando staging (não
-  carregada) de final (carregada). Nomes seguem a skill `bi-nomenclatura`.
+- Consulta **não carregada** com nome formal: `Cns` no preparo, `Lista` na
+  consulta que devolve lista, `Grupo.Acao` na função. Consulta **carregada** é a
+  tabela do modelo e leva nome de negócio (`Vendas`, `Cliente`). Nomes seguem
+  a skill `bi-nomenclatura`.
+- Toda consulta num **grupo de consultas** pelo papel: Funções, Parâmetros,
+  Internas, Dimensões, Fatos, Monolíticas, Pontes, Listas; o preparo fica no
+  subgrupo `<Grupo>/Preparo` (ex.: `Dimensões/Preparo`). O grupo vai para o
+  TMDL (`queryGroup`) e a documentação automática lê o papel dele.
 - Conferir no catálogo de funções (`references/funcoes-m.md`) antes de escrever
   uma transformação nova. Não invente função.
 - Documentar toda função reutilizável com metadados via `Value.ReplaceType`.
-  Nunca entregue função "nua".
+  Nunca entregue função "nua". Nome, padrão de código, documentação, uso,
+  desempenho e teste de funções: `references/funcoes-personalizadas-m.md`.
 - Corrigir erro na causa. Nunca mascare com `try ... otherwise` sem isolar as
   linhas descartadas.
 
@@ -77,11 +84,11 @@ Docs: [Query folding](https://learn.microsoft.com/pt-br/power-query/power-query-
 
 ## Padrão de camadas
 
-| Camada | Exemplo de nome | Carrega no modelo? | Faz |
-|---|---|---|---|
-| Staging | `CnsClienteStaging` | Não | Extração crua, 100% dobrável |
-| Tratamento | `CnsClienteTratado` | Não | Tipagem, renomeação, nulo, duplicata |
-| Final | `TabDimCliente` | Sim | Referencia o Tratamento |
+| Camada | Exemplo de nome | Grupo | Carrega no modelo? | Faz |
+|---|---|---|---|---|
+| Staging | `CnsClienteStaging` | `Dimensões/Preparo` | Não | Extração crua, 100% dobrável |
+| Tratamento | `CnsClienteTratado` | `Dimensões/Preparo` | Não | Tipagem, renomeação para o nome amigável, nulo, duplicata |
+| Final | `Cliente` | `Dimensões` | Sim | Referencia o Tratamento |
 
 Desmarque **Habilitar carregamento** em Staging e Tratamento. Vantagens: debug
 por camada, reuso do mesmo Staging por várias tabelas finais e isolamento da
@@ -107,7 +114,7 @@ Filtro na consulta, logo após a origem para dobrar:
 = Table.SelectRows(
     CnsVendaTratado,
     // >= em um lado e < no outro: evita linha duplicada entre partições
-    each [DataVenda] >= RangeStart and [DataVenda] < RangeEnd
+    each [Data da Venda] >= RangeStart and [Data da Venda] < RangeEnd
 )
 ```
 
@@ -119,6 +126,12 @@ Filtro na consulta, logo após a origem para dobrar:
 | Atualizar só períodos completos | Não reprocessa o dia corrente aberto |
 
 Docs: [Incremental refresh](https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview)
+
+## Aspas no M
+
+Consulta com espaço ou acento no nome se referencia com `#"..."`:
+`#"Calendário"`. Campo entre colchetes aceita espaço e acento sem aspas:
+`[Data da Venda]`. Renomear colunas não quebra o folding.
 
 ## Função documentada e tratamento de erro
 
@@ -132,7 +145,9 @@ Modelos prontos em `references/padroes-m.md`:
 - [ ] Consulta relacional com "Exibir Consulta Nativa" ativo até o passo mais tardio possível
 - [ ] Nenhum `Table.Buffer` no início de consulta
 - [ ] Camadas Staging → Tratamento → Final, com as duas primeiras sem carregamento
-- [ ] Consultas de ETL com prefixo `Cns`
+- [ ] Preparo com `Cns`, listas com `Lista`, funções em `Grupo.Acao`; consulta carregada com nome de negócio
+- [ ] Toda consulta no grupo do seu papel, preparo em `<Grupo>/Preparo`
+- [ ] Toda função com consulta de teste (`references/funcoes-personalizadas-m.md`)
 - [ ] `RangeStart`/`RangeEnd` em toda fato de volume relevante
 - [ ] Funções reutilizáveis documentadas com `Value.ReplaceType`
 - [ ] Nenhum `try ... otherwise` sem isolar as linhas afetadas

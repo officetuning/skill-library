@@ -31,7 +31,7 @@ Como: no Tabular Editor, `IsAvailableInMdx = false` em chaves e colunas técnica
 O motor avalia muito mais combinações na propagação de filtro.
 Como: relacionamento unidirecional; `CROSSFILTER` só na medida que precisa.
 ```dax
-CALCULATE ( [Vendas], CROSSFILTER ( Produtos[ID], Vendas[ProdutoID], BOTH ) )
+CALCULATE ( [Faturado], CROSSFILTER ( Produto[Código do Produto], Vendas[Código do Produto], BOTH ) )
 ```
 
 **1.4 — Reduza coluna calculada com `RELATED`** · 🟠
@@ -41,13 +41,22 @@ Como: traga a coluna no Power Query com `Table.NestedJoin` + `Table.ExpandTableC
 **1.5 — Star schema em vez de snowflake** · 🟠
 VertiPaq é otimizado para estrela; cadeias de dimensão pioram compressão e consulta.
 Como: achate Categoria → Subcategoria → Produto numa só dimensão no Power Query.
-❌ `Fato → Produto → Subcategoria → Categoria` · ✅ `Fato → DimProduto (todas as colunas)`
+❌ `Fato → Produto → Subcategoria → Categoria` · ✅ `Fato → Produto (todas as colunas)`
 
 **1.6 — Tabela de datas dedicada** · 🟠
 Sem ela, funções de inteligência temporal falham ou dão resultado inconsistente.
-Como: `CALENDAR()`/`CALENDARAUTO()` ou tabela importada, cobrindo todo o período, sem lacunas.
-```dax
-Calendario = CALENDAR ( DATE ( 2020, 1, 1 ), DATE ( 2026, 12, 31 ) )
+Como (ordem da orientação oficial da Microsoft): tabela de datas da fonte;
+sem ela, calendário em **Power Query**; `CALENDAR()`/`CALENDARAUTO()` só em
+último caso. Cobrindo todo o período, sem lacunas.
+```m
+// Consulta Calendário (grupo Dimensões)
+let
+    vInicio = #date(2020, 1, 1),
+    vFim = #date(Date.Year(DateTime.LocalNow()), 12, 31),
+    Datas = List.Dates(vInicio, Duration.Days(vFim - vInicio) + 1, #duration(1, 0, 0, 0)),
+    Tabela = Table.FromList(Datas, Splitter.SplitByNothing(), type table [Data = date])
+in
+    Tabela
 ```
 
 **1.7 — Marque o calendário como Tabela de Datas** · 🟠
@@ -221,7 +230,8 @@ Como: identifique no Tabular Editor e revise com o time antes de excluir.
 Tabela ilha não é filtrada pelas outras. Se for tabela de parâmetro, documente.
 
 **4.4 — Descrição em todo objeto visível** · 🔵
-Aparece como tooltip e melhora o Copilot. Ver descrição com `///` na skill `bi-qa-documentacao`.
+Tabelas, colunas e medidas visíveis. Aparece como tooltip e melhora o Copilot;
+não repita o nome ("Faturado" descrito como "o faturado"). Ver descrição com `///` na skill `bi-qa-documentacao`.
 
 **4.5 — Grupo de cálculo sem item** · 🟠 — trabalho incompleto; complete ou exclua.
 
@@ -236,8 +246,11 @@ Aparece como tooltip e melhora o Copilot. Ver descrição com `///` na skill `bi
 ## Seção 5 — Nomenclatura
 
 **5.1 — Caracteres especiais em nomes** · 🟠
-Quebram expressões, URLs de API e exportações.
-❌ `Vendas ($)` · ✅ `Vendas em Reais`
+A regra procura tabulação e quebra de linha, que quebram expressões, URLs de
+API e exportações. Evite também `/`, `\` e `"`, que quebram exportação e URL.
+Acento, espaço, `#`, `%`, `Δ` e parênteses são permitidos: fazem parte do
+padrão (`# Pedidos`, `Margem Bruta (%)`, `Faturado (Δ%)`).
+❌ nome com quebra de linha ou `Receita/Custo` · ✅ `Receita sobre Custo`
 
 **5.2 — Espaço no início ou fim do nome** · 🔵
 `" Vendas"` não é encontrada ao buscar `Vendas`.
@@ -253,7 +266,7 @@ Padrão completo: skill `bi-nomenclatura`.
 Sem formato, decimais excessivos e sem separador de milhar.
 Como: defina a **propriedade** Formato (Ferramentas de Medida → Formato, ou `formatString` no TMDL). Não use `FORMAT()` dentro da medida: ele devolve texto, quebra ordenação, soma e eixo. Exceção: medida de texto usada só como título (ver `references/medidas-para-visuais.md`).
 ```tmdl
-measure 'Total de Vendas' = SUM ( Vendas[Valor da Venda] )
+measure Faturado = SUM ( Vendas[Valor da Venda] )
     formatString: R$ #,##0.00
 ```
 
@@ -347,7 +360,7 @@ Limite recomendado: até 4 fatias; acima disso, barras horizontais ordenadas.
 **7.13 [Visuais] — Evite medidas implícitas** · 🔴 · Measure Killer
 Não têm formato nem descrição.
 Como: ative a propriedade **Desestimular medidas implícitas** do modelo (Model Explorer → modelo → Propriedades; no Tabular Editor, `DiscourageImplicitMeasures = true`) e crie medidas explícitas.
-❌ arrastar `Fato[Valor]` · ✅ `Total de Vendas = SUM ( Fato[Valor] )`
+❌ arrastar `Vendas[Valor da Venda]` · ✅ `Faturado = SUM ( Vendas[Valor da Venda] )`
 
 **7.14 [Relatório] — Limite os indicadores** · 🔵 · Measure Killer
 Máximo 10 indicadores (bookmarks). Prefira navegador de páginas, parâmetros de

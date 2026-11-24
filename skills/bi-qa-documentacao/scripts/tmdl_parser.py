@@ -1,7 +1,8 @@
 """Leitor mínimo de TMDL para QA e documentação.
 
-Lê a pasta `definition` de um `.SemanticModel` e devolve tabelas, colunas,
-medidas (com a expressão DAX completa, inclusive multilinha) e relacionamentos.
+Lê a pasta `definition` de um `.SemanticModel` e devolve tabelas (com grupo de
+consultas e papel), colunas, medidas (com a expressão DAX completa, inclusive
+multilinha) e relacionamentos.
 Não substitui o TmdlSerializer: cobre o necessário para checagem e documentação.
 """
 from __future__ import annotations
@@ -34,7 +35,8 @@ def _indent(line: str) -> int:
 
 def parse_table_file(path: pathlib.Path) -> dict:
     lines = path.read_text(encoding="utf-8-sig").splitlines()
-    table: dict = {"nome": None, "descricao": None, "colunas": [], "medidas": [], "oculta": False, "modo": None}
+    table: dict = {"nome": None, "descricao": None, "colunas": [], "medidas": [], "oculta": False, "modo": None,
+                   "grupo": None}
     pending_desc: list[str] = []
     current: dict | None = None
     current_level = 0
@@ -114,6 +116,9 @@ def parse_table_file(path: pathlib.Path) -> dict:
 
     for p in table.pop("_particoes", []):
         table["modo"] = p.get("props", {}).get("mode", table["modo"])
+        grupo = p.get("props", {}).get("queryGroup")
+        if grupo:
+            table["grupo"] = _unquote(grupo)
     table["oculta"] = table.get("props", {}).get("isHidden") == "true"
     table.pop("props", None)
     return table
@@ -134,13 +139,80 @@ def parse_relationships(path: pathlib.Path) -> list[dict]:
     return rels
 
 
+def _tabela_da_coluna(ref: str) -> str:
+    """`Vendas.'Código do Cliente'` ou `'Vendas Camisetas'.Coluna` -> nome da tabela."""
+    ref = ref.strip()
+    if ref.startswith("'"):
+        i = 1
+        while i < len(ref):
+            if ref[i] == "'":
+                if i + 1 < len(ref) and ref[i + 1] == "'":
+                    i += 2
+                    continue
+                break
+            i += 1
+        return ref[1:i].replace("''", "'")
+    return ref.split(".", 1)[0]
+
+
+# Grupo de consultas (padrão 2.0.0) -> papel. Comparação sem acento e sem caixa.
+_GRUPOS = {"fatos": "Fato", "dimensoes": "Dimensão", "pontes": "Ponte",
+           "monoliticas": "Monolítica", "internas": "Interna"}
+# Prefixo do padrão anterior (tabela com prefixo no modelo).
+_PREFIXOS = (("TabFat", "Fato"), ("TabDim", "Dimensão"), ("TabPon", "Ponte"),
+             ("TabFlt", "Monolítica"), ("TabInt", "Interna"))
+
+
+def _sem_acento(texto: str) -> str:
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn").lower()
+
+
+def classificar_papeis(tabelas: list[dict], relacionamentos: list[dict]) -> None:
+    """Preenche `papel` e `papel_origem` em cada tabela.
+
+    Ordem: grupo de consultas (queryGroup) > prefixo antigo > relacionamentos
+    (só lado "muitos" = Fato; lado "um" = Dimensão; sem relação = Interna).
+    """
+    lado_muitos: dict[str, int] = {}
+    lado_um: dict[str, int] = {}
+    for r in relacionamentos:
+        if r.get("fromColumn"):
+            n = _tabela_da_coluna(r["fromColumn"])
+            lado_muitos[n] = lado_muitos.get(n, 0) + 1
+        if r.get("toColumn"):
+            n = _tabela_da_coluna(r["toColumn"])
+            lado_um[n] = lado_um.get(n, 0) + 1
+    for t in tabelas:
+        nome = t["nome"] or ""
+        grupo = (t.get("grupo") or "").replace("\\", "/").split("/")[0]
+        papel = _GRUPOS.get(_sem_acento(grupo)) if grupo else None
+        if papel:
+            t["papel"], t["papel_origem"] = papel, "grupo de consultas"
+            continue
+        papel = next((p for pre, p in _PREFIXOS if nome.startswith(pre)), None)
+        if papel:
+            t["papel"], t["papel_origem"] = papel, "prefixo antigo"
+            continue
+        muitos, um = lado_muitos.get(nome, 0), lado_um.get(nome, 0)
+        if muitos and not um:
+            papel = "Fato"
+        elif um:
+            papel = "Dimensão"
+        else:
+            papel = "Interna"
+        t["papel"], t["papel_origem"] = papel, "relacionamentos, confirme"
+
+
 def parse_model(definition_dir: str | pathlib.Path) -> dict:
     d = pathlib.Path(definition_dir)
     tables_dir = d / "tables"
     if not tables_dir.is_dir():
         raise SystemExit(f"Pasta 'tables' não encontrada em {d}. Aponte para <Projeto>.SemanticModel/definition.")
     tabelas = [parse_table_file(p) for p in sorted(tables_dir.glob("*.tmdl"))]
-    return {"tabelas": tabelas, "relacionamentos": parse_relationships(d / "relationships.tmdl")}
+    relacionamentos = parse_relationships(d / "relationships.tmdl")
+    classificar_papeis(tabelas, relacionamentos)
+    return {"tabelas": tabelas, "relacionamentos": relacionamentos}
 
 
 def model_fields(model: dict) -> set[tuple[str, str]]:

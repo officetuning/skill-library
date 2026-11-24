@@ -25,18 +25,19 @@ alcançável**.
   nada, crie a página principal que o exiba (ex.: ranking) antes do detalhe.
 - **Chave única no drillthrough.** Use o código, não o nome (nomes repetem). A
   coluna-chave precisa estar no visual de origem (pode ser uma coluna estreita).
-- **Medida de seleção por campo**: nome igual ao do campo (padrão de nome de
-  medida em `bi-nomenclatura`; ver "Armadilha de nomes" em
-  `powerbi-boas-praticas/references/medidas-para-visuais.md`), pasta `Seleção`,
-  `SELECTEDVALUE ( coluna, "-" )`. Para colunas de tabelas do lado "um" da
-  relação, que o filtro da tabela "muitos" não alcança, use `LOOKUPVALUE` pela
-  chave. Descreva com `///`.
+- **Medida de seleção por campo**: `<Campo> Selecionado(a)` (`Estado
+  Selecionado`, `Categoria Selecionada`), na tabela do campo, pasta `Seleção`,
+  `SELECTEDVALUE ( coluna, "-" )`. O hífen é o texto padrão de "nada ou vários
+  selecionados". Nome diferente da coluna (`bi-nomenclatura`; ver "Armadilha
+  de nomes" em `powerbi-boas-praticas/references/medidas-para-visuais.md`).
+  Para colunas de tabelas do lado "um" da relação, que o filtro da tabela
+  "muitos" não alcança, use `LOOKUPVALUE` pela chave. Descreva com `///`.
 - **Um visual aponta para uma única dica.** Em matriz com duas dimensões,
   escolha a dimensão que ainda não tem dica.
 - **Dica = um cartão + um gráfico (+ rodapé).** O cartão é **um só**; o título
   do cartão é a medida de seleção e os indicadores ficam dentro dele.
-- **Rodapé padrão em todas as Dicas**, inclusive nas que não têm detalhe
-  irmão:
+- **Rodapé padrão de drillthrough só nas Dicas que têm Detalhe irmão**,
+  ocupando o espaço de rodapé da Dica (Dica sem Detalhe não leva o texto):
   "🔍 *Para explorar o detalhe*: clique com o **botão direito** sobre o dado de
   interesse, selecione **Drillthrough/Detalhamento** e escolha a página de
   destino no menu." (itálico em "Para explorar o detalhe"; negrito em
@@ -47,22 +48,25 @@ alcançável**.
 - Detalhe e Dica ficam **ocultos** (`HiddenInViewMode`); a Dica tem `type: Tooltip`.
 
 **Preferir**
-- Tamanho da Dica pelo conteúdo, nos três tamanhos do Background Builder
-  (todos múltiplos de 8):
+- Detalhe no tamanho padrão de página (1920×1080). Dica num dos três
+  tamanhos do Background Builder (todos múltiplos de 8), escolhido pelo
+  **conteúdo** a exibir, não pelo tipo de campo:
 
-  | Tamanho | Uso | Exemplo |
+  | Tamanho | Uso | Conteúdo |
   |---|---|---|
-  | **320×240** | Visual único | Campo de poucos valores (Categoria, Tipo de pessoa, Transação): cartão e rodapé (a geometria com rodapé ainda não foi medida) |
-  | **400×304** | Vários visuais | Cartão + um gráfico pequeno |
-  | **600×456** | Mini relatório | Cartão + gráfico com eixo legível + rodapé |
+  | **320×240** | Visual único | Só o cartão (+ rodapé, se houver Detalhe irmão; essa geometria ainda não foi medida) |
+  | **400×304** | Vários visuais | Cartão + um gráfico pequeno (+ rodapé) |
+  | **600×456** | Mini relatório | Cartão + gráfico com eixo legível (+ rodapé) |
 - Detalhe com: indicadores em faixa, evolução no tempo, composição e uma
   tabela de linhas. No cabeçalho do Background Builder, a medida de seleção
   vai no card de (1232, 48) 496×32, depois do ícone de olho (o fundo não
   escreve "Você está vendo:"), e o botão Voltar fica em (1744, 40) 144×48
   (`dashboard-layout/references/background-builder.md`).
-- O script TMDL do Builder já cria `[VocêEstáVendo]` como **medida-modelo**
-  (devolve `BLANK()`): personalize-a com a medida de seleção do campo do
-  detalhe, ou aponte o card direto para a medida de seleção.
+- O script TMDL do Builder cria `[Você Está Vendo]` como **medida-modelo
+  transitória** (devolve `BLANK()`). Quando o campo do Detalhe estiver
+  definido, **renomeie** a própria medida para `<Campo> Selecionado(a)`, mova-a
+  para a tabela do campo e escreva o `SELECTEDVALUE ( coluna, "-" )`: o card do
+  cabeçalho continua ligado e não sobra medida órfã.
 - Campos de poucos valores recebem **só Dica**; campos de muitos valores
   (pessoa, UF, natureza) recebem **Dica + Detalhe**.
 - Margem de 8 px dentro da dica; cartão e gráfico com a mesma largura.
@@ -72,7 +76,9 @@ alcançável**.
 - Dois cartões na dica (um de título, outro de indicadores): o título do
   cartão único cumpre os dois papéis.
 - Cartão da dica com rolagem. Veja `powerbi-visuais` (cartões).
-- Dica sem o rodapé padrão de drillthrough.
+- Rodapé de drillthrough numa Dica sem Detalhe irmão: promete um caminho que não existe.
+- Medida de seleção com o mesmo nome da coluna, ou `Você Está Vendo` esquecida
+  no relatório publicado.
 
 ## Armadilhas verificadas
 - No **modo de edição** da página de Dica não há filtro: a medida de seleção
@@ -95,7 +101,7 @@ alcançável**.
 ## Checklist
 1. Contei os eixos e escolhi o campo? Existe visual principal com a chave?
 2. Medida de seleção criada, descrita e testada com o mouse?
-3. Dica com um cartão, título = medida e rodapé padrão?
+3. Dica com um cartão e título = medida; rodapé só se houver Detalhe irmão?
 4. Cada visual de origem aponta para a dica correta (e só uma)?
-5. Detalhe oculto, com o card da seleção (não `BLANK()`) ao lado do ícone de olho e o botão Voltar?
+5. Detalhe oculto, com o card ligado a `<Campo> Selecionado(a)` (não `Você Está Vendo` com `BLANK()`) ao lado do ícone de olho e o botão Voltar?
 6. Tamanho da Dica (320×240, 400×304 ou 600×456) coerente com o conteúdo?

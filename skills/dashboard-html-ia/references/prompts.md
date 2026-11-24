@@ -24,9 +24,9 @@ Confira o total de controle na planilha. Só siga com o "ok".
 
 ```text
 Ok, o total confere. Agora, rodando código:
-- KPIs: [Receita AV = soma de receita no ano selecionado;
-         Receita AA = mesma soma nos mesmos meses do ano anterior;
-         Δ% = (AV − AA) ÷ AA; Ticket médio = Receita ÷ Pedidos].
+- KPIs: [Receita (AV) = soma de receita no ano selecionado;
+         Receita (AA) = mesma soma nos mesmos meses do ano anterior;
+         Receita (Δ%) = (AV − AA) ÷ AA; Ticket médio = Receita ÷ Pedidos].
 - Agregue por [mês] × [região] e me mostre a tabela agregada.
 - Confirme que a soma da tabela agregada = total de controle.
 ```

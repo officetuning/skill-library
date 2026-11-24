@@ -14,8 +14,8 @@
 | Bloco | Intenção | Grid (col × linha) | Tamanho (px) | x, y |
 |---|---|---|---|---|
 | Faixa de filtros | Período e região | 1–12 × 1 | 1920×120 | 0, 0 |
-| KPI Receita Total | Valor + Δ% AA | 1–3 × 2–3 | 480×240 | 0, 120 |
-| KPI Ticket Médio | Valor + Δ% AA | 4–6 × 2–3 | 480×240 | 480, 120 |
+| KPI Receita | Valor + (Δ%) | 1–3 × 2–3 | 480×240 | 0, 120 |
+| KPI Ticket Médio | Valor + (Δ%) | 4–6 × 2–3 | 480×240 | 480, 120 |
 | KPI Margem Bruta % | Valor + meta | 7–9 × 2–3 | 480×240 | 960, 120 |
 | KPI Atingimento | Farol Δi | 10–12 × 2–3 | 480×240 | 1440, 120 |
 | Tendência de Receita (dominante) | Linha 12M | 1–8 × 4–9 | 1280×720 | 0, 360 |

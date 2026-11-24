@@ -7,7 +7,7 @@ Do TMDL/PBIR versionado ao `.docx`, sem abrir o Desktop.
 **Obrigatório**
 - Extrair dos arquivos `.tmdl` e `.json` do Git. Nunca digitar o que "deveria existir".
 - Toda medida: nome, DAX completo, `formatString`, `displayFolder`, tabela.
-- Toda tabela: papel (prefixo `TabFat`/`TabDim`), grão, modo de armazenamento, se oculta.
+- Toda tabela: papel (pelo grupo de consultas: Fatos, Dimensões, Pontes, Monolíticas, Internas; prefixo `TabFat`/`TabDim` só em modelo antigo), grão, modo de armazenamento, se oculta.
 - Todo relacionamento: cardinalidade, direção do filtro, ativo ou inativo.
 - Regerar a cada publicação.
 

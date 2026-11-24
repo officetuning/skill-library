@@ -77,7 +77,7 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
 6. Segmentação fora da posição reservada pelo fundo.
 7. Posições não inteiras.
 
-As checagens 8 a 17 estão em
+As checagens 8 a 18 estão em
 `../../bi-qa-documentacao/references/checagens-adicionais.md`.
 
 ## Descobrir a propriedade certa antes de criá-la

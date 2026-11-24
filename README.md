@@ -14,7 +14,7 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | [`powerbi-visuais`](skills/powerbi-visuais/SKILL.md) | Qual visual usar, configurar ou criticar gráfico, formatação condicional, tooltip, SVG/HTML por DAX | 01 | 1.0.0 |
 | [`powerbi-boas-praticas`](skills/powerbi-boas-praticas/SKILL.md) | Modelo lento, revisar DAX, auditar modelo, 90 regras (BPA, PBI-Inspector, Measure Killer e storytelling) e pontuação do Measure Killer | 02 | 1.0.0 |
 | [`power-query-m`](skills/power-query-m/SKILL.md) | Query Folding, refresh lento no ETL, função M, Incremental Refresh | 03 | 1.0.0 |
-| [`bi-nomenclatura`](skills/bi-nomenclatura/SKILL.md) | Nomear tabela, view, consulta, coluna ou medida; AV/AA/Δ/Δ%/Δi | 04 | 1.0.0 |
+| [`bi-nomenclatura`](skills/bi-nomenclatura/SKILL.md) | Nomear tabela, view, consulta, grupo, coluna ou medida; (AV)/(AA)/(Δ)/(Δ%)/(Δi) | 04 | 1.0.0 |
 | [`data-storytelling`](skills/data-storytelling/SKILL.md) | Mensagem principal, Big Idea, poluição visual, apresentação executiva | 05 | 1.0.0 |
 | [`dashboard-canvas`](skills/dashboard-canvas/SKILL.md) | Briefing, 12 blocos, 5W2H, escopo e cronograma antes do Desktop | 06 | 1.0.0 |
 | [`dashboard-layout`](skills/dashboard-layout/SKILL.md) | Wireframe, grid 8px, Background Builder, fuso horário da "última atualização" | 07 | 1.0.0 |
@@ -91,6 +91,83 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.0.0 (24/11/2026)
+
+Revisão completa das 13 skills. A versão é maior porque **a nomenclatura mudou**:
+o pacote adota o padrão oficial da Microsoft para o modelo semântico
+(`skills-for-fabric`, *semantic-model-authoring*) no lugar dos prefixos no modelo.
+
+#### O que muda na nomenclatura (`bi-nomenclatura`)
+
+- **SQL continua igual:** `Tab`/`Vw`/`Pr`/`Fn` e `TabFat`/`TabDim`/`TabPon`/`TabFlt`.
+- **Modelo semântico sem prefixo:** fato no plural (`Vendas`), dimensão no
+  singular (`Cliente`, `Calendário`), ponte com as duas entidades
+  (`Cliente Produto`), monolítica com o recorte (`Vendas Camisetas`).
+- **Power Query:** grupos de consultas Funções, Parâmetros, Internas, Dimensões,
+  Fatos, Monolíticas, Pontes e Listas, com subgrupo `<Grupo>/Preparo`. `Cns` para
+  preparo, `Lista` para listas, `Grupo.Acao` para funções M (sem acento),
+  parâmetros em camelCase.
+- **Colunas:** nome amigável completo e único no modelo (`Nome do Cliente`);
+  chaves ocultas.
+- **Medidas:** o nome de negócio mais curto (`Faturado`), **sem "Total"**, `#`
+  para contagem, `///` obrigatório, e cada medida na tabela a que pertence (sem
+  tabela única de medidas).
+- **Comparativo:** sufixo entre parênteses, maiúsculo e sem ponto:
+  `Faturado (AV)`, `(AA)`, `(Δ)`, `(Δ%)`, `(Δi)`. AV e AA sempre existem.
+- **Nome no visual:** o rótulo é encurtado quando o contexto já diz o resto
+  (seis cenários, com exceções), via `displayName` no PBIR.
+- **Aspas por linguagem:** DAX, M e TMDL.
+
+#### Outras mudanças por skill
+
+- **`powerbi-detalhe-dica`:** medida de seleção `<Campo> Selecionado(a)` na tabela
+  do campo, pasta Seleção, `SELECTEDVALUE(col, "-")`; rodapé de drillthrough só na
+  Dica que tem Detalhe irmão; tamanho da Dica pelo conteúdo (320×240, 400×304,
+  600×456); "Você Está Vendo" é renomeada, não recriada.
+- **`dashboard-layout`:** Background Builder 2.0.0 com `Atualização` e `Calendário`
+  (Power Query), e a tabela de nomes antigos do Builder 1.031.
+- **`tmdl-pbir`:** exemplos com nomes de negócio e `queryGroup`; acento não exige
+  aspas; backups da conversão PBIR (30 dias no Desktop, 28 no Service); variante
+  com o Power BI Desktop Bridge (preview).
+- **`powerbi-mcp`:** pré-requisitos (readwrite/readonly, XMLA, configuração do
+  tenant, service principal, log de auditoria), qual ferramenta edita o modelo,
+  ordem da transação, validação com DAX e limite de 100 mil linhas.
+- **`power-query-m`:** grupos de consultas, aspas no M e nova referência
+  `funcoes-personalizadas-m.md` (padrão `Grupo.Acao`, documentação com
+  `Value.ReplaceType`, consulta de teste).
+- **`powerbi-visuais`:** Q&A sai em fev/2027; visuais R e Python saem em mai/2027;
+  regra de encurtar rótulos.
+- **`powerbi-boas-praticas`:** regras que valem sempre (nome de negócio, medidas
+  distribuídas, calendário no Power Query, `discourageImplicitMeasures`) e 5.1
+  reescrita.
+- **`dax-udf`:** nome sem acento; parâmetro sem descrição própria; limitação em
+  conexão dinâmica; `INFO.FUNCTIONS("ORIGIN", "2")`.
+- **`bi-qa-documentacao`:** o script de documentação lê o papel da tabela pelo
+  **grupo de consultas** (`queryGroup`), depois pelo prefixo antigo e, por último,
+  pelos relacionamentos; o `.docx` ganha a coluna Grupo. Nova checagem 18 (visual
+  R ou Python).
+- **`dashboard-canvas`** e **`dashboard-html-ia`:** taxonomia com Ponte e Interna
+  e comparativo no formato novo.
+
+#### Guia de migração de um modelo 1.x
+
+1. **Faça backup e versione** (PBIP + Git) antes de renomear.
+2. **Renomeie as tabelas do modelo** para o nome de negócio: `TabFatVenda` →
+   `Vendas`, `TabDimCliente` → `Cliente`, `TabDimCalendário` → `Calendário`. O SQL
+   não muda; só a consulta carregada.
+3. **Crie os grupos de consultas** e mova cada consulta para o seu (Fatos,
+   Dimensões, Internas…). O script de documentação passa a usar o grupo.
+4. **Distribua as medidas** da tabela única para a tabela a que cada uma
+   pertence e apague a tabela vazia.
+5. **Renomeie as medidas:** tire "Total" e passe o comparativo para parênteses
+   (`Total de Vendas AV` → `Faturado (AV)`, `Δ% Total de Vendas` →
+   `Faturado (Δ%)`).
+6. **Rode a checagem 16** (`grep -rn '"Entity": "Tab' <pasta>.Report`) e corrija
+   filtros e formatação condicional que ainda apontam para os nomes antigos.
+7. **Relatório feito com o Builder 1.031:** use a tabela "Builder 1.031 e
+   anteriores: nomes antigos" em `dashboard-layout/references/background-builder.md`.
+8. **Regenere o dicionário** (tabela `Dicionário`) e a documentação `.docx`.
+
 ### 1.7.1 (23/11/2026)
 
 Ajustes de revisão em `tmdl-pbir` (`edicao-por-script-e-desktop.md`):
@@ -100,30 +177,6 @@ Ajustes de revisão em `tmdl-pbir` (`edicao-por-script-e-desktop.md`):
 - Comandos por shell: `tasklist | grep -i PBIDesktop` no Git Bash, e
   `$env:TEMP` (PowerShell) ou `$TEMP` (Git Bash) para temporários.
 - Arquivo novo sem HEAD: seguir o fim de linha dos arquivos vizinhos do mesmo tipo.
-
-### 1.7.0 (23/11/2026)
-
-Lições de edição por script e de QA vindas de projetos reais, mais higiene do
-repositório. Itens do relato do autor vêm marcados **[relato do autor]** e os que
-dependem do Desktop, **[a confirmar no Desktop]**.
-
-- **`tmdl-pbir`:** o ciclo seguro agora manda conferir que o Desktop está fechado
-  antes e depois de escrever (`Get-Process PBIDesktop`). Git com
-  `core.autocrlf=true`: `git ls-files --eol`, `hash-object --no-filters` com o fim
-  de linha do HEAD e `git diff --cached --stat` antes do commit. Também
-  `git -c safe.directory=...`, `.encode("utf-8")` e temporários fora de `/tmp`.
-  O adendo foi **fundido** em `edicao-por-script-e-desktop.md`.
-- **`bi-qa-documentacao`:** checagens 16 (campo do modelo antigo no `.Report`) e 17
-  (qualquer unidade diferente de `1D`); acessibilidade em português, porque o
-  `pbip_a11y.py` só gera italiano.
-- **`powerbi-boas-praticas`:** nova referência `diagnostico-memoria.md`
-  ("Não há memória suficiente" numa tabela de detalhe).
-- **`powerbi-visuais`:** `tabelas-matrizes-e-cores-fixas.md` (`growToFit`,
-  cabeçalho, `rowHeaders`, cor fixa por Sexo).
-- **`dashboard-layout`:** `pagina-inicial-e-sobre.md` (`landingPageName`, versão e
-  data na página Sobre).
-- **Repositório:** `CHANGELOG.md` com o histórico completo; tabela de skills com
-  as colunas Origem e Versão; verificação das versões no GitHub Actions.
 
 Histórico completo: [CHANGELOG.md](CHANGELOG.md).
 

@@ -1,4 +1,4 @@
-# Dica de ferramenta: cartão único com título dinâmico (acrescentar a `powerbi-detalhe-dica`)
+# Dica de ferramenta: cartão único com título dinâmico
 
 Substitui o par "cartão só do título + cartão de indicadores". **[verificado]**
 em arquivo gravado pelo Desktop.
@@ -10,8 +10,8 @@ em arquivo gravado pelo Desktop.
 - Layout **Grade** (`orientation 0D`), `autoGrid true`, `columnCount` e
   `maxTiles` iguais ao número de indicadores, `rowCount 1` (ou N linhas se a
   coluna for 1), `labelDisplayUnits 1D` em cada medida.
-- **Rodapé padrão de drillthrough** em todas as Dicas, inclusive nas que não o
-  tinham: "🔍 Para explorar o detalhe: clique com o botão direito sobre o dado
+- **Rodapé padrão de drillthrough** nas Dicas que têm Detalhe irmão (Dica sem
+  Detalhe não leva o texto): "🔍 Para explorar o detalhe: clique com o botão direito sobre o dado
   de interesse, selecione Drillthrough/Detalhamento e escolha a página de
   destino no menu." (negrito em "botão direito" e em "Drillthrough/Detalhamento",
   8 pt).
@@ -31,7 +31,7 @@ em arquivo gravado pelo Desktop.
   `titleWrap` ligado e dê ao cartão altura para duas linhas.
 - Texto alternativo da Dica: "o título mostra o item em análise; indicadores:
   A, B e C". **Não cite o nome técnico da medida de seleção** (ex.:
-  `VocêEstáVendo`); quando o cartão só tinha a medida de seleção, escreva
+  `Você Está Vendo` ou `Estado Selecionado`); quando o cartão só tinha a medida de seleção, escreva
   "exibe o item em análise".
 
 ## Evitar

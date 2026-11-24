@@ -1,7 +1,7 @@
 # Acessibilidade em PBIR
 
 Complementa a regra 7.11 `ENSURE_ALTTEXT` de `powerbi-boas-praticas`
-(`references/regras-bpa.md`) com o caminho no PBIR e a ordem de tabulação.
+(`powerbi-boas-praticas/references/regras-bpa.md`) com o caminho no PBIR e a ordem de tabulação.
 
 ## Texto alternativo
 - **Em português, um por visual**, descrevendo o que o visual mostra, não só o

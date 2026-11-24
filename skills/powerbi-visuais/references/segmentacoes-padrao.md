@@ -1,4 +1,4 @@
-# Padrão das segmentações (acrescentar a `powerbi-visuais`)
+# Padrão das segmentações
 
 Regra do autor para segmentações.
 

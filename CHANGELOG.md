@@ -2,6 +2,83 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.0.0 (24/11/2026)
+
+Revisão completa das 13 skills. A versão é maior porque **a nomenclatura mudou**:
+o pacote adota o padrão oficial da Microsoft para o modelo semântico
+(`skills-for-fabric`, *semantic-model-authoring*) no lugar dos prefixos no modelo.
+
+### O que muda na nomenclatura (`bi-nomenclatura`)
+
+- **SQL continua igual:** `Tab`/`Vw`/`Pr`/`Fn` e `TabFat`/`TabDim`/`TabPon`/`TabFlt`.
+- **Modelo semântico sem prefixo:** fato no plural (`Vendas`), dimensão no
+  singular (`Cliente`, `Calendário`), ponte com as duas entidades
+  (`Cliente Produto`), monolítica com o recorte (`Vendas Camisetas`).
+- **Power Query:** grupos de consultas Funções, Parâmetros, Internas, Dimensões,
+  Fatos, Monolíticas, Pontes e Listas, com subgrupo `<Grupo>/Preparo`. `Cns` para
+  preparo, `Lista` para listas, `Grupo.Acao` para funções M (sem acento),
+  parâmetros em camelCase.
+- **Colunas:** nome amigável completo e único no modelo (`Nome do Cliente`);
+  chaves ocultas.
+- **Medidas:** o nome de negócio mais curto (`Faturado`), **sem "Total"**, `#`
+  para contagem, `///` obrigatório, e cada medida na tabela a que pertence (sem
+  tabela única de medidas).
+- **Comparativo:** sufixo entre parênteses, maiúsculo e sem ponto:
+  `Faturado (AV)`, `(AA)`, `(Δ)`, `(Δ%)`, `(Δi)`. AV e AA sempre existem.
+- **Nome no visual:** o rótulo é encurtado quando o contexto já diz o resto
+  (seis cenários, com exceções), via `displayName` no PBIR.
+- **Aspas por linguagem:** DAX, M e TMDL.
+
+### Outras mudanças por skill
+
+- **`powerbi-detalhe-dica`:** medida de seleção `<Campo> Selecionado(a)` na tabela
+  do campo, pasta Seleção, `SELECTEDVALUE(col, "-")`; rodapé de drillthrough só na
+  Dica que tem Detalhe irmão; tamanho da Dica pelo conteúdo (320×240, 400×304,
+  600×456); "Você Está Vendo" é renomeada, não recriada.
+- **`dashboard-layout`:** Background Builder 2.0.0 com `Atualização` e `Calendário`
+  (Power Query), e a tabela de nomes antigos do Builder 1.031.
+- **`tmdl-pbir`:** exemplos com nomes de negócio e `queryGroup`; acento não exige
+  aspas; backups da conversão PBIR (30 dias no Desktop, 28 no Service); variante
+  com o Power BI Desktop Bridge (preview).
+- **`powerbi-mcp`:** pré-requisitos (readwrite/readonly, XMLA, configuração do
+  tenant, service principal, log de auditoria), qual ferramenta edita o modelo,
+  ordem da transação, validação com DAX e limite de 100 mil linhas.
+- **`power-query-m`:** grupos de consultas, aspas no M e nova referência
+  `funcoes-personalizadas-m.md` (padrão `Grupo.Acao`, documentação com
+  `Value.ReplaceType`, consulta de teste).
+- **`powerbi-visuais`:** Q&A sai em fev/2027; visuais R e Python saem em mai/2027;
+  regra de encurtar rótulos.
+- **`powerbi-boas-praticas`:** regras que valem sempre (nome de negócio, medidas
+  distribuídas, calendário no Power Query, `discourageImplicitMeasures`) e 5.1
+  reescrita.
+- **`dax-udf`:** nome sem acento; parâmetro sem descrição própria; limitação em
+  conexão dinâmica; `INFO.FUNCTIONS("ORIGIN", "2")`.
+- **`bi-qa-documentacao`:** o script de documentação lê o papel da tabela pelo
+  **grupo de consultas** (`queryGroup`), depois pelo prefixo antigo e, por último,
+  pelos relacionamentos; o `.docx` ganha a coluna Grupo. Nova checagem 18 (visual
+  R ou Python).
+- **`dashboard-canvas`** e **`dashboard-html-ia`:** taxonomia com Ponte e Interna
+  e comparativo no formato novo.
+
+### Guia de migração de um modelo 1.x
+
+1. **Faça backup e versione** (PBIP + Git) antes de renomear.
+2. **Renomeie as tabelas do modelo** para o nome de negócio: `TabFatVenda` →
+   `Vendas`, `TabDimCliente` → `Cliente`, `TabDimCalendário` → `Calendário`. O SQL
+   não muda; só a consulta carregada.
+3. **Crie os grupos de consultas** e mova cada consulta para o seu (Fatos,
+   Dimensões, Internas…). O script de documentação passa a usar o grupo.
+4. **Distribua as medidas** da tabela única para a tabela a que cada uma
+   pertence e apague a tabela vazia.
+5. **Renomeie as medidas:** tire "Total" e passe o comparativo para parênteses
+   (`Total de Vendas AV` → `Faturado (AV)`, `Δ% Total de Vendas` →
+   `Faturado (Δ%)`).
+6. **Rode a checagem 16** (`grep -rn '"Entity": "Tab' <pasta>.Report`) e corrija
+   filtros e formatação condicional que ainda apontam para os nomes antigos.
+7. **Relatório feito com o Builder 1.031:** use a tabela "Builder 1.031 e
+   anteriores: nomes antigos" em `dashboard-layout/references/background-builder.md`.
+8. **Regenere o dicionário** (tabela `Dicionário`) e a documentação `.docx`.
+
 ## 1.7.1 (23/11/2026)
 
 Ajustes de revisão em `tmdl-pbir` (`edicao-por-script-e-desktop.md`):

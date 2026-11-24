@@ -45,8 +45,14 @@ arquivo gravado pelo Desktop; **[regra do autor]** = decisão de projeto.
 - Título ligado a medida: `text = { expr: { Measure: … } }`. [verificado]
 
 ## Rótulos de campo no visual
-- Sem sufixos técnicos ("(Abreviado)") e sem prefixos de modelo ("Nome do/da
-  …"): "Ano/Mês (Abreviado)" → "Ano/Mês"; "Nome da UF" → "UF".
+- O visual mostra o nome mais curto que o contexto permite (princípio em
+  `bi-nomenclatura`, seção 6): sem sufixos técnicos ("Ano/Mês (Abreviado)" →
+  "Ano/Mês"), sem "Nome do/da" ("Nome da UF" → "UF"), sem a entidade que o
+  visual ou a página já dizem ("Latitude do Município" → "Latitude" no mapa;
+  "Cidade do Cliente" → "Cidade" no Detalhe do Cliente; "Ano do Calendário" →
+  "Ano") e sem o nome da medida repetido sob o título ("Faturado (AV)" → "AV").
+- Não encurte quando duas entidades dividem o visual ("Cidade do Cliente" ao
+  lado de "Cidade da Loja") ou quando o nome curto colide com outro campo.
 - Faça no visual: na projeção, `displayName` **e** `nativeQueryRef`; `queryRef`
   não muda; não renomeie a coluna no modelo. [verificado]
 - Não sobrescreva `displayName` que o autor já definiu.

@@ -1,6 +1,6 @@
 ---
 name: bi-nomenclatura
-description: Padrão Corporativo de Nomenclatura para SQL, ETL e modelo semântico Power BI — prefixos Tab/Vw/Pr/Fn/Cns, TabDim/TabFat/TabPon/TabFlt, fronteira entre camada física e semântica, nomes de medida e a convenção de comparativo temporal AV/AA/Δ/Δ%/Δi. Use ao nomear ou renomear tabela, view, procedure, consulta, coluna ou medida, ao escolher prefixo, ao criar alias SQL ou ao nomear medida que compara com o ano anterior.
+description: Padrão Corporativo de Nomenclatura para SQL, Power Query e modelo semântico Power BI, alinhado ao padrão oficial da Microsoft — prefixos Tab/Vw/Pr/Fn no SQL, Cns e Lista nas consultas não carregadas, grupos de consultas por papel (Fatos, Dimensões, Pontes, Monolíticas, Internas, Funções, Parâmetros, Listas), tabela do modelo com nome de negócio, coluna com nome amigável completo, medida com nome curto e sem "Total", comparativo (AV)/(AA)/(Δ)/(Δ%)/(Δi), nome encurtado no visual e aspas por linguagem. Use ao nomear ou renomear tabela, view, procedure, consulta, grupo de consultas, coluna, medida ou função, ao criar alias SQL, ao nomear medida que compara com o ano anterior ou ao rotular campo num visual.
 ---
 
 # Padrão Corporativo de Nomenclatura
@@ -10,28 +10,32 @@ mantém. O nome revela o papel do objeto antes de ele ser aberto.
 
 ## Regra de ouro
 
-**SQL é estrutura. Power BI é comunicação.** Prefixo técnico só existe na
-camada física. Todo objeto **visível** no modelo usa nome de negócio. Colunas
-técnicas que sobram (chaves, FKs) ficam ocultas.
-
-Motivo além da leitura humana: Copilot e agentes de IA leem nomes ao pé da
-letra. `TabFatVenda` piora respostas em linguagem natural; `Vendas` ajuda.
+**SQL é estrutura. Power BI é comunicação.** O prefixo técnico mora no SQL e
+nas consultas do Power Query que **não** carregam no modelo. A consulta que
+carrega **é** a tabela do modelo e leva nome de negócio, como manda o
+[padrão oficial da Microsoft](https://github.com/microsoft/skills-for-fabric/blob/main/skills/semantic-model-authoring/references/naming-conventions.md)
+("não use prefixos técnicos como Fact, Dim"). No modelo, o papel da tabela
+aparece no **grupo de consultas**, não no nome.
 
 ```
-SQL Físico → Views Semânticas → Power Query → Modelo Semântico → Relatórios
+SQL (TabFatVenda) → Power Query (Fatos/Preparo: CnsVendaTratado) → Modelo (Vendas) → Visual (rótulo curto)
 ```
 
-## 1. Prefixos da camada física
+| Camada | Tabela / consulta | Coluna | Acento |
+|---|---|---|---|
+| SQL físico | `TabFatVenda`, `VwFatVenda` | `ValorVenda` | ❌ |
+| Power Query, não carregada | `CnsVendaTratado`, `ListaUFsAtendidas`, `Texto.RemoveAcentos` | — | ❌ no nome de função e parâmetro |
+| Modelo (consulta carregada) | `Vendas`, `Cliente`, `Calendário` | `Valor da Venda` | ✔️ |
+| Visual | — | `Cliente` (de `Nome do Cliente`) | ✔️ |
+
+## 1. SQL físico
 
 | Prefixo | Objeto | Exemplo |
 |---|---|---|
 | `Tab` | Tabela | `TabDimCliente`, `TabFatVenda` |
 | `Vw` | View | `VwFatVenda` |
 | `Pr` | Procedure | `PrAtualizarEstoque` |
-| `Fn` | Função (SQL ou M) | `FnCalcularMargem` |
-| `Cns` | Consulta de ETL (Power Query) | `CnsClienteTratado` |
-
-## 2. Papel dimensional
+| `Fn` | Função SQL | `FnCalcularMargem` |
 
 | Papel | Padrão | Exemplo |
 |---|---|---|
@@ -40,32 +44,16 @@ SQL Físico → Views Semânticas → Power Query → Modelo Semântico → Rela
 | Ponte N:N | `TabPonAB` | `TabPonClienteProduto` |
 | Monolítica | `TabFltObjeto` | `TabFltVendasCamisetas` |
 
-`TabFlt` é uma tabela achatada que junta fato e dimensões. Serve para escopo
-pequeno ou export de terceiros. Quando o volume ou o reuso crescer, migre para
-`TabDim`/`TabFat`.
+- Singular, PascalCase, **sem acento**, sem espaço e sem caractere especial
+  (collation e ferramentas de terceiros).
+- Campo por extenso: `CodigoCliente`, `ValorVenda`. ❌ `CodCli`, `DtFat`, `VlrTot`.
+- ❌ Nome genérico: `TabFatDados`, `TabFatBase`.
+- `TabFlt` é tabela achatada (fato + dimensões) para escopo pequeno ou export
+  de terceiros. Quando o volume ou o reuso crescer, migre para estrela.
 
-❌ Proibido nome genérico: `TabFatDados`, `TabFatBase`.
-
-## 3. Convenções gerais (camada física)
-
-- Singular: `TabDimCliente` ✔️ │ `TabDimClientes` ❌
-- PascalCase: `TabFatVendaMensal` ✔️ │ `tab_fat_venda` ❌
-- Sem caractere especial, espaço no início ou fim, ou emoji.
-
-## 4. Campos
-
-| Camada | Padrão | Exemplo |
-|---|---|---|
-| Física (SQL) | PascalCase por extenso | `CodigoCliente`, `ValorVenda` |
-| Semântica (Power BI) | Nome amigável com espaços | `Código do Cliente`, `Valor da Venda` |
-
-❌ Abreviação proibida: `CodCli`, `DtFat`, `VlrTot`.
-
-Em SQL, use sempre `AS [Nome Amigável]` na view semântica: reduz renomeação no
-Power Query e antecipa a camada semântica.
+Na view semântica, já entregue o nome amigável com `AS [Nome Amigável]`:
 
 ```sql
--- View semântica: estrutura física por dentro, nome de negócio por fora
 CREATE VIEW VwFatVenda AS
 SELECT
     v.CodigoCliente AS [Código do Cliente],
@@ -74,47 +62,86 @@ SELECT
 FROM TabFatVenda AS v;
 ```
 
-## 5. Fronteira física × semântica
+## 2. Power Query: consultas e grupos
 
-| Objeto | Física (SQL/ETL/PQ) | Semântica (visível) |
+| Grupo | Conteúdo | Nome da consulta |
 |---|---|---|
-| Dimensão | `TabDimCliente` | `Cliente` (singular) |
-| Fato | `TabFatVenda` | `Vendas` (plural aceito em fato) |
-| Coluna | `ValorVenda` | `Valor da Venda` |
-| Medida | — | `Total de Vendas`, `% vs Meta` |
+| Fatos | Fatos carregadas | `Vendas`, `Pedidos` (plural) |
+| Dimensões | Dimensões carregadas | `Cliente`, `Produto`, `Calendário` (singular) |
+| Pontes | Pontes N:N carregadas | `Cliente Produto` |
+| Monolíticas | Tabelas achatadas carregadas | `Vendas Camisetas` |
+| Internas | Apoio do relatório | `Atualização`, `Dicionário` |
+| Funções | Funções M | `Texto.RemoveAcentos`, `Validacao.CPF` |
+| Parâmetros | Parâmetros de consulta | `RangeStart`, `RangeEnd`, `Servidor`, `Banco` |
+| Listas | Consultas que devolvem **lista** M | `ListaUFsAtendidas` |
+| `<Grupo>/Preparo` | Staging e tratamento, sem carregamento | `CnsClienteStaging`, `CnsClienteTratado` |
 
-## 6. Medidas e variáveis DAX
+- Consulta carregada = nome de negócio, com espaço e acento.
+- Consulta não carregada = nome formal PascalCase sem espaço: `Cns` para
+  preparo, `Lista` + conteúdo no plural para lista. Lista convertida em tabela
+  e carregada vai para o grupo do papel dela, com nome de negócio.
+- Função M: `Grupo.Acao`, como as nativas (`Table.AddColumn`) e como a UDF DAX;
+  sem acento; parâmetros em camelCase sem acento; português por padrão
+  (inglês só em função feita para outro idioma). Detalhes: skill `power-query-m`.
+- O grupo fica gravado no TMDL (`queryGroup`) e é dele que a documentação
+  automática tira o papel da tabela (skill `bi-qa-documentacao`).
 
-- Medida: nome amigável com espaços — `Total de Vendas`, `Ticket Médio`.
-- Variação: `[Base] [Período] ([Unidade])` — `Total de Vendas (ytd)`, `Margem Bruta (%)`.
-- Contagem: prefixo `#` — `# Pedidos`, `# Clientes`.
-- Variável DAX: camelCase com prefixo `v` — `vTotalVendas`, `vMetaMes`.
+## 3. Colunas
 
-## 7. Comparativo temporal: AV/AA/Δ/Δ%/Δi
+- Nome amigável **completo** e **único entre tabelas**: `Código do Cliente`,
+  `Nome do Cliente`, `Endereço do Cliente`, `Valor da Venda`. Nome único evita
+  ambiguidade para o Copilot e agentes de dados.
+- Chaves e FKs também com nome amigável, e **ocultas**.
+- Coluna que só alimenta medida (valor de fato) fica oculta e não tem o mesmo
+  nome de uma medida.
+- Sem abreviação; acrônimo de negócio consagrado (CPF, UF, NPS) pode, e vai
+  definido na descrição.
+- Sem emoji, tabulação, quebra de linha ou espaço no início ou fim.
 
-Padrão oficial para qualquer medida que compara o período corrente com o mesmo
-período do ano anterior. Use o símbolo literal, nunca por extenso.
+## 4. Medidas
+
+- **Nome de negócio mais curto** que diga o que mede: `Faturado`,
+  `Ticket Médio`, `Margem Bruta (%)`.
+- **Sem "Total"**: toda medida já é um total. ❌ `Total de Vendas` → ✅ `Faturado`.
+  Exceção: quando "total" é o conceito calculado (`% do Total`, `Total Acumulado`).
+- Nome diferente de tabela e de coluna: medida `Vendas` com tabela `Vendas`
+  confunde a DAX e o Copilot.
+- Contagem com `#`: `# Pedidos`, `# Clientes`.
+- Variação: `[Base] ([Período ou Unidade])`, sigla **maiúscula, sem ponto,
+  entre parênteses**: `Faturado (YTD)`, `Margem Bruta (%)`. Parênteses ficam
+  reservados para período e unidade.
+- Toda medida com descrição `///` que diga exatamente o que soma ("valor bruto
+  das notas emitidas, sem devoluções"): o nome curto depende dela.
+- A medida mora na tabela a que pertence (`Faturado` em `Vendas`), organizada
+  por pasta de exibição; não há tabela única de medidas.
+- Variável DAX: camelCase com prefixo `v` (`vTotal`, `vMetaMes`).
+- UDF DAX: `Grupo.Acao`, sem acento (skill `dax-udf`).
+
+## 5. Comparativo temporal: (AV)/(AA)/(Δ)/(Δ%)/(Δi)
+
+Toda medida comparada existe nas duas versões, `(AV)` e `(AA)`; não há
+medida-base sem sufixo. Use o símbolo literal.
 
 | Sigla | Significado | Medida |
 |---|---|---|
-| `AV` | Ano Vigente (período corrente) | `Total de Vendas AV` |
-| `AA` | Ano Anterior (mesmo período) | `Total de Vendas AA` |
-| `Δ` | Variação absoluta (AV − AA) | `Δ Total de Vendas` |
-| `Δ%` | Variação percentual | `Δ% Total de Vendas` |
-| `Δi` | Farol sobre a variação: ✔️ positivo │ ⚠️ estável │ ❗ negativo | `Δi Total de Vendas` |
+| `(AV)` | Ano Vigente (período corrente) | `Faturado (AV)` |
+| `(AA)` | Ano Anterior (mesmo período) | `Faturado (AA)` |
+| `(Δ)` | Variação absoluta (AV − AA) | `Faturado (Δ)` |
+| `(Δ%)` | Variação percentual | `Faturado (Δ%)` |
+| `(Δi)` | Farol: ✔️ positivo │ ⚠️ estável │ ❗ negativo | `Faturado (Δi)` |
 
 ```dax
-Total de Vendas AV = SUM ( TabFatVenda[ValorVenda] )
+Faturado (AV) = SUM ( Vendas[Valor da Venda] )
 
-Total de Vendas AA =
-CALCULATE ( [Total de Vendas AV], SAMEPERIODLASTYEAR ( TabDimCalendario[Data] ) )
+Faturado (AA) =
+CALCULATE ( [Faturado (AV)], SAMEPERIODLASTYEAR ( 'Calendário'[Data] ) )
 
-Δ Total de Vendas = [Total de Vendas AV] - [Total de Vendas AA]
+Faturado (Δ) = [Faturado (AV)] - [Faturado (AA)]
 
-Δ% Total de Vendas = DIVIDE ( [Δ Total de Vendas], [Total de Vendas AA] )
+Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], [Faturado (AA)] )
 
-Δi Total de Vendas =
-VAR vVariacao = [Δ% Total de Vendas]
+Faturado (Δi) =
+VAR vVariacao = [Faturado (Δ%)]
 RETURN
     SWITCH (
         TRUE (),
@@ -125,18 +152,56 @@ RETURN
     )
 ```
 
-⚠️ `SAMEPERIODLASTYEAR` exige a tabela de calendário marcada como Tabela de Datas.
+As variações ficam em ordem alfabética logo abaixo da base no painel Dados.
+O farol mora no **valor**, não no nome. ⚠️ `SAMEPERIODLASTYEAR` exige o
+calendário marcado como Tabela de Datas.
 
-Os nomes físicos no exemplo (`TabFatVenda`, `TabDimCalendario`) aparecem porque
-a referência DAX usa o nome da tabela no modelo. Se as tabelas já foram
-renomeadas para a camada semântica, troque por `Vendas[Valor da Venda]` e
-`Calendário[Data]`.
+## 6. Nome no visual: tire o que o contexto já diz
+
+O modelo guarda o nome completo; o visual mostra o mais curto que o contexto
+permite. Renomeie **só no visual** ("Renomear para este visual"; no PBIR,
+`displayName` + `nativeQueryRef` na projeção, ver `powerbi-visuais`).
+
+| Cenário | Modelo | Visual |
+|---|---|---|
+| Nome da entidade em eixo, filtro, tabela ou matriz | `Nome do Cliente` | `Cliente` |
+| Atributo num visual sobre a entidade | `Latitude do Município` (mapa) | `Latitude` |
+| Página de Detalhe ou Dica da entidade | `Cidade do Cliente` | `Cidade` |
+| Níveis do calendário | `Ano do Calendário` | `Ano` |
+| Variações agrupadas sob o título da medida | `Faturado (AV)`, `Faturado (AA)` | `AV`, `AA`, `Δ%` |
+| Visual de uma medida só, com o nome no título | Série `Faturado` | sem repetir |
+
+**Não encurte** quando duas entidades dividem o visual (`Cidade do Cliente` ao
+lado de `Cidade da Loja`) ou quando o nome curto colide com outro campo
+(`Código do Cliente` ao lado de `Cliente`).
+
+## 7. Aspas por linguagem
+
+| Linguagem | Quando | Exemplo |
+|---|---|---|
+| DAX | Nome de tabela com espaço, acento ou caractere especial | `'Calendário'[Data]`, `'Cliente Produto'[Peso]` |
+| M | Nome de **consulta** com espaço ou acento | `#"Calendário"`; campo entre colchetes dispensa: `[Data da Venda]` |
+| TMDL | Só com espaço, `.`, `=`, `:` ou `'` (acento não exige) | `table Calendário`, `measure 'Faturado (AV)'` |
+
+Sem aspas onde elas são exigidas, a fórmula dá erro.
+
+## 8. Nomes e IA (Copilot)
+
+A Microsoft não pede prefixo nem nome curto para o Copilot; pede nomes
+legíveis, sem abreviação críptica, **sem campo de mesmo nome em tabelas
+diferentes**, com descrição e sinônimos
+([Optimize your semantic model for Copilot](https://learn.microsoft.com/power-bi/create-reports/copilot-evaluate-data),
+[Use Copilot with semantic models](https://learn.microsoft.com/power-bi/create-reports/copilot-semantic-models)).
+Instruções de IA, esquema de dados para IA e respostas verificadas ficam na
+tela **Prep data for AI**.
 
 ## Checklist ao criar ou renomear
 
-1. O prefixo revela o papel? (física)
-2. Singular e PascalCase? (física)
-3. Objeto visível usa nome de negócio, sem prefixo técnico?
-4. Campos semânticos com nome amigável via alias ou renomeação?
-5. Nenhuma abreviação críptica sobrou?
-6. Comparativos temporais seguem AV/AA/Δ/Δ%/Δi?
+1. SQL: prefixo de papel, singular, PascalCase, sem acento?
+2. Consulta não carregada com `Cns`/`Lista`/`Grupo.Acao`; consulta carregada com nome de negócio?
+3. Toda consulta no grupo do seu papel, preparo em `<Grupo>/Preparo`?
+4. Coluna com nome amigável completo e único; chaves ocultas?
+5. Medida curta, sem "Total", sem colidir com tabela ou coluna, com `///`?
+6. Comparativo com `(AV)` e `(AA)` e as variações entre parênteses?
+7. Rótulo do visual encurtado pelo contexto, sem mexer no modelo?
+8. Aspas certas em DAX, M e TMDL?
