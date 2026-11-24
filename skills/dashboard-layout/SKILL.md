@@ -116,6 +116,8 @@ fundos), células do menu, painel de filtros e coordenadas do corpo:
 `references/background-builder-ciclo.md`. Regenerar sem quebrar o relatório
 (menu deslocado pelo H1, ordem das páginas, ficha de ida e volta, cópias do
 fundo por Detalhe): `references/background-builder-regeneracao.md`.
+Para o agente gerar e baixar a coleção sozinho, sem o usuário abrir o
+Builder: skill `background-builder-automacao`.
 
 ## Bug: fuso horário em "última atualização"
 

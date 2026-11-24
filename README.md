@@ -24,6 +24,7 @@ de conhecimento `conhecimento-01` a `09` (v3.0, 2026-09-07).
 | [`powerbi-detalhe-dica`](skills/powerbi-detalhe-dica/SKILL.md) | Página de Detalhe (drillthrough) e Dica de Ferramenta; medida de seleção; tamanhos de Dica do Builder | — | 1.3.0 |
 | [`powerbi-mcp`](skills/powerbi-mcp/SKILL.md) | Agente alterando o modelo via Power BI Authoring MCP com segurança; convivência com `skills-for-fabric` | — | 1.1.0 |
 | [`dashboard-html-ia`](skills/dashboard-html-ia/SKILL.md) | Dashboard HTML fora do Power BI com IA a partir de CSV, Excel no OneDrive/SharePoint ou Google Sheets; qual IA usar (Copilot, Gemini, Claude, ChatGPT) | — | 1.4.0 |
+| [`background-builder-automacao`](skills/background-builder-automacao/SKILL.md) | Agente preenche o Background Builder a partir do PBIP e baixa o ZIP sozinho (ficha JSON + script Playwright) | — | 2.1.0 |
 
 **Origem:** número do arquivo da base `conhecimento-01` a `09` de que a skill foi
 convertida (— quando nasceu depois). **Versão:** versão do pacote em que a skill
@@ -46,7 +47,7 @@ skill-library/
     └── <nome-da-skill>/
         ├── SKILL.md         # frontmatter (name, description) + instruções
         ├── references/      # conteúdo longo, lido só quando preciso
-        ├── scripts/         # código testado (bi-qa-documentacao)
+        ├── scripts/         # código testado (bi-qa-documentacao, background-builder-automacao)
         └── assets/          # modelos prontos (template HTML em dashboard-html-ia)
 ```
 
@@ -90,6 +91,20 @@ Conferidas na documentação oficial em 2026-09-23:
   predicado direto não são equivalentes.
 
 ## Novidades
+
+### 2.1.0 (24/11/2026)
+
+Nova skill **`background-builder-automacao`**: o agente preenche o Background
+Builder e baixa a coleção sem o usuário abrir o site.
+
+- Estuda o PBIP e propõe H1, H2, tagline, tema, páginas e filtros (5W2H e
+  Encaixe 1/1, 1/2, 1/3), com tabela de motivos para o ok do usuário.
+- Grava a Ficha Técnica em JSON (contrato completo em
+  `references/ficha-json.md`, conferido no Builder 1.032).
+- `scripts/exportar-colecao.cjs` (Playwright, Edge já instalado no Windows)
+  abre o Builder sem janela, carrega a ficha, exporta e salva o ZIP na pasta do
+  projeto; só salva se a verificação de pixels do Builder passar.
+- Fluxo testado no Builder publicado com um exemplo de 7 páginas.
 
 ### 2.0.0 (24/11/2026)
 
