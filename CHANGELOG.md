@@ -2,6 +2,20 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.1.0 (24/11/2026)
+
+Nova skill **`background-builder-automacao`**: o agente preenche o Background
+Builder e baixa a coleção sem o usuário abrir o site.
+
+- Estuda o PBIP e propõe H1, H2, tagline, tema, páginas e filtros (5W2H e
+  Encaixe 1/1, 1/2, 1/3), com tabela de motivos para o ok do usuário.
+- Grava a Ficha Técnica em JSON (contrato completo em
+  `references/ficha-json.md`, conferido no Builder 1.032).
+- `scripts/exportar-colecao.cjs` (Playwright, Edge já instalado no Windows)
+  abre o Builder sem janela, carrega a ficha, exporta e salva o ZIP na pasta do
+  projeto; só salva se a verificação de pixels do Builder passar.
+- Fluxo testado no Builder publicado com um exemplo de 7 páginas.
+
 ## 2.0.0 (24/11/2026)
 
 Revisão completa das 13 skills. A versão é maior porque **a nomenclatura mudou**:
