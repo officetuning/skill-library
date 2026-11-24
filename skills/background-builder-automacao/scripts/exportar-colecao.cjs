@@ -56,9 +56,18 @@ function montarFicha(colecao) {
   return { limpo, md: `# Ficha Técnica — ${limpo.h1}\n\n\`\`\`json\n${json}\n\`\`\`\n` };
 }
 
+/** playwright do projeto/NODE_PATH ou, se não houver, da pasta padrão ~/.bb-automacao. */
+function carregarPlaywright() {
+  try { return require("playwright"); } catch { /* tenta a pasta padrão */ }
+  const padrao = path.join(os.homedir(), ".bb-automacao", "node_modules", "playwright");
+  try { return require(padrao); } catch {
+    throw new Error(`Playwright não instalado. Rode uma vez nesta máquina: npm install --prefix "${path.join(os.homedir(), ".bb-automacao")}" playwright`);
+  }
+}
+
 async function main() {
   const o = args();
-  const { chromium } = require("playwright");
+  const { chromium } = carregarPlaywright();
   const { limpo, md } = montarFicha(lerColecao(o.ficha));
   const tmp = path.join(os.tmpdir(), `bb-ficha-${Date.now()}.md`);
   fs.writeFileSync(tmp, md, "utf8");

@@ -87,26 +87,27 @@ corpo**:
 
 ## Instalação (uma vez por máquina)
 
-O script precisa do pacote `playwright` do npm. No Windows ele usa o Microsoft
-Edge que já vem instalado, então não baixa navegador:
+O script precisa do pacote `playwright` do npm, instalado **uma vez por
+computador** (e por usuário do Windows). Antes da primeira exportação numa
+máquina, o agente confere se existe `%USERPROFILE%\.bb-automacao\node_modules\playwright`
+e, se não existir, roda ele mesmo:
 
 ```powershell
 npm install --prefix "$env:USERPROFILE\.bb-automacao" playwright
-$env:NODE_PATH = "$env:USERPROFILE\.bb-automacao\node_modules"
 ```
 
-`NODE_PATH` vale para a sessão do PowerShell; para fixar, use
-`[Environment]::SetEnvironmentVariable("NODE_PATH", "<caminho>", "User")`.
-Sem Edge: `--navegador chrome`, ou `npx playwright install chromium` e
-`--navegador chromium`. `--visivel` abre a janela para acompanhar.
-`--url` aponta outro endereço do Builder (o padrão é
+O script procura o Playwright nessa pasta sozinho; não precisa de `NODE_PATH`.
+No Windows ele usa o Microsoft Edge que já vem instalado, então não baixa
+navegador. Sem Edge: `--navegador chrome`, ou `npx playwright install chromium`
+e `--navegador chromium`. `--visivel` abre a janela para acompanhar. `--url`
+aponta outro endereço do Builder (o padrão é
 `https://backgroundbuilder.officetuning.ai/`).
 
 ## Quando o script falha
 
 | Erro | Causa provável | O que fazer |
 |---|---|---|
-| `Cannot find module 'playwright'` | `NODE_PATH` não definido | Rodar a instalação acima na mesma sessão |
+| Playwright não instalado | Primeira vez nesta máquina | Rodar a instalação acima e repetir |
 | H1 não apareceu no formulário | A interface do Builder mudou ou o JSON é inválido | Validar o JSON; se estiver certo, abrir a ficha à mão em **Projeto › Abrir Ficha Técnica** e avisar que o script precisa de ajuste |
 | ZIP bloqueado pela verificação de pixels | Uma página saiu chapada | Exportar de novo; se repetir, é problema no Builder: informar a página |
 | Tempo esgotado no download | Muitas páginas ou máquina lenta | Rodar de novo com `--visivel` para ver onde para |
