@@ -83,7 +83,8 @@ num `INT64`); tipos de expressão não.
   `SCALAR EXPR` com `SUM(...)` **não** — envolva em `CALCULATE ( valorExpr )`.
 
 Exemplos completos (TABLE VAL × EXPR, TOP N com MEASUREREF, checagem de tipo):
-`references/padroes-udf.md`.
+`references/padroes-udf.md`. UDF de comparativo com `CALENDARREF`
+(`Tempo.AnoAnterior`): skill `calendario-inteligencia-tempo`.
 
 ## UDF em formato dinâmico de medida
 

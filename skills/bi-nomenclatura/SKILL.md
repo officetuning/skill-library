@@ -154,7 +154,10 @@ RETURN
 
 As variações ficam em ordem alfabética logo abaixo da base no painel Dados.
 O farol mora no **valor**, não no nome. ⚠️ `SAMEPERIODLASTYEAR` exige o
-calendário marcado como Tabela de Datas.
+calendário marcado como Tabela de Datas. Com a inteligência de tempo baseada
+em calendário (prévia), a referência passa a ser o calendário:
+`SAMEPERIODLASTYEAR ( 'Gregoriano' )`; qual modo usar e os padrões YTD, MTD,
+WTD e 12M estão na skill `calendario-inteligencia-tempo`.
 
 ## 6. Nome no visual: tire o que o contexto já diz
 

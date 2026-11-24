@@ -2,6 +2,25 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.2.0 (24/11/2026)
+
+Nova skill **`calendario-inteligencia-tempo`**: inteligência de tempo a partir
+do Calendário do Background Builder.
+
+- Detecta se a inteligência de tempo baseada em calendário (prévia) está
+  disponível: calendário já existente, `INFO.CALENDARS()`, nível de
+  compatibilidade 1701+ ou teste real na TMDL view. Se não estiver, usa o modo
+  clássico com "Marcar como tabela de data" pela coluna `Data`.
+- Script TMDL do calendário `'Gregoriano'` com o mapa das colunas do Builder
+  (Ano, Trimestre, Mês, Semana, Data, Dia), Semestre, Quinzena e Estação como
+  relacionadas ao tempo e Fim de Semana fora do calendário.
+- Medidas (AA), (YTD), (QTD), (MTD), (WTD), (12M) nos dois modos, `DATEADD` com
+  Extension e Truncation, limites da prévia e UDF com `CALENDARREF`.
+- `bi-nomenclatura` e `dax-udf` apontam para a skill nova.
+- Requer o Background Builder 1.033 (colunas `Ano/Semana` e `Mês do Trimestre`
+  e ordenação de `Ano/Mês (Abreviado)`); com versões anteriores, a skill diz o
+  que tirar do script.
+
 ## 2.1.0 (24/11/2026)
 
 Nova skill **`background-builder-automacao`**: o agente preenche o Background
