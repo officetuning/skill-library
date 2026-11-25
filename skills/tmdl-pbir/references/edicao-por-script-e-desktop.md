@@ -16,6 +16,10 @@ em um `.pbip`. **[verificado]** = confirmado em arquivo gravado pelo Desktop.
    externa. [verificado] Já houve perda de trabalho do autor por salvar com a
    sessão antiga aberta. [relato do autor] Depois de gravar, repita a conferência
    e só então reabra o `.pbip`.
+   **Trave o script**, não só avise: no começo do script de gravação, aborte se o
+   processo existir (`tasklist | grep -qi PBIDesktop && { echo "Desktop aberto"; exit 1; }`
+   no Git Bash; `if (Get-Process PBIDesktop -EA 0) { throw 'Desktop aberto' }` no
+   PowerShell). Imprimir o aviso e seguir gravando já custou trabalho ao autor.
 5. Conferir com captura de tela; **dizer que o render não foi visto**.
 6. Antes de commitar: `git diff --cached --stat` para ver só o que entra no
    commit. Se o arquivo mistura trabalho do autor com o seu, siga "Git: separar o

@@ -2,6 +2,23 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.4.2 (25/11/2026)
+
+Lições de editar por script dois relatórios de RH e Recrutamento no Desktop.
+
+- **`powerbi-visuais`:** tabela e matriz: nunca gravar `"active": false` nas projeções
+  de `Values` (o Desktop mostra só a 1ª coluna); gráficos por Sexo: procurar antes a
+  coluna "Cor/Hexa" no modelo e, sem ela, usar um azul e um vermelho derivados do
+  tema (substitui o rosa `#C2185B`); ícones: Edge com perfil isolado, nunca `taskkill`.
+- **`tmdl-pbir`:** onde achar o nome de uma propriedade sem pedir ao usuário (scripts
+  `minerva` do Desktop e tema base); o script de gravação deve **travar** se o
+  Desktop estiver aberto.
+- **`powerbi-boas-praticas`:** Idade e Tempo de Casa em anos completos (`DATEDIFF` com
+  `YEAR` errou ~49%) e o fuso de `UTCTODAY` em coluna calculada.
+- **`powerbi-mcp`:** dados de pessoas vão ao provedor de IA (consultas agregadas),
+  EULA no 1º uso, não editar `.tmdl` à mão com o MCP conectado.
+- **`bi-qa-documentacao`:** `auditar_visuais.py` aponta projeção com `active:false`.
+
 ## 2.4.1 (25/11/2026)
 
 Só documentação; nenhuma skill mudou.

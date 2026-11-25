@@ -110,6 +110,16 @@ para scripts de deploy.
 | Copiar bookmark apaga parte da configuração | Intencional: copie também página e visuais |
 | `'pageBinding.name' must be unique` ao copiar página | Dê valor único ao `pageBinding.name` |
 
+## Onde achar o nome de uma propriedade sem pedir ao usuário
+
+Antes de pedir um exemplo gravado, procure no próprio Desktop instalado:
+- Scripts dos visuais: `C:\Program Files\Microsoft Power BI Desktop\bin\WebView2Resources\minerva\scripts\`
+  (ex.: `desktop.CardVisual.min.js` traz as propriedades do cartão). Use
+  `grep -o` no arquivo minificado pelo termo da interface.
+- O **tema base** do Desktop lista os objetos e propriedades de cada tipo de
+  visual (foi onde se achou `columnHeaders.columnAdjustment`).
+- Só se não achar, peça ao usuário para configurar **um** visual e salvar.
+
 ## Limitações
 
 - Mais de 500 arquivos pode deixar a **autoria** lenta.

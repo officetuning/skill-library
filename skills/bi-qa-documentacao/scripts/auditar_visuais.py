@@ -18,7 +18,8 @@ perguntas ao autor, não erros). Regras cobertas:
 
   alt text ausente · unidade de exibição ≠ Nenhum · rosca sem `value` · segmentação
   (cabeçalho, fundo, borda, Pesquisar, barra de destaque, data relativa com DateSpan
-  e fontes 12) · tabela e matriz (título, subtítulo, BoldHeader, growToFit, cabeçalho
+  e fontes 12) · tabela e matriz (título, subtítulo, BoldHeader, growToFit, projeção sem
+  `active:false`, cabeçalho
   de coluna e de linha na cor do tema) · cartão largo (altura 168 sem / 240 com
   etiquetas de referência, ícones, tamanho do ícone ≈ 53 px, preenchimento 10,
   espaço acima do divisor 4) · gráfico com eixo de tempo (Calendário ou Tempo de Casa)
@@ -152,6 +153,10 @@ def main():
                     achados["tabela sem growToFit"].append(tag)
                 if "backColor" not in ch:
                     achados["cabeçalho de coluna sem cor do tema"].append(tag)
+                for pr in vv.get("query", {}).get("queryState", {}).get("Values", {}).get("projections", []):
+                    if pr.get("active") is False:
+                        achados["projeção com active:false (Desktop mostra só a 1ª coluna)"].append(tag)
+                        break
                 if t == "pivotTable" and "backColor" not in obj(o, "rowHeaders"):
                     achados["cabeçalho de linha da matriz sem cor do tema"].append(tag)
             # cartões largos

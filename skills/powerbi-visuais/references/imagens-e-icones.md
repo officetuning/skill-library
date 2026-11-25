@@ -51,7 +51,9 @@ interno e altura do cartão: `references/cartoes-e-titulos.md`.
 SVG de formas simples (círculos, retângulos, caminhos) na cor de destaque do tema,
 renderizado a 96 px com o Edge ou o Chrome sem janela (`--default-background-color=00000000`),
 dá um conjunto coerente em minutos: pessoas, pessoa com ✓ ou ✕ ou + ou −, moeda
-(R$), ampulheta, setas de troca, balança, percentual, prédio, pino. Os estatísticos
+(R$), ampulheta, setas de troca, balança, percentual, prédio, pino. Rode o Edge com
+**perfil isolado** (`--user-data-dir=<pasta temporária>`) e **nunca use
+`taskkill` no Edge**: encerra o navegador do usuário com as abas abertas. Os estatísticos
 (Soma, Mínimo...) já vêm do Builder na cor do tema: reaproveite.
 
 ## Foto redonda e foto por posição (pódio)
