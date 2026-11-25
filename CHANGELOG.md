@@ -2,6 +2,17 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.4.1 (25/11/2026)
+
+Só documentação; nenhuma skill mudou.
+
+- Novo `docs/prompt-checkup-projeto-existente.md`: prompt modelo para o Claude Code
+  fazer o **checkup (somente leitura)** e a **implementação em lotes** (A higiene do
+  modelo, B tema, segmentações e tabelas, C coleção do Builder e Sobre, D cartões,
+  comparativos e interações, E storytelling) de um projeto `.pbip` já existente, com
+  as regras de conduta, as fases, os pontos de parada e as variantes curtas. Pressupõe
+  o plugin 2.4.0 ou posterior e o Background Builder.
+
 ## 2.4.0 (25/11/2026)
 
 Aprendizados do checkup de um relatório de RH e dos infográficos de um relatório

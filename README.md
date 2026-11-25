@@ -56,6 +56,8 @@ skill-library/
 
 Guia completo para Claude, ChatGPT, Gemini e Copilot: [docs/como-usar-skills.md](docs/como-usar-skills.md).
 
+**Projeto Power BI já existente?** Prompt modelo para auditar (somente leitura) e evoluir em lotes, com o Background Builder: [docs/prompt-checkup-projeto-existente.md](docs/prompt-checkup-projeto-existente.md).
+
 **Claude Code**
 
 ```
@@ -92,6 +94,13 @@ Conferidas na documentação oficial em 2026-09-23:
   predicado direto não são equivalentes.
 
 ## Novidades
+
+### 2.4.1 (25/11/2026)
+
+Documentação: **prompt modelo** para checkup e implementação em lotes de um projeto
+Power BI já existente, independente de máquina e de memória
+([docs/prompt-checkup-projeto-existente.md](docs/prompt-checkup-projeto-existente.md)).
+Nenhuma skill mudou. Detalhe no [CHANGELOG](CHANGELOG.md).
 
 ### 2.4.0 (25/11/2026)
 

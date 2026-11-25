@@ -295,3 +295,10 @@ As skills evoluem junto com a [Biblioteca da officetuning.ai](https://officetuni
 
 ⚠️ Skill executa instruções e, às vezes, scripts. Instale só skills de fontes
 que você confia e leia o `SKILL.md` antes. Vale para estas também.
+
+## Projeto Power BI já existente: prompt de checkup e implementação
+
+Para auditar um `.pbip` que já existe (com ou sem o Background Builder) e evoluí-lo
+em lotes, use o prompt modelo [prompt-checkup-projeto-existente.md](prompt-checkup-projeto-existente.md).
+Ele roda no Claude Code com o plugin instalado, começa **somente leitura**, entrega
+uma nota de checkup com o plano e só implementa depois que você escolhe os lotes.
