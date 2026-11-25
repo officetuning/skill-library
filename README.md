@@ -97,8 +97,9 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ### 2.4.3 (25/11/2026)
 
-Correção do `auditar_visuais.py` em visual com campo de hierarquia e duas checagens
-novas (formatação com seletor órfão; tabela/matriz com título e sem subtítulo).
+Correção do `auditar_visuais.py` em visual com campo de hierarquia, checagem de
+formatação com seletor órfão e uma só pergunta [decidir] para tabela/matriz sem título
+e/ou subtítulo, com sugestão de subtítulo.
 Detalhe no [CHANGELOG](CHANGELOG.md).
 
 ### 2.4.2 (25/11/2026)

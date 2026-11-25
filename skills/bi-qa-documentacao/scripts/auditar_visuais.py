@@ -26,7 +26,7 @@ perguntas ao autor, não erros). Regras cobertas:
   sem decisão de interação [decidir] · grade de 8 px (fora de Dicas) · gauge e pizza
   [decidir] · visual R/Python · tema registrado ≠ tema da Ficha (com --tema) ·
   formatação com seletor órfão (`selector.metadata` que não é nenhum campo do visual) ·
-  tabela/matriz com título e sem subtítulo [decidir].
+  tabela/matriz sem título e/ou subtítulo [decidir], com sugestão de subtítulo.
 """
 import argparse
 import collections
@@ -96,6 +96,21 @@ def seletores_orfaos(vv):
                 if m and m not in refs:
                     out.append((nome, m))
     return out
+
+
+def sugerir_subtitulo(vv):
+    """Subtítulo no padrão "medidas por dimensões", montado com os campos do próprio visual."""
+    cs = campos(vv)
+    medidas = [c[3] for c in cs if c[1] == "Measure" and c[3]]
+    dims = [c[3] for c in cs if c[1] != "Measure" and c[3]]
+
+    def lista(xs, n=3):
+        xs = list(dict.fromkeys(xs))
+        return ", ".join(xs[:n]) + (f" e mais {len(xs) - n}" if len(xs) > n else "")
+
+    if medidas and dims:
+        return f"{lista(medidas)} por {lista(dims)}"
+    return lista(medidas or dims)
 
 
 def main():
@@ -179,10 +194,13 @@ def main():
                     achados[f"segmentação em modo {modo}"].append(f"{tag} {prop}")
             # tabelas e matrizes
             if t in ("tableEx", "pivotTable"):
-                if not c.get("title") or L(obj(c, "title").get("show", {})) != "true":
-                    decidir["[decidir] tabela/matriz sem título (ok se o nicho já nomeia)"].append(tag)
-                if c.get("title") and L(obj(c, "title").get("show", {})) == "true" and not L(obj(c, "subTitle").get("text", {})):
-                    decidir["[decidir] tabela/matriz com título e sem subtítulo (padrão: \"medidas por dimensões\")"].append(tag)
+                tem_titulo = L(obj(c, "title").get("show", {})) == "true" and L(obj(c, "title").get("text", {})) not in (None, "''")
+                tem_sub = L(obj(c, "subTitle").get("show", {})) != "false" and L(obj(c, "subTitle").get("text", {})) not in (None, "''")
+                if not (tem_titulo and tem_sub):
+                    falta = "título e subtítulo" if not tem_titulo and not tem_sub else "título" if not tem_titulo else "subtítulo"
+                    sug = sugerir_subtitulo(vv) if not tem_sub else ""
+                    decidir["[decidir] tabela/matriz sem título e/ou subtítulo (ok se o nicho já nomeia; padrão: título = o que é, subtítulo = \"medidas por dimensões\")"].append(
+                        f"{tag} falta {falta}" + (f" · sugestão de subtítulo: «{sug}»" if sug else ""))
                 sp = L(obj(c, "stylePreset").get("name", {})) if c.get("stylePreset") else None
                 if sp != "'BoldHeader'":
                     achados["estilo da tabela ≠ BoldHeader"].append(f"{tag} {sp}")
