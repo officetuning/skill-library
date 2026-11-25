@@ -95,6 +95,12 @@ checagem de bindings da `bi-qa-documentacao` confirma.
 - Instruções de IA, esquema de dados para IA e respostas verificadas
   ("Prep data for AI") são configurados pelo usuário na interface; o agente só
   sugere.
+- Dados de pessoas (nome, salário, saúde) **vão ao provedor de IA** quando o agente
+  consulta o modelo. Mantenha as consultas **agregadas** (contagens, somas por
+  grupo) e evite listar linhas com nome; use `--readonly` para explorar.
+- Na 1ª execução o servidor local pode pedir o aceite do EULA: o usuário aceita ou
+  você inicia com `--accepteula`. Com o MCP conectado ao modelo, **não edite
+  `.tmdl` à mão** ao mesmo tempo.
 - Uma mudança por objetivo: não "aproveitar" para corrigir outras coisas fora
   do plano aprovado.
 

@@ -31,6 +31,16 @@ painel global de filtros.
 > (cartão, título dinâmico, card da seleção na página Detalhe), que nunca entra em eixo, soma
 > ou ordenação. Medida numérica continua com a propriedade Formato.
 
+## Idade e tempo em anos completos
+`DATEDIFF ( nascimento; hoje; YEAR )` conta **viradas de ano-calendário**, não anos
+completos: errou cerca de 49% dos casos numa base de pessoas. Use a data de
+aniversário:
+`VAR _h = TODAY ( ) RETURN DATEDIFF ( [Nascimento]; _h; YEAR ) - IF ( DATE ( YEAR ( _h ); MONTH ( [Nascimento] ); DAY ( [Nascimento] ) ) > _h; 1; 0 )`
+(vale para Idade, Tempo de Casa e tempo de contrato). Numa coluna calculada,
+`TODAY()`/`UTCTODAY()` fixam o valor no último refresh e `UTCTODAY` usa o fuso UTC:
+próximo da meia-noite no Brasil o dia já virou. Para número sempre atual, prefira
+medida; para faixa etária, use a coluna e avise a data de atualização.
+
 ## Avisar na descrição
 - Calendário que termina em "hoje": valores por vencimento futuro ficam fora.
 - Medida acumulada: o ponto inicial é zero, não o saldo de abertura.
