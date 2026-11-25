@@ -24,7 +24,9 @@ perguntas ao autor, não erros). Regras cobertas:
   etiquetas de referência, ícones, tamanho do ícone ≈ 53 px, preenchimento 10,
   espaço acima do divisor 4) · gráfico com eixo de tempo (Calendário ou Tempo de Casa)
   sem decisão de interação [decidir] · grade de 8 px (fora de Dicas) · gauge e pizza
-  [decidir] · visual R/Python · tema registrado ≠ tema da Ficha (com --tema).
+  [decidir] · visual R/Python · tema registrado ≠ tema da Ficha (com --tema) ·
+  formatação com seletor órfão (`selector.metadata` que não é nenhum campo do visual) ·
+  tabela/matriz com título e sem subtítulo [decidir].
 """
 import argparse
 import collections
@@ -54,13 +56,45 @@ def obj(o, k):
     return (o.get(k) or [{}])[0].get("properties", {})
 
 
+def _campo(fl):
+    """(tipo, entidade, propriedade) de um campo de projeção.
+
+    Cobre coluna, medida, nível de hierarquia (`HierarchyLevel`, que não tem `Property`
+    nem `Expression.SourceRef` direto) e agregação (que embrulha outro campo).
+    """
+    k = next(iter(fl))
+    f = fl[k]
+    if k == "Aggregation":
+        return _campo(f["Expression"])
+    if k == "HierarchyLevel":
+        h = (f.get("Expression") or {}).get("Hierarchy") or {}
+        return k, (h.get("Expression") or {}).get("SourceRef", {}).get("Entity"), f.get("Level")
+    return k, (f.get("Expression") or {}).get("SourceRef", {}).get("Entity"), f.get("Property")
+
+
 def campos(vv):
     out = []
     for papel, r in vv.get("query", {}).get("queryState", {}).items():
         for p in r["projections"]:
-            k = list(p["field"])[0]
-            f = p["field"][k]
-            out.append((papel, k, f["Expression"]["SourceRef"].get("Entity"), f["Property"]))
+            k, ent, prop = _campo(p["field"])
+            out.append((papel, k, ent, prop))
+    return out
+
+
+def seletores_orfaos(vv):
+    """Entradas de formatação cujo `selector.metadata` não é nenhum campo do visual.
+
+    A propriedade vale para um campo que não está mais ali (sobra de um campo trocado ou
+    removido, ou de um visual copiado de outro modelo): não faz nada e confunde a leitura.
+    """
+    refs = {p.get("queryRef") for r in vv.get("query", {}).get("queryState", {}).values() for p in r["projections"]}
+    out = []
+    for secao in ("objects", "visualContainerObjects"):
+        for nome, itens in (vv.get(secao) or {}).items():
+            for e in itens if isinstance(itens, list) else []:
+                m = (e.get("selector") or {}).get("metadata")
+                if m and m not in refs:
+                    out.append((nome, m))
     return out
 
 
@@ -119,6 +153,8 @@ def main():
                 achados["visual R/Python (descontinuado)"].append(tag)
             if t in ("gauge", "pieChart"):
                 decidir["[decidir] gauge ou pizza (repete um cartão? mais de 4 fatias?)"].append(tag)
+            for nome, m in seletores_orfaos(vv):
+                achados["formatação com seletor órfão (campo que não está no visual)"].append(f"{tag} {nome} → {m}")
             # segmentações
             if t == "slicer":
                 prop = campos(vv)[0][3]
@@ -145,6 +181,8 @@ def main():
             if t in ("tableEx", "pivotTable"):
                 if not c.get("title") or L(obj(c, "title").get("show", {})) != "true":
                     decidir["[decidir] tabela/matriz sem título (ok se o nicho já nomeia)"].append(tag)
+                if c.get("title") and L(obj(c, "title").get("show", {})) == "true" and not L(obj(c, "subTitle").get("text", {})):
+                    decidir["[decidir] tabela/matriz com título e sem subtítulo (padrão: \"medidas por dimensões\")"].append(tag)
                 sp = L(obj(c, "stylePreset").get("name", {})) if c.get("stylePreset") else None
                 if sp != "'BoldHeader'":
                     achados["estilo da tabela ≠ BoldHeader"].append(f"{tag} {sp}")
