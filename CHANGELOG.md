@@ -2,6 +2,48 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.4.0 (25/11/2026)
+
+Aprendizados do checkup de um relatório de RH e dos infográficos de um relatório
+comercial, ambos montados com o Background Builder. As regras foram conferidas no
+Desktop; as coordenadas pressupõem o layout do Builder (1920×1080, corpo de
+(376, 128) a (1904, 1064), barra lateral em x40 com 296 de largura).
+
+- **`powerbi-visuais`:**
+  - nova referência `eixo-temporal-e-interacoes.md`: gráfico de eixo de tempo
+    (Calendário **e Tempo de Casa**) sob a segmentação de data relativa pode perder o
+    sentido; decidir gráfico a gráfico entre respeitar o filtro e editar interações
+    (`visualInteractions` com `NoFilter`, formato PBIR confirmado);
+  - segmentação de data: fontes de **Intervalo de datas e Resumo em 12** (substitui
+    10,8), filtro `DateSpan` precisa estar gravado, barra de destaque desligada;
+  - **altura padrão do cartão de Grandes Números: 168 sem e 240 com etiquetas de
+    referência**, visuais abaixo de `S = y + altura + 16` a 1064, tudo em múltiplos de
+    8; preenchimento interno 10 e `spaceAboveDivider 4`;
+  - ícone com **tamanho absoluto de ~53 px** (`imageAreaSize` calculado pelo bloco),
+    ícones por código, **foto redonda** (contêiner arredondado, `Fill`), foto por
+    posição com **medida de URL** (filtro de visual em ranking não separa as linhas) e
+    infográfico em **Preencher**;
+  - `comparativo-ano-anterior.md`: `Δ` não vale em nome de **variável** DAX (`vDelta`),
+    comparativo de **fluxo do período** com `EDATE`, farol invertido para "menor é
+    melhor"; gauge e pizza que repetem um cartão saem.
+- **`data-storytelling`:** teste dos **5 segundos** (se precisa explicar a piada, ela
+  falhou: a banheira foi trocada pelo ponto de ônibus), **uma analogia por página**
+  (mesma família visual, cenas diferentes), **identidade provada antes do desenho** e
+  desenho neutro; arte 3D vem de gerador de imagem: novo `prompt-imagem-storytelling.md`
+  e o script **`medir_png.py`** (mede balões e retângulos de segmentação no PNG, só
+  biblioteca padrão).
+- **`bi-qa-documentacao`:** novo script **`auditar_visuais.py`** (segmentações, tabelas,
+  cartões, eixo de tempo, grade de 8 px, tema registrado) e checagens 19 a 25.
+- **`background-builder-automacao`:** `exportar-colecao.cjs` não trava mais esperando
+  `networkidle` (cai para `domcontentloaded`); como comparar a coleção nova com os
+  fundos atuais.
+- **`dashboard-layout`:** como medir onde ficam as segmentações no fundo novo e criar a
+  nova; o **tema registrado precisa ser o da Ficha**.
+- **`tmdl-pbir`:** 12 propriedades confirmadas (interações, `Fill`, borda arredondada,
+  campos do cartão, preenchimento, `innerRadiusRatio`), e armadilhas de fluxo
+  (`python -I` e `PYTHONIOENCODING`, script grande fora do heredoc, BPA e medida
+  oculta, tabela sem colchete entre aspas).
+
 ## 2.3.0 (24/11/2026)
 
 Aprendizados da construção do relatório Vendas (referências: Finanças e

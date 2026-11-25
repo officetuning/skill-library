@@ -18,7 +18,8 @@ arquivo gravado pelo Desktop; **[regra do autor]** = decisão de projeto.
 - **Estilo (fundo, borda, barra de destaque) vem do tema**; não grave à mão.
   Exceção de espaçamento, regra do autor **[verificado]**: preenchimento do
   contêiner 14 (topo) / 16 / 16 / 16, `cellPadding 16` e vão de 16 entre cartões;
-  a altura do cartão é livre (cabe o conteúdo, ex.: 216 com AA e Δ%).
+  **altura padrão do cartão de Grandes Números: 168 sem etiquetas de referência
+  e 240 com** (seção abaixo).
 - **Cartão de nicho ou segmentação sobre fundo do Builder:** tela de fundo,
   fronteira visual, efeitos, cabeçalho e título **desligados**. Cartão de
   storytelling (sobre a imagem): sem título, fundo, borda nem rótulo.
@@ -36,6 +37,37 @@ arquivo gravado pelo Desktop; **[regra do autor]** = decisão de projeto.
 - Deduzir o enum de `orientation` de outro projeto: `1D` e `2D` não são Grade;
   propriedade ausente = Horizontal. Peça ao usuário configurar no Desktop,
   salvar, e leia o arquivo.
+
+## Altura padrão do cartão de Grandes Números e o que fica abaixo [regra do autor]
+
+| O cartão tem... | Altura |
+|---|---|
+| **Layout das etiquetas de referência** (AA, Δ%, `referenceLabel*`) | **240** |
+| só valor e rótulo | **168** |
+
+Tudo em **múltiplos de 8** (a grade de 8 px do Background Builder vale para x, y,
+largura e altura). Coordenadas do Builder: cartão em y=128; **os visuais abaixo começam 16 px depois** (`S = 128 + altura + 16`)
+e **terminam em y=1064**.
+
+| Cartão | Os visuais começam em | Duas linhas de gráfico |
+|---|---|---|
+| 168 | **y=312** | 312 a 680 (368) e 696 a 1064 (368) |
+| 240 | **y=384** | 384 a 712 (328) e 728 a 1064 (336) |
+
+- Linha 1 = `piso8((1064 − S − 16) ÷ 2)`; linha 2 = o resto. No cartão de 240, 664 ÷ 2
+  = 332 não é múltiplo de 8: use 328 e 336.
+- Visual que ocupa as duas linhas (mapa, tabela alta): de `S` até 1064 (752 no
+  cartão de 168).
+- Ao mudar a altura do cartão de uma página, **redistribua os visuais abaixo na
+  mesma passada** (script: classifique cada visual por seu y antigo em "alto",
+  "linha 1" e "linha 2") e confira que nada sai da grade nem se sobrepõe.
+- **Preenchimento interno do bloco** (`layout` com `selector id default`):
+  `paddingIndividual false` e `paddingUniform 10L`. Com 0 o rótulo cola no topo.
+- **Cartão com etiquetas de referência:** `visualContainerObjects.spacing.
+  spaceAboveDivider` em **4** (16 consome a altura e corta o rótulo) e
+  `label.position 'aboveValue'`.
+- Largura e x iguais em todas as páginas (376 e 1528 no corpo; 16 e 1888 no
+  Detalhe). Cartão deslocado 8 px dos visuais abaixo é defeito, não estilo.
 
 ## Títulos e subtítulos
 

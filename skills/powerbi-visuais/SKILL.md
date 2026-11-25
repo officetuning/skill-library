@@ -42,16 +42,22 @@ dimensões:
 - **Exibir unidades = Nenhum em todo visual cabível** (sem "mil", "mi" ou "bi"),
   inclusive o valor central da rosca: `references/exibir-unidades-nenhum.md`.
 - **Segmentações no padrão** (cabeçalho, fundo e borda desligados; texto em
-  Suspenso; data em Seletor de data): `references/segmentacoes-padrao.md`.
+  Suspenso com Pesquisar; data em Seletor de data relativo com fontes 12):
+  `references/segmentacoes-padrao.md`.
+- **Gráfico de eixo temporal** (Ano, Mês, **Tempo de Casa**) sob a segmentação de
+  data: decida se respeita o filtro ou ignora a data (interações `NoFilter`):
+  `references/eixo-temporal-e-interacoes.md`.
 - **Tabela e matriz** (largura, cabeçalho, `rowHeaders`) e **cor fixa por valor**
   (ex.: Sexo): `references/tabelas-matrizes-e-cores-fixas.md`.
 - **Comparativo com o ano anterior** (família `(AV)`, `(AA)`, `(Δ)`, `(Δ%)`,
-  `(Δi)`, `(Δ Cor)` e cartão único de 216): `references/comparativo-ano-anterior.md`.
+  `(Δi)`, `(Δ Cor)` e cartão único de 240): `references/comparativo-ano-anterior.md`.
 - **Imagens e ícones** (visual `image` dinâmico como padrão para a entidade
   selecionada, ícones em cartões largos, cor por Hexa): `references/imagens-e-icones.md`.
 
 **Preferir**
-- Barras horizontais ordenadas no lugar de pizza, rosca e gauge.
+- Barras horizontais ordenadas no lugar de pizza, rosca e gauge. Pizza de poucas
+  fatias e gauge que **repetem um cartão da mesma página** saem: troque por um
+  visual com informação nova (barras por outra dimensão, colunas por ano).
 - Visual KPI em vez de gauge; cartão só quando não há meta.
 - Formatação condicional por limite de negócio, não estatístico.
 - Tooltip page no tamanho do Background Builder conforme o conteúdo:

@@ -93,6 +93,24 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.4.0 (25/11/2026)
+
+Aprendizados do checkup de um relatório de RH e dos infográficos de um relatório
+comercial, ambos com o Background Builder. Detalhe completo no
+[CHANGELOG](CHANGELOG.md).
+
+- **Eixo de tempo:** gráfico com eixo de Calendário ou **Tempo de Casa** pode perder o
+  sentido sob "Este ano"; decidir entre respeitar o filtro e editar interações
+  (`powerbi-visuais`).
+- **Cartões:** altura padrão **168 sem e 240 com** etiquetas de referência, visuais
+  abaixo na grade de 8 px, ícones de ~53 px e segmentação de data com fontes 12.
+- **Storytelling:** teste dos 5 segundos, uma analogia por página, identidade provada
+  antes do desenho, prompt para o gerador de imagem e `medir_png.py` para posicionar
+  cartões nos balões (`data-storytelling`).
+- **QA:** `auditar_visuais.py` e checagens 19 a 25 (`bi-qa-documentacao`).
+- **Builder:** `exportar-colecao.cjs` com fallback para redes que nunca ficam
+  ociosas; tema registrado = tema da Ficha.
+
 ### 2.3.0 (24/11/2026)
 
 Aprendizados da construção do relatório Vendas, com o Finanças e o Performance

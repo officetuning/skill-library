@@ -17,9 +17,16 @@ pasta do relatório.
 | 16 | Referência a campo do modelo antigo no `.Report`: `grep -r '"Entity": "<prefixo antigo>'` (ex.: `"Entity": "Tab` depois de migrar para nomes de negócio na 2.0.0) deve dar **0** | `filterConfig` de visual com campo que não existe mais (fica pendurado, sem erro) e regra de cor condicional apontando para medida inexistente (código morto) |
 | 17 | Qualquer `labelDisplayUnits`, `valueDisplayUnits` ou `dataLabelDisplayUnits` com valor diferente de `1D`, **em qualquer visual** | Visual com "mil/mi" que escapou das checagens 8 e 9 |
 | 18 | Visual R ou Python: `grep -rlE '"visualType": "(scriptVisual|pythonVisual)"' <pasta>.Report` deve dar **0** | Visual que para de renderizar com a aposentadoria dos visuais R e Python (maio de 2027) |
+| 19 | Segmentação de data em `RelativeDatePicker` sem `general.filter` (`DateSpan`) ou sem `dateRangeText` e `relativeText` em 12 | Segmentação que abre sem recorte ou com fonte fora do padrão; costuma estar certa só na primeira página |
+| 20 | Segmentação de texto sem `selfFilterEnabled true` (Pesquisar) ou sem `dropdown.accentBarShow false` | Barra de destaque e falta de busca em todas as páginas |
+| 21 | Gráfico ou matriz com eixo de tempo (Calendário, **Tempo de Casa**) sem decisão registrada sobre a segmentação de data (`page.json › visualInteractions`) | Coluna por Ano com um ano só, matriz "ano a ano" com um ano, área por Tempo de Casa esvaziada; ver `powerbi-visuais/references/eixo-temporal-e-interacoes.md` |
+| 22 | Cartão largo de Grandes Números com altura ≠ 168 (sem etiquetas de referência) ou 240 (com), sem ícones, com ícone fora de ~53 px, sem `paddingUniform 10L`, ou com `spaceAboveDivider` ≠ 4 quando há referência | Rótulo colado ou cortado, ícone batendo na margem, altura heterogênea entre páginas |
+| 23 | Qualquer coordenada de visual fora da grade de 8 px (x, y, largura, altura; exceto Dica e cartão sobre balão de arte) | Redistribuição que deixou 1 ou 2 px de sobra |
+| 24 | DAX com tabela sem aspas simples, **inclusive sem colchete** (`COUNTROWS(Tab)`, `ALL(Tab)`), e `VAR` com `Δ` ou símbolo no nome | "Token inválido" ao abrir; regra da casa descumprida |
+| 25 | `dataColors` do tema **registrado** no relatório ≠ `Tema.json` da Ficha do Builder | Cores de visual e nichos do fundo que não combinam |
 
 ## Ordem sugerida
-Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 18
+Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 25
 → BPA. As checagens 8 a 10 e 15 são idempotentes: o mesmo script que audita
 também corrige.
 
@@ -35,6 +42,13 @@ também corrige.
   Custos. [relato do autor]
 - **18:** cada arquivo listado é um visual a refazer com visual nativo, visual
   por medida DAX (SVG) ou visual personalizado certificado (skill `powerbi-visuais`).
+
+## Rodar as checagens de visuais de uma vez
+`scripts/auditar_visuais.py "<Projeto>.Report/definition" --tema "<Builder>/<H1> - Tema.json"`
+cobre as checagens 8, 9, 10, 15 (texto alternativo ausente), 17, 18 e 19 a 23 e 25, e
+lista as perguntas de design ("[decidir]": eixo de tempo, gauge, pizza, tabela sem
+título). Saída 1 se houver pendência fixa. A 24 (DAX) e as demais seguem pelo
+`tmdl_parser.py`.
 
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o

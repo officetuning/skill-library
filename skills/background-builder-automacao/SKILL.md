@@ -48,6 +48,11 @@ JSON preparado pelo agente, **Exportar coleção**, salvar o ZIP. O script
      aparece no PNG. Compactar com o Encaixe, tirar filtro ou levar para outra
      página, e exportar de novo.
    - Comparar a lista de PNGs com as páginas do relatório.
+   - **Comparar com os fundos atuais** (arquivo a arquivo e por pixel): ao incluir
+     um filtro, só a **barra lateral** das páginas de corpo muda; ao regenerar sem
+     mudar nada, quase tudo sai idêntico (às vezes só a Sobre muda). As três Dicas
+     (`dicaSizes`) precisam sair com 320×240, 400×304 e 600×456 se estavam na Ficha.
+     Diferença fora do esperado é sinal de Ficha editada ou de Builder novo.
    - No `Script.TMDL`, toda fórmula DAX com a tabela entre aspas simples
      (`'Atualização'[...]`, `'Calendário'[...]`). Até o Builder 1.033 a medida
      `Data da Última Atualização` sai sem aspas e dá erro: corrigir antes de
@@ -116,6 +121,7 @@ aponta outro endereço do Builder (o padrão é
 | ZIP bloqueado pela verificação de pixels | Uma página saiu chapada | Exportar de novo; se repetir, é problema no Builder: informar a página |
 | Medida `Data da Última Atualização` com erro depois do script | Builder 1.033 ou anterior gerou `Atualização[...]` sem aspas | Trocar por `'Atualização'[Momento da Última Atualização]` |
 | Tempo esgotado no download | Muitas páginas ou máquina lenta | Rodar de novo com `--visivel` para ver onde para |
+| `page.goto: Timeout 90000ms` esperando `networkidle` | O site mantém conexões abertas (métricas) e a rede nunca fica ociosa | O script já tenta `networkidle` por 30 s e cai para `domcontentloaded`. Em versão antiga do script, troque `waitUntil` por `"domcontentloaded"`; o site responde (HTTP 200) |
 
 O caminho manual continua valendo sempre: o usuário abre a mesma ficha no
 Builder, clica em **Exportar coleção** e põe o ZIP na pasta do projeto.

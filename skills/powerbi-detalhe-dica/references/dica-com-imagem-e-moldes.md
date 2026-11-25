@@ -25,9 +25,10 @@ Use o visual `image` dinâmico (`powerbi-visuais/references/imagens-e-icones.md`
   teste com o maior valor possível.
 
 ## Molde de Detalhe (um só para várias entidades) [do Performance Comercial]
-Cartão de indicadores (altura 152, 7 medidas), **tabela de ranking 784×768** à
-esquerda, **rosca + funil** (536×376) e **linha AV × AA por Semana #**
-(1088×376). Detalhe de Vendedor e de Estampa levam **imagem 152×152** ao lado do
+Cartão de indicadores (altura **168**, 7 medidas), **tabela de ranking 784×752**
+(y=312) à esquerda, **rosca + funil** (536×368, y=312) e **linha AV × AA por
+Semana #** (1088×368, y=696); medidas em `powerbi-visuais/references/
+cartoes-e-titulos.md`. Detalhe de Vendedor e de Estampa levam **imagem 152×152** ao lado do
 cartão (cartão de 1720 de largura). Seis Detalhes no mesmo molde: UF, Categoria,
 Vendedor, Campanha, Estampa, Canal. No cabeçalho: Voltar em (1744, 40) 144×48
 (`icon 'back'`, `visualLink 'Back'`) e cartão de seleção em (1232, 48) 496×32.

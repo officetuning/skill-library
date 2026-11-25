@@ -133,6 +133,7 @@ explicação de DAX complexo) e checklist: `references/documentacao.md`.
 |---|---|---|
 | `scripts/tmdl_parser.py` | Lê tabelas, colunas, medidas multilinha e relacionamentos do TMDL | Python 3.9+ |
 | `scripts/check_visual_bindings.py` | Camada 3; exit 1 se houver campo quebrado | Python 3.9+ |
+| `scripts/auditar_visuais.py` | Audita segmentações, tabelas, cartões, eixo de tempo, grade de 8 px e tema registrado; exit 1 se houver pendência fixa | Python 3.9+ |
 | `scripts/extrair_modelo.py` | JSON intermediário para a documentação | Python 3.9+ |
 | `scripts/gerar_docx.js` | `.docx` a partir do JSON | Node + `npm install docx` |
 

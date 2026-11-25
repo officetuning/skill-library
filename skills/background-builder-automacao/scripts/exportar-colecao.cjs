@@ -83,7 +83,15 @@ async function main() {
     const page = await ctx.newPage();
     const alertas = [];
     page.on("dialog", (d) => { alertas.push(d.message()); d.dismiss().catch(() => {}); });
-    await page.goto(o.url, { waitUntil: "networkidle", timeout: 90000 });
+    // O site mantém conexões abertas (métricas): em algumas redes "networkidle" nunca
+    // chega e estoura o tempo. Tenta a espera completa por pouco tempo e, se falhar,
+    // segue com o carregamento do documento; o campo de arquivo abaixo já espera a
+    // interface ficar pronta.
+    try {
+      await page.goto(o.url, { waitUntil: "networkidle", timeout: 30000 });
+    } catch {
+      await page.goto(o.url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    }
 
     // Campo exato de "Abrir Ficha Técnica". O outro campo (".json,.md,...") é o
     // importador de projeto de outro endereço e abre uma janela diferente.
