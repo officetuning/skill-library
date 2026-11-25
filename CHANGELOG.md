@@ -2,6 +2,20 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.4.3 (25/11/2026)
+
+Correção e duas melhorias no `auditar_visuais.py`.
+
+- **`bi-qa-documentacao`:** `auditar_visuais.py` deixou de quebrar (`KeyError: 'SourceRef'`)
+  em visual com campo de **hierarquia** (por exemplo, `FY » FQ » FM` do calendário),
+  que não tem `Property` nem `Expression.SourceRef` direto; agregações também passam
+  a ser lidas. Duas melhorias: **formatação com seletor órfão** (entrada em
+  `objects`/`visualContainerObjects` cujo `selector.metadata` não é nenhum campo do
+  visual: sobra de campo trocado ou removido, ou de visual copiado de outro modelo) e
+  uma só pergunta [decidir] para **tabela/matriz sem título e/ou subtítulo**, que
+  diz o que falta e sugere o subtítulo ("medidas por dimensões") com os campos do
+  próprio visual. Título ligado sem texto agora também conta como ausente.
+
 ## 2.4.2 (25/11/2026)
 
 Lições de editar por script dois relatórios de RH e Recrutamento no Desktop.
