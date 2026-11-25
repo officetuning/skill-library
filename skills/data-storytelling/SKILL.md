@@ -107,6 +107,16 @@ estrutura dos dados (fases, níveis, partes, comparação, território, meta) e
 relatório trocando etiquetas. Método (visual thinking e design-by-analogy),
 tabela de analogias e exemplo: `references/storytelling-com-imagem.md`.
 
+- **Teste dos 5 segundos:** se a analogia precisa de explicação, ela falhou
+  (a banheira foi trocada pelo ponto de ônibus). Prefira cena do cotidiano.
+- **Uma analogia por página**, mesma família visual, cenas diferentes (nunca a
+  estrada em toda página).
+- **A imagem afirma uma identidade**: prove-a com as medidas e teste com
+  `EVALUATE ROW(...)`; desenhe neutro (marcadores no mesmo nível).
+- **Arte 3D vem de gerador de imagem**, não de SVG à mão: o agente escreve o prompt
+  (`references/prompt-imagem-storytelling.md`), o autor gera, e o agente mede os
+  balões com `scripts/medir_png.py` e posiciona os cartões.
+
 ## Checklist antes de publicar
 
 - [ ] Big Idea em uma frase com sujeito + verbo + consequência

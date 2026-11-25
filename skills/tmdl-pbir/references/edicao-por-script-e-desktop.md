@@ -53,6 +53,17 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
 | `actionButton` limpar filtros | Botão Limpar filtros | `icon.shapeType 'clearAllSlicers'` + `visualLink.type 'ClearAllSlicers'` | verificado |
 | `page.json › type` (dica) | Página de dica | `"Tooltip"`, sem `pageBinding` | verificado |
 | `columnHeaders` da `pivotTable` | mesmo estilo da `tableEx` | mesmos objetos | verificado |
+| `segmentação de data › dateRangeText.fontSize` e `relativeText.fontSize` | Texto › Intervalo de datas e Resumo | `12D` | verificado |
+| `segmentação de data › general.filter` | "Este ano a partir da última data" | `DateSpan` sobre `ScopedEval(Max(data))`, `TimeUnit 3` | verificado |
+| `page.json › visualInteractions` | Editar interações: "Nenhum" | `[{ source, target, type: "NoFilter" }]` (nomes completos dos visuais) | verificado |
+| `image` (visual) › `sourceFile › scaling` | Ajuste da imagem: Preencher | `'Fill'` | verificado (infográfico) |
+| `image` (visual) › `sourceField` | Imagem por campo | `expr › Measure` de uma medida com `dataCategory: ImageUrl` funciona; filtro de visual em medida de ranking **não** separa as linhas | verificado |
+| `visualContainerObjects.border.radius` | Cantos arredondados | metade do lado num visual quadrado = círculo | verificado |
+| `cardVisual › value.fontFamily`, `fontSize`, `fontColor` | Fonte, tamanho e cor do valor | nomes confirmados no Desktop (`'Segoe UI Semibold'`, `20D`, literal hex) | verificado |
+| `cardVisual › layout (selector id default) › paddingIndividual`, `paddingUniform` | Preenchimento interno do bloco | `false` e `10L` | verificado |
+| `visualContainerObjects.spacing.spaceAboveDivider` | Espaço acima do divisor | `4D` em cartão com etiquetas de referência | verificado |
+| `donutChart › slices.innerRadiusRatio` | Raio interno (%) | existe (0 a 99; padrão 48% do raio); **não usar**: deixe o padrão e ajuste a fonte do valor central (`value.fontSize`) | verificado no código do Desktop |
+| `image` (visual) › `cornerRadius` | Cantos | existe, plano B ao raio do contêiner | verificado no código do Desktop |
 
 ## Armadilhas de fluxo (sessão com o Vendas) [verificado]
 - **Nunca edite `.pbix` como zip:** corrompe o arquivo ("arquivo corrompido").
@@ -73,6 +84,19 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
   M não muda.
 - `json.dumps` com `ensure_ascii=True` não casa com nomes acentuados ao testar
   presença; grave com `ensure_ascii=False`.
+- **`python -I` ignora `PYTHONIOENCODING`.** No Windows, `print` de `Δ`, `Ç` ou
+  emoji dá `UnicodeEncodeError` (console cp1252). Rode sem `-I` e com
+  `PYTHONIOENCODING=utf-8`, ou grave o resultado em arquivo.
+- **Script grande com muito texto entre aspas e crases**: não passe por heredoc do
+  shell (as aspas confundem). Grave o script em arquivo e execute.
+- **Ocultar medida auxiliar** (de um visual personalizado, por exemplo) faz o BPA
+  acusar "Remove unnecessary measures": ele não vê o uso nos visuais. Falso
+  positivo; registre na nota de auditoria. Ocultar chave estrangeira e coluna crua
+  de fato reduz "Hide foreign keys" e "Hide fact table columns"; nas ocultas, o BPA
+  pede `isAvailableInMdx: false`.
+- **Referência a tabela em DAX sem colchete** (`COUNTROWS(Tab)`, `ALL(Tab)`,
+  `REMOVEFILTERS(Tab)`) também vai entre aspas simples; a troca em lote deve
+  cobrir os dois formatos (`Tab[col]` e `Tab`) e pular comentários e a partição M.
 - Gerar visual novo **a partir de um visual salvo pelo Desktop** (cartão com
   AA/Δ%, ícones, botão) funciona melhor que escrever o JSON do zero.
 - **OneDrive pode negar `rmdir`** em pasta de visual recém-esvaziada; pasta

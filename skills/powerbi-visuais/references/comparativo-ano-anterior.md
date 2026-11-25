@@ -20,7 +20,7 @@ renderizou e foi gravado pelo Desktop. Nomes seguem `bi-nomenclatura`, seção 5
 - O Performance Comercial usa 🟩 🟥 🟨 ⬜ e `Δ%` sem `ABS`; a convenção da casa é a
   acima (✔️ ⚠️ ❗ e `ABS`).
 
-## Cartão único com AA e Δ% (`cardVisual`, altura 216) [verificado]
+## Cartão único com AA e Δ% (`cardVisual`, altura 240) [verificado]
 Uma faixa de "Grandes Números" com várias medidas, cada uma com o comparativo
 embaixo (valor do ano anterior e variação com farol).
 - Em cada medida: `referenceLabel` com `(AA)` (order 0) e `(Δ%)` (order 1);
@@ -37,3 +37,36 @@ embaixo (valor do ano anterior e variação com farol).
 
 ## Ícones no cartão
 Ver `imagens-e-icones.md`.
+
+## Armadilhas e variações [nov/2026]
+
+- **`Δ` não vale em nome de variável DAX.** `VAR vΔ = ...` dá "Token inválido"
+  (o erro aponta a posição do `Δ`), e o Desktop, ao abrir, remove dos visuais as
+  formatações que apontavam para a medida inválida (cor do Δ% do cartão). Use
+  `vDelta`. O **nome da medida** pode ter `Δ` (`'Faturamento (Δ)'`); só o
+  identificador de variável não pode.
+- **Medida de fluxo do período** (contratados, demitidos: contam eventos entre duas
+  datas) não usa `SAMEPERIODLASTYEAR`. Desloque as duas pontas do período com
+  `EDATE` e ignore o filtro do calendário:
+
+  ```dax
+  Contratados (AA) =
+  VAR vInicio  = MIN ( 'Calendário'[Data Referência] )
+  VAR vTermino = MAX ( 'Calendário'[Data Referência] )
+  RETURN
+      IF ( NOT ISBLANK ( vInicio ) && NOT ISBLANK ( vTermino ),
+           CALCULATE ( [Colaboradores],
+                       REMOVEFILTERS ( 'Calendário' ),
+                       'Colaborador'[Entrada] >= EDATE ( vInicio, -12 ),
+                       'Colaborador'[Entrada] <= EDATE ( vTermino, -12 ) ) )
+  ```
+  O `IF` protege a linha "(Em branco)" que o calendário ganha com datas de saída
+  em branco. Medida de **estoque** (headcount no fim do período) usa a data de
+  fechamento deslocada, não o intervalo.
+- **"Menor é melhor"** (demitidos, prazo de entrega, atraso): o farol e a cor se
+  invertem. `(Δi)`: `Δ > 0` vira ❗ e `Δ < 0` vira ✔️; `(Δ Cor)`: positivo vira a
+  cor negativa do tema. A descrição `///` diz que a subida é ruim.
+- **Contagem simples não leva Δ%** quando a base é zero: `DIVIDE` e `ABS` na
+  base já devolvem vazio.
+- Teste os dois lados: com a segmentação de data em "Este ano", `(AA)` precisa
+  devolver o mesmo período do ano anterior (confira contra um filtro manual).

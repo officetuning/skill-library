@@ -122,8 +122,11 @@ Builder: skill `background-builder-automacao`.
 ## Zonas do corpo que se repetem [verificado no Vendas]
 - **Botão Limpar filtros** em (200, 152) 136×32, em todas as páginas de corpo
   (`powerbi-visuais`, `tmdl-pbir`).
-- **Faixa de indicadores** em (376, 128) 1528×160 ou **216** quando o cartão
-  traz AA e Δ% (`powerbi-visuais/references/comparativo-ano-anterior.md`).
+- **Faixa de indicadores** em (376, 128) 1528×**168**, ou **240** quando o cartão
+  traz as etiquetas de referência (AA e Δ%). Os visuais abaixo começam em y=312
+  (ou 384) e terminam em 1064, sempre em múltiplos de 8
+  (`powerbi-visuais/references/cartoes-e-titulos.md`,
+  `powerbi-visuais/references/comparativo-ano-anterior.md`).
 - **Storytelling** em (888, 720) 1016×344 com cartões de uma medida sobre as
   chamadas (`data-storytelling/references/storytelling-com-imagem.md`).
 - Margem de **16 px** até a borda direita do corpo (x=1904); larguras e alturas

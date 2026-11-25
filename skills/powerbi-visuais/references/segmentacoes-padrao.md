@@ -14,11 +14,22 @@ Regra do autor para segmentações.
 - **Pesquisar: ligado** em segmentação de texto: `general.selfFilterEnabled =
   true`. **[verificado]** Mais `dropdown.accentBarShow = false` (sem barra de
   destaque).
-- **Data:** `data.mode = 'RelativeDatePicker'` com filtro `DateSpan` sobre
-  `ScopedEval ( Max ( Calendário[Data] ) )`, `TimeUnit 3` (ano): o rótulo fica
-  "Este ano a partir da última data", deslocamento 0. `slider` e
-  `calendarButton` na cor 1 do tema (ícone na cor 0), `relativeText.fontSize
-  10.8`. **[verificado]**
+- **Data:** `data.mode = 'RelativeDatePicker'` (Seletor de data) com filtro
+  `DateSpan` sobre `ScopedEval ( Max ( Calendário[Data] ) )`, `TimeUnit 3` (ano):
+  a data está no **Este**, unidade **Anos**, ancorada na **última data**,
+  deslocamento 0; o rótulo fica "Este ano a partir da última data". **[verificado]**
+  - O filtro fica em `objects.general[0].properties.filter` (`Version 2`, `From`
+    com a tabela de datas, `Where › Comparison ComparisonKind 0 › Right › DateSpan`).
+    **Copie de uma segmentação que o Desktop já gravou.** Sem esse bloco o
+    `RelativeDatePicker` abre sem recorte nenhum.
+  - **Fontes: 12 em `dateRangeText` (Intervalo de datas) e em `relativeText`
+    (Resumo)**, as duas. (A regra antiga, `relativeText.fontSize 10.8`, foi
+    substituída.) Confirmado no Desktop: `dateRangeText` e `relativeText` são os
+    dois grupos de "Texto" da segmentação de data. **[verificado]**
+  - `slider` e `calendarButton` seguem o tema (ícone na cor 0) e podem variar por
+    projeto; o que não varia é o filtro e as fontes.
+  - **Confira todas as páginas.** Em auditorias, a segmentação da primeira página
+    costuma estar certa e as das outras sem o filtro ou sem as fontes.
 
 ## Preferir
 - Segmentações do painel lateral em x40, largura 296; Período altura 120, as
@@ -33,3 +44,8 @@ Regra do autor para segmentações.
 ## Evitar
 - Cabeçalho, fundo ou borda ligados por herança do tema: confira o contêiner de
   cada segmentação, não só a primeira.
+- Segmentação de data em `RelativeDatePicker` sem o `filter` gravado.
+- Barra de destaque ligada em segmentação suspensa (`dropdown.accentBarShow`
+  precisa ser `false`; mudar só a cor da barra não desliga).
+- Deixar um gráfico de **eixo temporal** obedecer à segmentação de data sem pensar:
+  com "Este ano" ele pode perder o sentido. Ver `references/eixo-temporal-e-interacoes.md`.
