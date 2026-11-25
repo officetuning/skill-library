@@ -2,11 +2,10 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
-## Próxima versão (em preparação, 24/11/2026)
+## 2.3.0 (24/11/2026)
 
 Aprendizados da construção do relatório Vendas (referências: Finanças e
-Performance Comercial). Ainda sem número de versão: confira as quatro versões
-(`versao.yml`) ao fechar.
+Performance Comercial).
 
 - **`data-storytelling`:** nova referência `storytelling-com-imagem.md`. A imagem
   nasce de uma **analogia escolhida para os dados** (fases → estrada; níveis →
