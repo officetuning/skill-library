@@ -2,6 +2,34 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.3.0 (24/11/2026)
+
+Aprendizados da construção do relatório Vendas (referências: Finanças e
+Performance Comercial).
+
+- **`data-storytelling`:** nova referência `storytelling-com-imagem.md`. A imagem
+  nasce de uma **analogia escolhida para os dados** (fases → estrada; níveis →
+  degraus; partes → anatomia; comparação; território; meta), com método de
+  visual thinking (Dan Roam) e design-by-analogy, e a regra de ouro: **verdadeira
+  com qualquer filtro**. Nunca adaptar a ilustração de outro relatório.
+- **`powerbi-visuais`:** `comparativo-ano-anterior.md` (família `(AV)`…`(Δ Cor)` e
+  cartão único de 216 com AA e Δ%); `imagens-e-icones.md` (visual `image`
+  dinâmico como padrão para a entidade selecionada, ícones só em cartões largos,
+  cor por Hexa com seletores `roles`); segmentações com Pesquisar e data relativa
+  confirmados; tabela e matriz com `BoldHeader`, `growToFit` e cabeçalho
+  `ColorId 2`; cartões com preenchimento 14/16/16/16.
+- **`powerbi-detalhe-dica`:** Dica sem `pageBinding` e sem `type` no
+  `visualTooltip` (com eles o hover mostra o tooltip padrão); Dica com imagem;
+  molde único de Detalhe.
+- **`tmdl-pbir`:** propriedades confirmadas (Pesquisar, data relativa, estilo de
+  tabela, imagem, botão Limpar filtros) e armadilhas de fluxo (`.pbix` por zip,
+  Desktop aberto, `cache.abf`, blocos TMDL duplicados, renomeação em lote).
+- **`bi-qa-documentacao`:** dicionário: conferir os dados antes de descrever;
+  regenerar a cada mudança; ordem do visual.
+- **`powerbi-boas-praticas`:** ranking robusto, participação e item líder.
+- **`dashboard-layout`:** zonas fixas do corpo (Limpar filtros, faixa de
+  indicadores, storytelling).
+
 ## 2.2.1 (24/11/2026)
 
 Correções vindas do uso do Background Builder, junto com o Builder 1.034.

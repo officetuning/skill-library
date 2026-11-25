@@ -93,6 +93,26 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.3.0 (24/11/2026)
+
+Aprendizados da construção do relatório Vendas, com o Finanças e o Performance
+Comercial como referência. Detalhe completo no [CHANGELOG](CHANGELOG.md).
+
+- **Storytelling por analogia:** a imagem nasce de uma analogia escolhida para os
+  dados (fases, níveis, partes, comparação, território, meta), com método de
+  visual thinking e design-by-analogy, e precisa continuar verdadeira com
+  qualquer filtro. Nunca se reaproveita a ilustração de outro relatório
+  (`data-storytelling`).
+- **Visuais:** comparativo com o ano anterior (cartão único de 216 com AA e Δ%),
+  visual `image` dinâmico como padrão para a entidade selecionada, ícones só em
+  cartões largos e propriedades de segmentação, tabela e matriz confirmadas
+  (`powerbi-visuais`).
+- **Dica e Detalhe:** Dica sem `pageBinding`, Dica com imagem e molde único de
+  Detalhe (`powerbi-detalhe-dica`).
+- **Fluxo e QA:** armadilhas de edição por script (`tmdl-pbir`), dicionário com
+  dados conferidos (`bi-qa-documentacao`), ranking robusto e item líder
+  (`powerbi-boas-praticas`) e zonas fixas do corpo (`dashboard-layout`).
+
 ### 2.2.1 (24/11/2026)
 
 Correções vindas do uso do Background Builder, junto com o Builder 1.034.

@@ -41,6 +41,44 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
 | projeção `displayName` + `nativeQueryRef` | Campo renomeado no visual | strings | verificado |
 | `visualContainerObjects.general[0].properties.altText` | Texto alternativo | literal | verificado |
 | `position.tabOrder` (ordem de foco) | Ordem de tabulação | maior = primeiro (doc da ferramenta) | **a confirmar no Desktop** |
+| `segmentação.general.selfFilterEnabled` | Pesquisar ligado (texto, suspenso) | `true` | verificado |
+| `segmentação.dropdown.accentBarShow` | Barra de destaque desligada | `false` | verificado |
+| segmentação de data relativa | "Este ano a partir da última data" | `data.mode 'RelativeDatePicker'` + filtro `DateSpan` sobre `ScopedEval ( Max ( Data ) )`, `TimeUnit 3` | verificado |
+| `tableEx`/`pivotTable` `stylePreset` | Estilo: Cabeçalho em negrito | `'BoldHeader'` | verificado |
+| `columnHeaders.columnAdjustment` | Aumentar para ajustar | `'growToFit'` | verificado |
+| `columnHeaders.backColor` | Cabeçalho na Cor do tema 1 | `ThemeDataColor { ColorId: 2 }` (`ColorId 0` é branco: cabeçalho invisível) | verificado |
+| `grid.imageHeight`/`imageWidth` | Tamanho da imagem na coluna | `NL` | verificado |
+| `image.sourceType` + `sourceField` | Visual de imagem dinâmico | `'imageData'` + `Aggregation ( Function 3 )` de coluna ImageUrl | verificado |
+| `cardVisual.image` (por medida) | Ícone no cartão | `position 'Right'`, `scaling 'Fit'`, `imageAreaSize 20L` | verificado |
+| `actionButton` limpar filtros | Botão Limpar filtros | `icon.shapeType 'clearAllSlicers'` + `visualLink.type 'ClearAllSlicers'` | verificado |
+| `page.json › type` (dica) | Página de dica | `"Tooltip"`, sem `pageBinding` | verificado |
+| `columnHeaders` da `pivotTable` | mesmo estilo da `tableEx` | mesmos objetos | verificado |
+
+## Armadilhas de fluxo (sessão com o Vendas) [verificado]
+- **Nunca edite `.pbix` como zip:** corrompe o arquivo ("arquivo corrompido").
+  Trabalhe em PBIP; salvar o `.pbix` como PBIP resolve.
+- **Desktop fechado ao gravar.** Com ele aberto, o Desktop sobrescreve no
+  próximo salvamento e mostra o estado antigo. Feche e, se não fechar, encerre o
+  processo sem salvar, e só então grave os arquivos.
+- **Reabrir após editar o modelo:** apague `.pbi\cache.abf`; o Desktop pede
+  "Atualizar agora" (às vezes duas vezes) e "Aplicar alterações". A abertura leva
+  ~90 a 100 s. Cuidado com `open_application`: abre uma segunda instância vazia.
+- **Script que reinsere blocos TMDL** precisa remover **todas** as variações do
+  bloco antigo (o Desktop reformata para linha única) e as `annotation` órfãs;
+  senão surgem medidas duplicadas ("TMDL objects cannot be merged") ou anotações
+  repetidas que impedem abrir o projeto.
+- **Renomear tabela e medidas em lote:** troque também o relatório (`Entity`,
+  `Property`, `queryRef`, `selector.metadata`) em todos os `visual.json` e confira
+  com `bi-qa-documentacao/scripts/check_visual_bindings.py`; o `Item` do Excel no
+  M não muda.
+- `json.dumps` com `ensure_ascii=True` não casa com nomes acentuados ao testar
+  presença; grave com `ensure_ascii=False`.
+- Gerar visual novo **a partir de um visual salvo pelo Desktop** (cartão com
+  AA/Δ%, ícones, botão) funciona melhor que escrever o JSON do zero.
+- **OneDrive pode negar `rmdir`** em pasta de visual recém-esvaziada; pasta
+  vazia é inofensiva. Prefira apagar `visual.json` e tentar o `rmdir` depois.
+- Em edição, `ctrl+clique` no navegador de páginas muda de página; o clique de
+  mouse simples seleciona o visual.
 
 ## O que o Desktop faz sozinho
 - **Reescreve o arquivo inteiro ao salvar** e injeta propriedades de tema

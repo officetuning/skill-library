@@ -16,6 +16,14 @@ arquivo gravado pelo Desktop; **[regra do autor]** = decisão de projeto.
   espaço desligado geram rolagem. [regra do autor]
 - **Unidade de exibição "nenhuma"** em valores monetários. [regra do autor]
 - **Estilo (fundo, borda, barra de destaque) vem do tema**; não grave à mão.
+  Exceção de espaçamento, regra do autor **[verificado]**: preenchimento do
+  contêiner 14 (topo) / 16 / 16 / 16, `cellPadding 16` e vão de 16 entre cartões;
+  a altura do cartão é livre (cabe o conteúdo, ex.: 216 com AA e Δ%).
+- **Cartão de nicho ou segmentação sobre fundo do Builder:** tela de fundo,
+  fronteira visual, efeitos, cabeçalho e título **desligados**. Cartão de
+  storytelling (sobre a imagem): sem título, fundo, borda nem rótulo.
+- **Reset de título:** ao converter um visual para outro tipo, zere o título e o
+  subtítulo que o tipo anterior deixou.
 - **Nunca** um cartão só com colunas de texto de tabelas diferentes: sai
   vazio. Use medidas de seleção (`SELECTEDVALUE`, `LOOKUPVALUE`). [verificado]
 

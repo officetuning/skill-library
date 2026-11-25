@@ -45,6 +45,10 @@ dimensões:
   Suspenso; data em Seletor de data): `references/segmentacoes-padrao.md`.
 - **Tabela e matriz** (largura, cabeçalho, `rowHeaders`) e **cor fixa por valor**
   (ex.: Sexo): `references/tabelas-matrizes-e-cores-fixas.md`.
+- **Comparativo com o ano anterior** (família `(AV)`, `(AA)`, `(Δ)`, `(Δ%)`,
+  `(Δi)`, `(Δ Cor)` e cartão único de 216): `references/comparativo-ano-anterior.md`.
+- **Imagens e ícones** (visual `image` dinâmico como padrão para a entidade
+  selecionada, ícones em cartões largos, cor por Hexa): `references/imagens-e-icones.md`.
 
 **Preferir**
 - Barras horizontais ordenadas no lugar de pizza, rosca e gauge.

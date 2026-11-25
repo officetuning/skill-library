@@ -11,10 +11,14 @@ Regra do autor para segmentações.
 - **Estilo:** texto em **Suspenso** (`data.mode = 'Dropdown'`); data em
   **Seletor de data** (nos projetos, `data.mode = 'RelativeDatePicker'`).
   [verificado]
-- **Pesquisar: ligado** quando possível. **[a confirmar]** A propriedade não
-  está gravada em nenhum dos ~190 segmentadores dos quatro projetos. Não
-  deduza o nome: peça ao autor que ligue Pesquisar em **um** segmentador de
-  texto, salve, e leia o arquivo para replicar.
+- **Pesquisar: ligado** em segmentação de texto: `general.selfFilterEnabled =
+  true`. **[verificado]** Mais `dropdown.accentBarShow = false` (sem barra de
+  destaque).
+- **Data:** `data.mode = 'RelativeDatePicker'` com filtro `DateSpan` sobre
+  `ScopedEval ( Max ( Calendário[Data] ) )`, `TimeUnit 3` (ano): o rótulo fica
+  "Este ano a partir da última data", deslocamento 0. `slider` e
+  `calendarButton` na cor 1 do tema (ícone na cor 0), `relativeText.fontSize
+  10.8`. **[verificado]**
 
 ## Preferir
 - Segmentações do painel lateral em x40, largura 296; Período altura 120, as
