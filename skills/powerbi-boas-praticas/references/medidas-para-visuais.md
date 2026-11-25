@@ -18,6 +18,9 @@ painel global de filtros.
 | Necessidade | Padrão |
 |---|---|
 | Ranking que respeita as segmentações | `RANKX ( ALLSELECTED ( Dim ), [Medida] )`: recomeça em 1 a cada filtro; com `ALL` deixa buracos |
+| Ranking robusto com código e nome (foto na linha) | `IF ( HASONEVALUE ( Dim[Código] ) && NOT ISBLANK ( [Medida] ), RANKX ( ALLSELECTED ( Dim[Código], Dim[Nome] ), [Medida], , DESC, DENSE ) )`: código + nome no `ALLSELECTED` resolve a linha com foto; total e linhas vazias ficam em branco. Variante só com nome: `IF ( ISINSCOPE ( nome ), CALCULATE ( RANKX ( ALLSELECTED ( nome ), [Medida] ), REMOVEFILTERS ( código, imagem, e-mail ) ) )`; sem o `REMOVEFILTERS` todos viram 1 |
+| Participação no contexto das segmentações | `DIVIDE ( [Medida], CALCULATE ( [Medida], ALLSELECTED ( 'Tabela' ) ) )` |
+| Item líder (nome do campeão, para cartão de storytelling) | `MAXX ( TOPN ( 1, ADDCOLUMNS ( VALUES ( col ), "@M", [Medida] ), [@M], DESC, col, ASC ), col )`; pasta `Storytelling`, formato `@`. Muda com qualquer filtro |
 | Saldo acumulado no período | `CALCULATE ( [Saldo], FILTER ( ALLSELECTED ( 'Calendário' ), 'Calendário'[Data] <= MAX ( 'Calendário'[Data] ) ) )`; começa em zero no início do período |
 | Valor de seleção para título | `SELECTEDVALUE ( 'Dim'[Campo], "-" )`; pasta `Seleção`; nome `<Campo> Selecionado(a)`, diferente da coluna |
 | Atributo do lado "um" a partir do lado "muitos" | `LOOKUPVALUE ( 'Um'[Atributo], 'Um'[Chave], SELECTEDVALUE ( 'Muitos'[Chave] ) )` |

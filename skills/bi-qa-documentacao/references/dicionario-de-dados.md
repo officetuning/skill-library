@@ -36,6 +36,16 @@ projetos, só dois tinham; os outros dois não tinham a tabela nem as descriçõ
    `PBI_QueryOrder` (grupo de consulta Internas).
 
 ## Armadilhas
+- **Descrever sem olhar os dados.** No Vendas supus SKU, CNPJ e tamanhos PP/GG;
+  a planilha tinha 179 códigos de produto, CPF e tamanhos EP a EG. Antes de
+  escrever a descrição, **conte os valores distintos e leia alguns exemplos da
+  fonte** (campanhas Contínua/Sazonal, categorias Padrão/Bronze/Prata/Ouro).
+- **Regenerar o dicionário** (script `tmdl_parser.py` → linhas → JSON → deflate →
+  base64 no M) **sempre que o modelo muda**, inclusive ao criar medida de
+  storytelling. Num modelo de 4 tabelas foram 142, depois 146 linhas.
+- **Ordem no visual:** sem coluna de ordem, a tabela do dicionário sai em ordem
+  alfabética de Campo/Medida; para a ordem do modelo (fato, calendário, demais)
+  acrescente uma coluna de ordem oculta.
 - **Tipo de dado de coluna calculada sem `dataType`:** o parser devolve vazio e
   o tipo cai em Text. Infira: nome terminado em "#", Ano, Dia, Dia do Ano e
   Semana do Mês viram Integer; Data Referência vira Date.

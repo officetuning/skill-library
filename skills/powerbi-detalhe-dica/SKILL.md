@@ -93,10 +93,16 @@ alcançável**.
 | O quê | Onde |
 |---|---|
 | Página de detalhe | `page.json`: `filterConfig.filters[]` (`howCreated: "Drillthrough"`) + `pageBinding { type: "Drillthrough", parameters: [{ name, boundFilter, fieldExpr }] }` |
-| Página de dica | `page.json`: `type: "Tooltip"`, largura/altura da dica |
-| Visual que usa a dica | `visualContainerObjects.visualTooltip[0].properties = { show: true, section: '<nome da página de dica>' }` |
+| Página de dica | `page.json`: `type: "Tooltip"`, **sem `pageBinding`**, largura/altura da dica (com `pageBinding` o hover mostra o tooltip padrão) |
+| Visual que usa a dica | `visualContainerObjects.visualTooltip[0].properties = { show: true, section: '<id da página de dica>' }`, **sem `type`** |
 | Título do cartão = medida | `visualContainerObjects.title[0].properties.text = { expr: { Measure: … } }` |
 | Fundo da dica | PNG do Builder registrado em `report.json › RegisteredResources` |
+
+## Dica com imagem e molde de Detalhe
+Entidade com foto ou desenho (estampa, vendedor, canal): visual `image`
+dinâmico na Dica (600×456: imagem 232×296, gráfico 344×296, cartão 584×136; ou
+400×304 com imagem 88×88) e **sem ícones no cartão da Dica**. Molde único de
+Detalhe para várias entidades: `references/dica-com-imagem-e-moldes.md`.
 
 ## Checklist
 1. Contei os eixos e escolhi o campo? Existe visual principal com a chave?

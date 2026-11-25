@@ -119,6 +119,16 @@ fundo por Detalhe): `references/background-builder-regeneracao.md`.
 Para o agente gerar e baixar a coleção sozinho, sem o usuário abrir o
 Builder: skill `background-builder-automacao`.
 
+## Zonas do corpo que se repetem [verificado no Vendas]
+- **Botão Limpar filtros** em (200, 152) 136×32, em todas as páginas de corpo
+  (`powerbi-visuais`, `tmdl-pbir`).
+- **Faixa de indicadores** em (376, 128) 1528×160 ou **216** quando o cartão
+  traz AA e Δ% (`powerbi-visuais/references/comparativo-ano-anterior.md`).
+- **Storytelling** em (888, 720) 1016×344 com cartões de uma medida sobre as
+  chamadas (`data-storytelling/references/storytelling-com-imagem.md`).
+- Margem de **16 px** até a borda direita do corpo (x=1904); larguras e alturas
+  **simétricas** entre blocos da mesma linha; vão de 16.
+
 ## Bug: fuso horário em "última atualização"
 
 `TODAY()` e `NOW()` usam o fuso local no Desktop, mas rodam em **UTC no

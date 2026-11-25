@@ -1,6 +1,6 @@
 ---
 name: data-storytelling
-description: Storytelling com dados aplicado a relatórios Power BI, a partir dos frameworks de Cole Nussbaumer Knaflic — contexto e audiência, escolha do gráfico eficaz, limpeza de poluição visual, atributos pré-atentivos, Big Idea, título-conclusão e arco narrativo entre páginas. Use quando o usuário pedir a mensagem principal de uma página, reduzir poluição visual, preparar apresentação para diretoria, decidir qual gráfico comunica melhor, ou citar storytelling, Big Idea, gráfico de espaguete ou "então o quê?". Para a configuração técnica do visual use powerbi-visuais.
+description: Storytelling com dados aplicado a relatórios Power BI, a partir dos frameworks de Cole Nussbaumer Knaflic — contexto e audiência, escolha do gráfico eficaz, limpeza de poluição visual, atributos pré-atentivos, Big Idea, título-conclusão e arco narrativo entre páginas. Use quando o usuário pedir a mensagem principal de uma página, reduzir poluição visual, preparar apresentação para diretoria, decidir qual gráfico comunica melhor, ou citar storytelling, Big Idea, gráfico de espaguete ou "então o quê?". Para a configuração técnica do visual use powerbi-visuais. Também: imagem de storytelling por analogia escolhida para os dados (visual thinking, design-by-analogy), sempre verdadeira com qualquer filtro.
 ---
 
 # Storytelling com dados no Power BI
@@ -97,6 +97,15 @@ exige regenerar os PNGs (`dashboard-layout/references/background-builder-ciclo.m
 Teste do H1, três combinações de H2 e tagline para o autor escolher, Período
 como "Quando" e fontes de dados em linguagem de leitor:
 `references/identidade-do-relatorio.md`.
+
+## Storytelling com imagem
+
+Imagem que conta a história dos dados (visual `image` + cartões de uma medida
+sobre as chamadas). **Cada relatório tem a sua analogia**, escolhida a partir da
+estrutura dos dados (fases, níveis, partes, comparação, território, meta) e
+**verdadeira com qualquer filtro**; nunca se reaproveita a ilustração de outro
+relatório trocando etiquetas. Método (visual thinking e design-by-analogy),
+tabela de analogias e exemplo: `references/storytelling-com-imagem.md`.
 
 ## Checklist antes de publicar
 
