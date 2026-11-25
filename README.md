@@ -95,6 +95,11 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.4.2 (25/11/2026)
+
+Lições de editar relatórios por script (tabelas, cores por sexo, idade em anos
+completos, MCP com dados de pessoas). Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.4.1 (25/11/2026)
 
 Documentação: **prompt modelo** para checkup e implementação em lotes de um projeto
