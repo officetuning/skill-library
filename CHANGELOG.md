@@ -2,6 +2,21 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.6.0 (26/11/2026)
+
+A cena de storytelling que muda com o dado passa a ser desenhada em **SVG por medida DAX**.
+
+- **Regra de escolha** (`data-storytelling`, `powerbi-visuais`): análise em visual nativo; cena
+  que muda com o filtro em SVG por medida; ilustração rica e parada no gerador de imagem.
+- **Exemplo completo** com dados fictícios, `powerbi-visuais/references/cena-svg-exemplo.md`
+  (caminhão até a meta, com os estados sem meta, sem dado e acima de 100%).
+- **`bi-qa-documentacao`:** novo `checar_svg.py` (sem `ImageUrl`, `#` ou `%` sem escape,
+  vírgula decimal a conferir, visual sem texto alternativo); checagem 30.
+- **`powerbi-visuais`:** imagem do cartão com variação ao passar o mouse, DaxLib.SVG como
+  dependência opcional, tamanho do resultado e acessibilidade em duas partes (deixa de
+  desaconselhar SVG quando há texto alternativo e dados legíveis na página).
+- **`dax-udf`:** peça de desenho usada duas vezes ou mais vira função.
+
 ## 2.5.0 (26/11/2026)
 
 Lições de construir por script um relatório de Real × Orçamento em ano fiscal, do modelo ao

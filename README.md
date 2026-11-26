@@ -95,6 +95,11 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.6.0 (26/11/2026)
+
+Storytelling com cena em SVG por medida DAX como padrão: regra de escolha, exemplo testável com
+dados fictícios e checagem automática (`checar_svg.py`). Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.5.0 (26/11/2026)
 
 Auditoria com novas checagens (título de gráfico, Dica, botão Voltar), medidas fora da tabela só
