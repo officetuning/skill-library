@@ -41,7 +41,7 @@ description: Auditoria e boas práticas de modelo semântico e relatório Power 
 - 6.1 Medida sem format string
 - 6.2 Sumarização automática em coluna numérica que não é métrica
 - Relatório: 7.2 visuais por página, 7.6 rolagem vertical, 7.8 campos por visual, 7.13 medidas implícitas
-- Comunicação: 8.1 ideia central da página, 8.2 título como conclusão
+- Comunicação: 8.1 ideia central da página, 8.2 conclusão visível na página
 
 ## Regras que valem sempre
 

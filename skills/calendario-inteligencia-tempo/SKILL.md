@@ -143,6 +143,10 @@ lote com segurança.
   (`EXTENDING`, `PRECISE`, `ENDALIGNED`, `BLANKS`, `ANCHORED`); a medida
   funciona mesmo sublinhada.
 
+## Ano fiscal e orçamento
+Calendário que começa em outro mês, "ano em foco", ano anterior nos mesmos meses e orçamento
+sob filtro que só existe no realizado: `references/ano-fiscal.md`.
+
 ## Checklist
 
 1. Modo escolhido e registrado na descrição da tabela `Calendário` (`///`).

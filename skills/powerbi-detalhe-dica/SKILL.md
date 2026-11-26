@@ -81,6 +81,12 @@ alcançável**.
   no relatório publicado.
 
 ## Armadilhas verificadas
+- **320×240 não comporta 12 meses** com eixo de valores: o gráfico rola de lado. Cartão +
+  gráfico mensal ficou legível em 600×456 (cartão 584×128 em y8; gráfico 584×304 em y144,
+  sem rodapé quando não há Detalhe irmão).
+- Fundo do Builder em outro tamanho: troque `dicaSizes` na Ficha, exporte e atualize
+  largura e altura da página.
+- Botão **Voltar** com fundo e borda desligados (`show false`): o desenho está no PNG.
 - No **modo de edição** da página de Dica não há filtro: a medida de seleção
   mostra "-". O título só se confirma passando o mouse no relatório.
 - Medida que **sobrescreve** filtro de uma coluna que também é segmentação

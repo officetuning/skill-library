@@ -24,6 +24,10 @@ pasta do relatório.
 | 23 | Qualquer coordenada de visual fora da grade de 8 px (x, y, largura, altura; exceto Dica e cartão sobre balão de arte) | Redistribuição que deixou 1 ou 2 px de sobra |
 | 24 | DAX com tabela sem aspas simples, **inclusive sem colchete** (`COUNTROWS(Tab)`, `ALL(Tab)`), e `VAR` com `Δ` ou símbolo no nome | "Token inválido" ao abrir; regra da casa descumprida |
 | 25 | `dataColors` do tema **registrado** no relatório ≠ `Tema.json` da Ficha do Builder | Cores de visual e nichos do fundo que não combinam |
+| 26 | Gráfico com `title` ou `subTitle` próprio (exceto título por medida em Dica): perguntar ao autor | Títulos escritos por script que o autor teve de redefinir |
+| 27 | Dica sem cartão com título por medida, com mais de um cartão, ou de até 320 px com eixo de tempo | Dica só com gráfico, com rolagem lateral |
+| 28 | Botão Voltar sem `background.show` e `border.show` em `false` | Moldura sobre o botão desenhado no fundo |
+| 29 | Medidas concentradas em tabela só de medidas (`checar_medidas.py`) | Contraria a orientação de distribuir as medidas pelas tabelas |
 
 ## Ordem sugerida
 Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 25
@@ -45,10 +49,23 @@ também corrige.
 
 ## Rodar as checagens de visuais de uma vez
 `scripts/auditar_visuais.py "<Projeto>.Report/definition" --tema "<Builder>/<H1> - Tema.json"`
-cobre as checagens 8, 9, 10, 15 (texto alternativo ausente), 17, 18 e 19 a 23 e 25, e
+cobre as checagens 8, 9, 10, 15 (texto alternativo ausente), 17, 18, 19 a 23, 25 a 28, e
 lista as perguntas de design ("[decidir]": eixo de tempo, gauge, pizza, tabela sem
 título). Saída 1 se houver pendência fixa. A 24 (DAX) e as demais seguem pelo
 `tmdl_parser.py`.
+
+## Medidas fora de lugar (checagem 29)
+`scripts/checar_medidas.py "<Projeto>.SemanticModel/definition"` acusa a tabela só de medidas.
+Para migrar, escreva um mapa `{ "medidas": {...}, "pastas": {...} }` e rode
+`scripts/mover_medidas.py <modelo> <relatório> mapa.json` (ensaio) e depois com `--aplicar`:
+move o bloco TMDL com o mesmo `lineageTag`, troca `Entity`, `queryRef`, seletores e filtros no
+relatório e **exclui a tabela que ficar vazia** (arquivo, `ref table` e `PBI_QueryOrder`): sem
+coluna e sem medida, o Desktop avisa "Esta consulta não tem nenhuma coluna com os tipos de dados
+com suporte" e desabilita o carregamento. Backup antes; confira os bindings, abra, atualize e salve.
+Testado numa cópia de projeto: modelo carregado no Tabular Editor 2, bindings conferidos e, no
+Power BI Desktop, o projeto abriu, atualizou, mostrou os mesmos valores, foi salvo e reabriu sem
+erro. Descrições (`///`) que citem a tabela excluída não são reescritas: revise depois.
+Migrar projeto existente só com aprovação do autor.
 
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o

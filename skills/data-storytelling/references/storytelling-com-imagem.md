@@ -92,6 +92,16 @@ o *desenho* não (regra do início do documento).
 4. Medidas novas (`Camisetas por Nota`, `Preço Médio por Camiseta`) ficam em uma
    pasta `Storytelling`, com `///`, e o dicionário é regenerado.
 
+## 2e. Arte vetorial por medida: o nível do próprio relatório
+Quando a arte precisa **se mover com o dado** (personagem sobre uma pista), SVG por medida
+serve, desde que no estilo plano do fundo (traço fino no azul do tema, cor chapada, aquarela
+suave, um destaque). **Boneco de palito é rejeitado.** Antes de aplicar:
+1. esboço com o **acabamento final** e os estados difíceis (acima da meta, sem meta, sem dado);
+2. duas opções de desenho, em **tamanho real e ampliado**, ao lado do estilo do fundo;
+3. aprovação do autor; só então a medida (`powerbi-visuais`, `svg-html-dax.md`).
+
+Para arte 3D ou rica, continua valendo o gerador de imagem.
+
 ## 3. Mecânica (já verificada)
 - Visual `image` (`sourceFile`, `scaling 'Normal'`) em 1016×344, no canto
   inferior direito da Visão Geral, (888, 720); o corpo continua até x=1904.

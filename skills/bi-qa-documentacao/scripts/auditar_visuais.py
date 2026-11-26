@@ -26,7 +26,12 @@ perguntas ao autor, não erros). Regras cobertas:
   sem decisão de interação [decidir] · grade de 8 px (fora de Dicas) · gauge e pizza
   [decidir] · visual R/Python · tema registrado ≠ tema da Ficha (com --tema) ·
   formatação com seletor órfão (`selector.metadata` que não é nenhum campo do visual) ·
-  tabela/matriz sem título e/ou subtítulo [decidir], com sugestão de subtítulo.
+  tabela/matriz sem título e/ou subtítulo [decidir], com sugestão de subtítulo ·
+  gráfico com título ou subtítulo próprio [decidir] (exceto título por medida em Dica) ·
+  Dica sem cartão com título por medida, ou com mais de um cartão · Dica estreita com
+  eixo de tempo [decidir] · botão Voltar com tela de fundo ou fronteira visual.
+
+Texto alternativo aceita texto fixo ou medida (formatação condicional).
 """
 import argparse
 import collections
@@ -54,6 +59,29 @@ def L(x):
 
 def obj(o, k):
     return (o.get(k) or [{}])[0].get("properties", {})
+
+
+# visuais em que vale o título automático do Power BI
+GRAFICOS = {
+    "barChart", "columnChart", "clusteredBarChart", "clusteredColumnChart", "hundredPercentStackedBarChart",
+    "hundredPercentStackedColumnChart", "lineChart", "areaChart", "stackedAreaChart", "hundredPercentStackedAreaChart",
+    "lineClusteredColumnComboChart", "lineStackedColumnComboChart", "ribbonChart", "waterfallChart", "funnel",
+    "scatterChart", "donutChart", "pieChart", "treemap", "map", "filledMap", "azureMap", "shapeMap",
+}
+
+
+def texto_ligado(valor):
+    """Verdadeiro para texto fixo não vazio ou para expressão (medida, formatação condicional)."""
+    if not valor:
+        return False
+    literal = L(valor)
+    if literal is not None:
+        return literal != "''"
+    return bool(valor.get("expr"))
+
+
+def por_medida(valor):
+    return bool(valor) and "Measure" in (valor.get("expr") or {})
 
 
 def _campo(fl):
@@ -156,9 +184,23 @@ def main():
                     if round(pos[k], 1) % 8:
                         achados["fora da grade de 8 px"].append(f"{tag} {k}={round(pos[k], 1)}")
                         break
-            alt = L(obj(c, "general").get("altText", {})) if c.get("general") else None
-            if t not in ("textbox", "shape") and not (alt and alt != "''"):
+            if t not in ("textbox", "shape") and not texto_ligado(obj(c, "general").get("altText")):
                 achados["sem texto alternativo"].append(tag)
+            # gráfico fica com o título automático
+            if t in GRAFICOS:
+                for grupo in ("title", "subTitle"):
+                    txt = obj(c, grupo).get("text")
+                    if texto_ligado(txt) and L(obj(c, grupo).get("show", {})) != "false" and not (dica and por_medida(txt)):
+                        decidir["[decidir] gráfico com título ou subtítulo próprio (o padrão é o automático; manter só se o autor pediu)"].append(f"{tag} {grupo}")
+            if dica and t in GRAFICOS and pos["width"] <= 320:
+                eixo_dica = [f for f in campos(vv) if f[0] in ("Category", "Axis") and f[2] and a.entidade_calendario in f[2]]
+                if eixo_dica:
+                    decidir["[decidir] Dica estreita com eixo de tempo (conferir se rola de lado)"].append(f"{tag} largura {int(pos['width'])}")
+            # botão Voltar é desenhado no fundo: o visual fica transparente
+            if t == "actionButton" and L(obj(c, "visualLink").get("type", {})) == "'Back'":
+                for grupo, nome_grupo in (("background", "tela de fundo"), ("border", "fronteira visual")):
+                    if L(obj(c, grupo).get("show", {})) != "false":
+                        achados["botão Voltar com tela de fundo ou fronteira visual"].append(f"{tag} {nome_grupo}")
             for m in re.finditer(r'"(labelDisplayUnits|valueDisplayUnits|dataLabelDisplayUnits)": \{\s*"expr": \{\s*"Literal": \{\s*"Value": "([^"]+)"', s):
                 if m.group(2) != "1D":
                     achados["unidade de exibição ≠ Nenhum"].append(f"{tag} {m.group(2)}")
@@ -247,6 +289,14 @@ def main():
                     ign = any((sd, j["name"]) in nofilter for sd in slic_data)
                     nomes = ",".join(sorted({f[3] for f in eixo}))
                     decidir["[decidir] eixo de tempo (" + ("ignora" if ign else "RESPEITA") + " a segmentação de data)"].append(f"{tag} [{nomes}]")
+
+        if dica:
+            cartoes = [j for j in vs if j.get("visual", {}).get("visualType") == "cardVisual"]
+            com_titulo = [j for j in cartoes if por_medida(obj(j["visual"].get("visualContainerObjects", {}), "title").get("text"))]
+            if not com_titulo:
+                achados["Dica sem cartão com título por medida"].append(pn)
+            if len(cartoes) > 1:
+                achados["Dica com mais de um cartão"].append(f"{pn} ({len(cartoes)})")
 
     # tema
     if a.tema:

@@ -20,7 +20,7 @@
    `dashboard-canvas`.
 3. **Como vai consumir?** Ao vivo, o apresentador guia e o visual pode ser mais
    denso e progressivo. Leitura solitária exige visual que se explica sozinho,
-   com título-conclusão e anotação.
+   com a conclusão visível (cartão, anotação ou nome da página; título-conclusão em gráfico só se o autor pedir).
 
 ## Bloco 3 — Poluição visual e Gestalt
 

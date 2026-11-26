@@ -30,7 +30,10 @@ com "então o quê?".
 - Linha para tendência; barras horizontais para ranking com nome longo; colunas
   para categoria curta ou tempo discreto.
 - Cinza em 85–90% dos elementos; cor de destaque só no dado da Big Idea.
-- **Título como conclusão:** "Sul superou a meta; Norte caiu 12%", não "Vendas por Região".
+- **Conclusão visível na página** (nome da página, cartão, infográfico, anotação). Nos gráficos
+  do Power BI vale o **título automático**, com os campos renomeados no visual; escreva o título
+  como conclusão ("Sul superou a meta; Norte caiu 12%") **só quando o autor pedir**: o texto
+  digitado não acompanha o idioma do navegador (`powerbi-visuais`, `cartoes-e-titulos.md`).
 - Dado mais importante no canto superior esquerdo (leitura em Z/F).
 - Storyboard no papel antes de abrir o Power BI.
 
@@ -73,8 +76,8 @@ cobrem cerca de 80% dos relatórios corporativos.
 
 - **Lógica vertical:** dentro da página, cada elemento sustenta a Big Idea. O
   que não sustenta sai ou vai para drill-through.
-- **Lógica horizontal:** lendo só os títulos das páginas em sequência, a
-  história fecha: **situação → complicação → resolução**.
+- **Lógica horizontal:** lendo só os nomes das páginas (e a conclusão de cada uma) em
+  sequência, a história fecha: **situação → complicação → resolução**.
 
 Detalhe dos oito blocos (contexto, gráfico, poluição e Gestalt, atenção,
 design, Big Idea, arco, checklist): `references/blocos.md`.
@@ -124,8 +127,9 @@ tabela de analogias e exemplo: `references/storytelling-com-imagem.md`.
 - [ ] Bordas, grades e legendas desnecessárias removidas
 - [ ] Um único destaque pré-atentivo por página
 - [ ] Cor comunica estado de negócio, nunca decora
-- [ ] Título é conclusão, não rótulo
-- [ ] Títulos em sequência contam a história
+- [ ] A conclusão de cada página está visível (título-conclusão em gráfico só se o autor pediu)
+- [ ] Campos renomeados no visual para o título automático ler bem
+- [ ] Páginas em sequência contam a história
 - [ ] Contraste AA e informação não depende só de cor
 
 Com número de regra e severidade, este checklist está na Seção 8 de

@@ -121,6 +121,22 @@ outras disposições; propriedade ausente = Horizontal. [verificado]
   schemas pode só ter versões menores: valide reescrevendo o `$schema` apenas
   na validação; o erro de `const` no `$schema` é ruído. [verificado]
 
+## O que o salvamento muda e o que ele recusa [verificado]
+- Ao salvar, o Desktop pode **subir o `$schema`** dos visuais (2.14 para 2.15),
+  **renumerar `position.z` e `tabOrder`** e **reescrever medidas sem as crases**.
+- **Script gerador não se reaplica às cegas** sobre um relatório já salvo: compare a
+  saída com o disco, preserve `$schema`, `z`, `tabOrder` e o que outro script
+  acrescentou (ícone, dica, fundo) e rode em ensaio até dar zero alterações. O que o
+  autor ajustou à mão manda.
+- **Depois de pedir ao autor que abra o relatório**, antes de editar de novo, confira
+  se ele **salvou** (data de `.pbi\cache.abf` e dos arquivos) e se o Desktop **fechou**;
+  diga o resultado.
+- **Trocar uma tabela existente de calculada para M** (mantendo o nome) é recusado ao
+  abrir, embora o Tabular Editor carregue o modelo: crie a tabela com outro nome e
+  repasse relacionamentos e referências.
+- **Data em registro:** use a data local; a hora UTC vira o dia mais cedo e já pôs data
+  errada na página Sobre.
+
 ## Armadilhas de arquivo
 - **CRLF e UTF-8 sem BOM.** Scripts que reescrevem texto trocam CRLF por LF;
   reconverta. BOM quebra a leitura.

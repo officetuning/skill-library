@@ -35,6 +35,7 @@ dimensões:
 - Cor só com significado. Teste para daltonismo.
 - Cartões e títulos (tamanho de fonte, `maxTiles`, unidades, título por tipo
   de visual, `displayName`): `references/cartoes-e-titulos.md`.
+- **Gráfico não leva título nem subtítulo gravado:** vale o automático do Power BI.
 - **Rótulo do campo encurtado pelo contexto**, só no visual: `Nome do Cliente`
   vira `Cliente`, `Latitude do Município` vira `Latitude` no mapa, `Faturado
   (AV)` vira `AV` numa matriz intitulada "Faturado" (princípio e cenários em

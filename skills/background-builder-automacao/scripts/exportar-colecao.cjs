@@ -3,7 +3,7 @@
  * Exporta a coleção do Background Builder sem cliques humanos.
  *
  * Uso:
- *   node exportar-colecao.cjs --ficha "<arquivo .md ou .json>" --saida "<pasta>" [--url <endereço>] [--navegador msedge|chrome|chromium] [--visivel]
+ *   node exportar-colecao.cjs --ficha "<arquivo .md ou .json>" --saida "<pasta>" [--url <endereço>] [--navegador msedge|chrome|chromium] [--visivel] [--sem-marca]
  *
  * O que faz:
  *   1. Lê a Ficha Técnica (.md com bloco ```json no fim) ou um .json puro.
@@ -12,6 +12,7 @@
  *   3. Abre o Builder num navegador sem janela, carrega a ficha pelo campo
  *      "Abrir Ficha Técnica" e confere se o H1 foi aplicado.
  *   4. Clica em "Exportar coleção", espera a verificação de pixels e salva o ZIP.
+ *      Com --sem-marca, antes liga o modo sem marca (white label) pelo atalho Ctrl+Alt+8.
  *
  * Requisito: o pacote "playwright" (npm). Por padrão usa o Microsoft Edge já
  * instalado no Windows, então não precisa baixar navegador.
@@ -31,6 +32,7 @@ function args() {
     else if (k === "--url") out.url = a[++i];
     else if (k === "--navegador") out.navegador = a[++i];
     else if (k === "--visivel") out.visivel = true;
+    else if (k === "--sem-marca") out.semMarca = true;
   }
   if (!out.ficha || !out.saida) {
     throw new Error('Informe --ficha "<arquivo>" e --saida "<pasta>".');
@@ -107,6 +109,8 @@ async function main() {
       { timeout: 15000 },
     ).catch(() => { throw new Error("O Builder não aplicou a ficha (H1 não apareceu no formulário). A interface pode ter mudado."); });
 
+    // Modo sem marca (white label): a assinatura vertical do rodapé sai dos PNGs
+    if (o.semMarca) { await page.keyboard.press("Control+Alt+8"); await page.waitForTimeout(1500); }
     const versaoBuilder = await page.evaluate(() => document.body.innerText.match(/v\d+\.\d+/)?.[0] ?? null);
     const botao = page.locator('[role=toolbar] button.bg-accent').first();
     const [download] = await Promise.all([
