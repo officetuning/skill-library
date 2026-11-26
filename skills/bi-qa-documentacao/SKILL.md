@@ -146,5 +146,6 @@ Para quem usa o relatório e não é de BI (fontes, filtros, páginas, Dica e De
 | `scripts/gerar_docx.js` | `.docx` a partir do JSON | Node + `npm install docx` |
 | `scripts/testar_medidas.ps1` | Compara cada consulta DAX, via XMLA, com o valor esperado (casos em JSON) | PowerShell + módulo `SqlServer` |
 | `scripts/testar_medidas.autoteste.ps1` | Confere o script acima com `Invoke-ASCmd` simulado, sem servidor | PowerShell |
+| `scripts/gerar_casos_sinteticos.py` | Gera os casos do modelo sintético, com os esperados calculados fora do DAX | Python 3.9+ |
 
 O leitor TMDL é mínimo: cobre QA e documentação, não substitui o `TmdlSerializer`.
