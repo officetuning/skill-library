@@ -69,7 +69,27 @@ e **terminam em y=1064**.
 - Largura e x iguais em todas as páginas (376 e 1528 no corpo; 16 e 1888 no
   Detalhe). Cartão deslocado 8 px dos visuais abaixo é defeito, não estilo.
 
+## Ícone e fonte dos cartões [regra do autor]
+- Se o Accent do tema é **próximo da cor de um sentimento** (matiz a ~15° de `good`,
+  `neutral` ou `bad`), **todos** os ícones usam o cinza neutro do tema.
+- A **fonte do valor é a mesma em todas as páginas**: a maior em que o **pior valor real**
+  de cada medida cabe no cartão mais apertado, com folga de cerca de 56 px por bloco.
+- Rótulo que dá "…": nome mais curto **por extenso**, nunca abreviação com ponto.
+
 ## Títulos e subtítulos
+
+**Antes de gerar visuais por script, leia esta seção:** o erro mais caro foi escrever título
+em todos os gráficos, que o autor precisou redefinir um a um. `auditar_visuais.py` lista cada
+caso para decisão.
+
+**Por que o automático é o padrão** [regra do autor]:
+- o subtítulo automático acompanha o idioma do navegador de quem lê (a preposição "por" é
+  traduzida); texto escrito à mão fica no idioma em que foi digitado;
+- é mais fácil **renomear a coluna ou a medida na aplicação** (eixo, legenda, valores ou outro
+  campo do visual, `displayName`) e deixar o título se montar sozinho do que manter um título
+  escrito para cada gráfico.
+
+**Exceção:** título-conclusão (`data-storytelling`) só **quando o autor pedir**.
 
 | Visual | Título |
 |---|---|

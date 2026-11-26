@@ -29,6 +29,9 @@ Baseado nos princípios de Stephen Few e na documentação Microsoft Learn.
 - **Evitar:** mais de 5 séries (espaguete); dado categórico sem relação temporal.
 - [Docs](https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-line-chart)
 
+- **Datas esparsas:** em eixo contínuo de datas, linha (sobretudo suavizada) desenha valores
+  que não existem entre os pontos; para contagem por mês use colunas.
+
 ### Área
 - **Quando:** a magnitude da mudança é o insight; 100% empilhada para composição no tempo.
 - **Configurar:** transparência de 50–70%.
@@ -49,7 +52,9 @@ Baseado nos princípios de Stephen Few e na documentação Microsoft Learn.
 ### Cascata (waterfall)
 - **Quando:** decompor a variação de um KPI, DRE simplificada, fluxo de caixa.
 - **Configurar:** verde positivo, vermelho negativo, cinza/azul nos totais; rótulo em todas as barras.
-- **Evitar:** mais de 10–12 etapas; trocar as cores convencionais.
+- **Evitar:** mais de 10–12 etapas; trocar as cores convencionais quando o sinal é bom ou ruim.
+- **Decréscimo estrutural** (bruto menos o que não conta) não é resultado ruim: use cores neutras do tema.
+- Visto uma vez: `labels.labelPosition 'InsideEnd'` fez os rótulos sumirem; deixe a posição automática.
 - [Docs](https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-waterfall-charts)
 
 ---
@@ -99,6 +104,10 @@ Baseado nos princípios de Stephen Few e na documentação Microsoft Learn.
 - [Docs](https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-tables)
 
 ### Matriz
+- Medidas **nas linhas** (`values.valuesOnRow`) multiplicam a altura: 6 itens × 3 medidas não
+  cabem em 368 px nem com fonte 9; ponha uma medida só ou aceite a rolagem avisando o autor.
+- Tabela de **dicionário de dados** com fórmula longa: desligue `values.wordWrap`, senão cabem
+  duas linhas por tela.
 - **Quando:** mais de uma dimensão, hierarquia expansível, subtotais.
 - **Configurar:** layout escalonado; expandir/recolher; formatação condicional como heatmap.
 - [Docs](https://learn.microsoft.com/pt-br/power-bi/visuals/power-bi-visualization-matrix-visual)

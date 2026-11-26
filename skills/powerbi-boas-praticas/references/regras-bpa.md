@@ -379,9 +379,12 @@ Detalhe e método na skill `data-storytelling`.
 Uma frase com a conclusão. Teste dos 3 segundos: a conclusão aparece sem explicação?
 ❌ "Visão Geral" com 15 visuais soltos · ✅ "Margem caiu por causa do frete no Nordeste", com 4 visuais que sustentam a frase
 
-**8.2 — Título diz a conclusão, não só o assunto** · 🔴
-Use título dinâmico com medida DAX quando o dado muda com o filtro.
-❌ "Vendas por Região" · ✅ "Sul superou a meta; Norte caiu 12%"
+**8.2 — A conclusão está visível na página** · 🟠
+Em gráfico do Power BI o padrão é o **título automático** (o subtítulo acompanha o idioma do
+navegador), com os campos renomeados no visual; a conclusão vai no nome da página, num cartão,
+no infográfico ou numa anotação. Título-conclusão em gráfico só **quando o autor pedir** (e,
+se o dado muda com o filtro, ligado a medida).
+❌ Página sem nada que diga o que concluir · ✅ Cartão "Sul superou a meta; Norte caiu 12%" sobre o gráfico "Vendas por Região"
 
 **8.3 — Escolha o visual pela comparação que importa** · 🟠
 Valor exato: tabela ou cartão. Tendência: linha. Comparação: barras ordenadas.
@@ -412,7 +415,7 @@ Dado principal no canto superior esquerdo; elementos alinhados a uma grade e agr
 Lidos em ordem, só os títulos das páginas formam uma narrativa.
 
 **8.12 — Densidade conforme o modo de uso** · 🔵
-Leitura autônoma: títulos-conclusão e anotações. Apresentação: revelar aos poucos.
+Leitura autônoma: conclusão visível e anotações. Apresentação: revelar aos poucos.
 
 **8.13 — Rascunhe antes de abrir o Power BI** · 🔵
-Storyboard com uma caixa por página, título-conclusão e ordem; valide com o público.
+Storyboard com uma caixa por página, a conclusão de cada uma e a ordem; valide com o público.

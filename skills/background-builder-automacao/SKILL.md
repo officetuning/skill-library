@@ -38,6 +38,10 @@ JSON preparado pelo agente, **Exportar coleção**, salvar o ZIP. O script
      --saida ".\Background Builder"
    ```
 
+   **Sem marca (white label):** acrescente `--sem-marca` quando o autor pedir o rodapé
+   oculto (o script envia `Ctrl+Alt+8`; a Ficha não tem esse campo). Confira num PNG que
+   a faixa vertical à direita ficou vazia.
+
    Saída em uma linha JSON: `{ ok, zip, paginas[], versaoBuilder }` ou
    `{ ok:false, erro }`. O script tira os campos só de saída (`_appVersion`,
    `resolvedPalette`, `filtrosForaDoPainel`), confere se o H1 chegou ao

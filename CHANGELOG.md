@@ -2,6 +2,29 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.5.0 (26/11/2026)
+
+Lições de construir por script um relatório de Real × Orçamento em ano fiscal, do modelo ao
+manual do usuário. Regras que já existiam e escaparam viraram checagem.
+
+- **`bi-qa-documentacao`:** `auditar_visuais.py` lista gráfico com título próprio, exige Dica
+  com cartão de título por medida (e só um), avisa Dica estreita com eixo de tempo, confere o
+  botão Voltar e **deixa de acusar texto alternativo ligado a medida**; novos
+  `checar_medidas.py` e `mover_medidas.py` (tabela só de medidas), `renderizar_pdf.ps1` e a
+  referência do **manual do usuário**; checagens 26 a 29.
+- **`background-builder-automacao`:** opção `--sem-marca` no script de exportação.
+- **`tmdl-pbir`:** o que o salvamento do Desktop muda, troca de partição recusada, conferir se o
+  autor salvou e fechou.
+- **`calendario-inteligencia-tempo`:** nova referência de ano fiscal e orçamento.
+- **`powerbi-visuais`:** infográfico SVG em visual de imagem (`%25`, texto alternativo por medida),
+  armadilhas de cascata, linha, matriz e dicionário, ícone neutro e fonte única dos cartões, regra
+  de título de gráfico na própria skill.
+- **`powerbi-detalhe-dica`:** tamanho da Dica com 12 meses e botão Voltar.
+- **`data-storytelling`:** arte vetorial por medida no nível do relatório, com esboço aprovado.
+- **Títulos de gráfico (fim do conflito entre skills):** vale o título automático, com campos
+  renomeados no visual; título-conclusão só quando o autor pedir. Ajustado em `powerbi-visuais`,
+  `data-storytelling` e `powerbi-boas-praticas` (regra 8.2).
+
 ## 2.4.3 (25/11/2026)
 
 Correção e duas melhorias no `auditar_visuais.py`.

@@ -127,6 +127,10 @@ descrição, e páginas com os campos de cada visual. Medida sem formato ou sem
 Estrutura, o que extrair de cada arquivo, cuidados (RLS com valores sensíveis,
 explicação de DAX complexo) e checklist: `references/documentacao.md`.
 
+## Manual do usuário
+Para quem usa o relatório e não é de BI (fontes, filtros, páginas, Dica e Detalhe), siga
+`references/manual-do-usuario.md`; `scripts/renderizar_pdf.ps1` converte o PDF exportado em imagens.
+
 ## Scripts
 
 | Script | Faz | Requer |

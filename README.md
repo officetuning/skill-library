@@ -95,6 +95,11 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.5.0 (26/11/2026)
+
+Auditoria com novas checagens (título de gráfico, Dica, botão Voltar), medidas fora da tabela só
+de medidas, ano fiscal, infográfico SVG por medida, manual do usuário e exportação sem marca.
+
 ### 2.4.3 (25/11/2026)
 
 Correção do `auditar_visuais.py` em visual com campo de hierarquia, checagem de

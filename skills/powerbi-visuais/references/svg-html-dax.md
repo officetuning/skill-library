@@ -95,6 +95,18 @@ RETURN
 
 ---
 
+### Infográfico inteiro num visual de imagem [verificado]
+- Visual `image` com `objects.image` em `sourceType 'imageData'` e `sourceField` =
+  medida `dataCategory: ImageUrl`. A imagem reage aos filtros da página; não tem dica.
+- No data URI, **`%` vira `%25`** (inclusive em textos como "131% do ritmo"); acento e
+  símbolos como ▲ funcionam em `utf8`.
+- **Texto alternativo por medida** (`general.altText.expr.Measure`) com os mesmos
+  números da imagem.
+- Trate os estados: sem realizado, sem meta, acima de 100%, filtro que zera a meta.
+- Desenho repetido (personagem, ícone) sai de **um módulo gerador**, usado no esboço e
+  na medida. Para conferir sem abrir o Desktop, extraia as cadeias da própria medida e
+  renderize no Edge.
+
 ## B. HTML por medida (visual de terceiros)
 
 Um visual do AppSource (ex.: "HTML Content") renderiza a string HTML/CSS da
