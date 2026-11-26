@@ -136,21 +136,28 @@ Faturado (AV) = SUM ( 'Vendas'[Valor da Venda] )
 Faturado (AA) =
 CALCULATE ( [Faturado (AV)], SAMEPERIODLASTYEAR ( 'Calendário'[Data] ) )
 
-Faturado (Δ) = [Faturado (AV)] - [Faturado (AA)]
+Faturado (Δ) =
+VAR vAV = [Faturado (AV)]
+VAR vAA = [Faturado (AA)]
+RETURN
+    IF ( NOT ISBLANK ( vAV ) && NOT ISBLANK ( vAA ), vAV - vAA )
 
-Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], [Faturado (AA)] )
+Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], ABS ( [Faturado (AA)] ) )
 
 Faturado (Δi) =
-VAR vVariacao = [Faturado (Δ%)]
+VAR vDelta = [Faturado (Δ)]
 RETURN
     SWITCH (
         TRUE (),
-        ISBLANK ( vVariacao ), BLANK (),   -- sem ano anterior: sem farol
-        vVariacao > 0, "✔️",
-        vVariacao = 0, "⚠️",
+        ISBLANK ( vDelta ), BLANK (),   -- falta um dos períodos: sem farol
+        vDelta > 0, "✔️",
+        vDelta = 0, "⚠️",
         "❗"
     )
 ```
+
+Regra de cálculo, casos de teste e indicadores em que **menor é melhor** (farol
+invertido): `powerbi-visuais/references/comparativo-ano-anterior.md`.
 
 As variações ficam em ordem alfabética logo abaixo da base no painel Dados.
 O farol mora no **valor**, não no nome. ⚠️ `SAMEPERIODLASTYEAR` exige o

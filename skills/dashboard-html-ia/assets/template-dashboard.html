@@ -276,7 +276,8 @@ function numero(v, br = csvBR) {
   return Number(s);
 }
 const soma = (arr, f) => arr.reduce((a, r) => a + f(r), 0);
-const delta = (av, aa) => (aa ? (av - aa) / Math.abs(aa) : null);
+// null/undefined = sem dado; zero é valor. Sem um período ou com base zero, não há variação.
+const delta = (av, aa) => (av != null && aa ? (av - aa) / Math.abs(aa) : null);
 
 function mostrarErro(msg) { const e = $("aviso-erro"); e.textContent = msg; e.hidden = false; }
 
@@ -350,7 +351,7 @@ function desenhar() {
   $("k-aa").textContent = fmtMoeda.format(recAA);
   $("k-aa-d").textContent = aa.length ? `${mesesAV.size} meses de ${ano - 1}` : "sem dados do ano anterior";
   kpi("k-ped", fmtInt.format(pedAV), delta(pedAV, pedAA));
-  kpi("k-tic", fmtMoeda.format(ticAV), delta(ticAV, ticAA));
+  kpi("k-tic", fmtMoeda.format(ticAV), delta(pedAV ? ticAV : null, ticAA));
 
   // Título-conclusão calculado, nunca escrito à mão.
   const d = delta(recAV, recAA);
@@ -374,7 +375,7 @@ function desenhar() {
 function kpi(id, valor, d) {
   $(id).textContent = valor;
   const el = $(id + "-d");
-  if (d === null) { el.textContent = "sem base no AA"; el.className = "kpi-delta neu"; return; }
+  if (d === null) { el.textContent = "sem comparativo"; el.className = "kpi-delta neu"; return; }
   // Sinal e seta além da cor: informação não depende só de cor.
   el.textContent = `${d > 0 ? "▲" : d < 0 ? "▼" : "■"} ${fmtPct.format(d)} vs AA`;
   el.className = "kpi-delta " + (d > 0 ? "pos" : d < 0 ? "neg" : "neu");
@@ -382,9 +383,9 @@ function kpi(id, valor, d) {
 
 function agrupar(av, aa) {
   const m = new Map();
-  for (const r of av) { const c = m.get(r.cat) || { cat: r.cat, av: 0, aa: 0 }; c.av += r.v; m.set(r.cat, c); }
+  for (const r of av) { const c = m.get(r.cat) || { cat: r.cat, av: 0, aa: 0 }; c.av += r.v; c.temAV = true; m.set(r.cat, c); }
   for (const r of aa) { const c = m.get(r.cat) || { cat: r.cat, av: 0, aa: 0 }; c.aa += r.v; m.set(r.cat, c); }
-  return [...m.values()].map((c) => ({ ...c, d: delta(c.av, c.aa) }));
+  return [...m.values()].map((c) => ({ ...c, d: delta(c.temAV ? c.av : null, c.aa) }));
 }
 
 function opcoesBase() {

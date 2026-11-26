@@ -95,6 +95,11 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.6.1 (26/11/2026)
+
+Correção do comparativo com o ano anterior: uma só regra para `(Δ)`, `(Δ%)` e `(Δi)`, com
+casos de teste. Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.6.0 (26/11/2026)
 
 Storytelling com cena em SVG por medida DAX como padrão: regra de escolha, exemplo testável com

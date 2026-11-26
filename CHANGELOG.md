@@ -2,6 +2,20 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.6.1 (26/11/2026)
+
+Correção: o comparativo com o ano anterior passa a ter **uma só regra de cálculo**, em
+`powerbi-visuais/references/comparativo-ano-anterior.md`.
+
+- `(Δ)` só existe com os dois períodos; `(Δ%)` divide pelo módulo do ano anterior; `(Δi)`
+  segue o sinal de `(Δ)`. Alinhados `bi-nomenclatura`, `calendario-inteligencia-tempo`
+  (inclusive a UDF `Tempo.VariacaoAnoAnterior`) e o prompt de `dashboard-html-ia`.
+- Corrigida a variável inválida `vΔ` na tabela da regra (agora `vDelta`).
+- Template HTML: categoria sem venda no ano vigente deixa de aparecer como -100%.
+- Incluídos cinco casos de teste com os valores esperados.
+- **Atenção:** em modelos que usaram os exemplos anteriores, valores e faróis podem mudar
+  quando falta um período ou a base é negativa.
+
 ## 2.6.0 (26/11/2026)
 
 A cena de storytelling que muda com o dado passa a ser desenhada em **SVG por medida DAX**.
