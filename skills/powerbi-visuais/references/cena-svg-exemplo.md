@@ -159,8 +159,10 @@ createOrReplace
    ajuste *Ajustar*; proporção 720 × 200 (ex.: 1440 × 400).
 2. **Texto alternativo** do visual: botão *fx* → `Caminhão (Texto Alternativo)`.
 3. **Segmentação** por `Região`.
-4. **Descrição longa:** tabela nativa com `Região`, `Pedidos Entregues` e
-   `Meta de Pedidos` na mesma página. É a versão legível dos dados da cena.
+4. **Descrição longa:** tabela nativa na mesma página com `Região`, `Pedidos Entregues`,
+   `Meta de Pedidos`, `Entregues com Meta` e `Atingimento (%)`. É a versão legível dos dados
+   da cena: o total de `Entregues com Meta` é o número da imagem (sem filtro, 206, e não as
+   266 entregas de todas as regiões).
 5. Cena pequena: no **visual de cartão**, seção *Image* com *Image source* = dados; o
    estado *Hover* aceita outra medida.
 

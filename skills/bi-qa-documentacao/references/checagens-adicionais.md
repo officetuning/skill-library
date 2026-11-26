@@ -76,6 +76,11 @@ Power BI Desktop, o projeto abriu sem erro, atualizou e mostrou os mesmos valore
 | `virgula` | conferir | `FORMAT` com casas decimais sem `SUBSTITUTE(..., ",", ".")` nem `"en-US"` |
 | `sem-alt` | erro | visual que usa a medida sem texto alternativo |
 
+Entram também as medidas que chamam função DAX que desenha SVG (`functions.tmdl`) ou a
+`DaxLib.SVG.*`; o corpo das funções próprias é conferido, o das bibliotecas `DaxLib.*` não.
+HTML com `<svg>` embutido, sem data URI, fica de fora. Um `SUBSTITUTE` só isenta o texto que
+passa por ele.
+
 Sem a pasta do relatório, o texto alternativo não é conferido. Número convertido em texto
 sem `FORMAT` não é detectado: abra o relatório em pt-BR.
 
