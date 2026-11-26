@@ -95,6 +95,11 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.7.0 (26/11/2026)
+
+Teste de medidas com valores esperados em `bi-qa-documentacao`, com os cinco casos do
+comparativo (teste da regra, executado em um Desktop local). Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.6.1 (26/11/2026)
 
 Correção do comparativo com o ano anterior: uma só regra para `(Δ)`, `(Δ%)` e `(Δi)`, com

@@ -1,0 +1,114 @@
+{
+  "definir": {
+    "'Vendas'[Faturado (Δ)]": "VAR vAV = [Faturado (AV)]\nVAR vAA = [Faturado (AA)]\nRETURN\n    IF ( NOT ISBLANK ( vAV ) && NOT ISBLANK ( vAA ), vAV - vAA )",
+    "'Vendas'[Faturado (Δ%)]": "DIVIDE ( [Faturado (Δ)], ABS ( [Faturado (AA)] ) )",
+    "'Vendas'[Faturado (Δi)]": "VAR vDelta = [Faturado (Δ)]\nRETURN\n    SWITCH (\n        TRUE (),\n        ISBLANK ( vDelta ), BLANK (),\n        vDelta > 0, \"✔️\",\n        vDelta = 0, \"⚠️\",\n        \"❗\"\n    )"
+  },
+  "casos": [
+    {
+      "nome": "Sem valor atual",
+      "definir": {
+        "'Vendas'[Faturado (AV)]": "BLANK ()",
+        "'Vendas'[Faturado (AA)]": "100"
+      },
+      "verificar": [
+        {
+          "expressao": "[Faturado (Δ)]",
+          "esperado": null
+        },
+        {
+          "expressao": "[Faturado (Δ%)]",
+          "esperado": null
+        },
+        {
+          "expressao": "[Faturado (Δi)]",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Sem ano anterior",
+      "definir": {
+        "'Vendas'[Faturado (AV)]": "100",
+        "'Vendas'[Faturado (AA)]": "BLANK ()"
+      },
+      "verificar": [
+        {
+          "expressao": "[Faturado (Δ)]",
+          "esperado": null
+        },
+        {
+          "expressao": "[Faturado (Δ%)]",
+          "esperado": null
+        },
+        {
+          "expressao": "[Faturado (Δi)]",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Base zero",
+      "definir": {
+        "'Vendas'[Faturado (AV)]": "100",
+        "'Vendas'[Faturado (AA)]": "0"
+      },
+      "verificar": [
+        {
+          "expressao": "[Faturado (Δ)]",
+          "esperado": 100
+        },
+        {
+          "expressao": "[Faturado (Δ%)]",
+          "esperado": null
+        },
+        {
+          "expressao": "[Faturado (Δi)]",
+          "esperado": "✔️"
+        }
+      ]
+    },
+    {
+      "nome": "Base negativa",
+      "definir": {
+        "'Vendas'[Faturado (AV)]": "-50",
+        "'Vendas'[Faturado (AA)]": "-100"
+      },
+      "verificar": [
+        {
+          "expressao": "[Faturado (Δ)]",
+          "esperado": 50
+        },
+        {
+          "expressao": "[Faturado (Δ%)]",
+          "esperado": 0.5
+        },
+        {
+          "expressao": "[Faturado (Δi)]",
+          "esperado": "✔️"
+        }
+      ]
+    },
+    {
+      "nome": "Sem variação",
+      "definir": {
+        "'Vendas'[Faturado (AV)]": "100",
+        "'Vendas'[Faturado (AA)]": "100"
+      },
+      "verificar": [
+        {
+          "expressao": "[Faturado (Δ)]",
+          "esperado": 0
+        },
+        {
+          "expressao": "[Faturado (Δ%)]",
+          "esperado": 0
+        },
+        {
+          "expressao": "[Faturado (Δi)]",
+          "esperado": "⚠️"
+        }
+      ]
+    }
+  ]
+}

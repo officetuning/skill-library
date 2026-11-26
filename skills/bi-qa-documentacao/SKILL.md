@@ -1,6 +1,6 @@
 ---
 name: bi-qa-documentacao
-description: Documentar e validar um modelo Power BI antes de publicar — descrição de medida com /// na DAX Query View, QA em três camadas (Best Practice Analyzer pelo Tabular Editor CLI, smoke test de medidas via XMLA, binding visual.json × TMDL), pipeline de CI/CD e geração de documentação .docx a partir do TMDL/PBIR. Use para documentar medida no código, checklist de publicação automatizado, validar PBIP, CI/CD Power BI, testar medidas por script, visual quebrado, dicionário de dados, handoff ou "gerar Word do modelo". Regras de boas práticas em si ficam em powerbi-boas-praticas; sintaxe dos arquivos em tmdl-pbir.
+description: Documentar e validar um modelo Power BI antes de publicar — descrição de medida com /// na DAX Query View, QA em três camadas (Best Practice Analyzer pelo Tabular Editor CLI, smoke test e teste de valores esperados de medidas via XMLA, binding visual.json × TMDL), pipeline de CI/CD e geração de documentação .docx a partir do TMDL/PBIR. Use para documentar medida no código, checklist de publicação automatizado, validar PBIP, CI/CD Power BI, testar medidas por script, visual quebrado, dicionário de dados, handoff ou "gerar Word do modelo". Regras de boas práticas em si ficam em powerbi-boas-praticas; sintaxe dos arquivos em tmdl-pbir.
 ---
 
 # QA e documentação de modelos Power BI
@@ -57,6 +57,7 @@ Explorer, no painel Dados, no tooltip do campo e no TMDL.
 | 3. Binding | Todo campo de `visual.json` existe no TMDL | `scripts/check_visual_bindings.py` |
 | 1. BPA | Modelo segue as regras | Tabular Editor 2 CLI (`TabularEditor.exe`) |
 | 2. Smoke test | Cada medida calcula sem erro | `Invoke-ASCmd` via XMLA, pós-deploy em staging |
+| 2. Valores esperados | Casos de regra e valores de controle conferem | `scripts/testar_medidas.ps1`, no mesmo job |
 
 Rode a camada 3 primeiro: é a mais barata e pega o erro mais comum (campo renomeado).
 
@@ -81,6 +82,8 @@ Killer. Versione o arquivo de regras e ajuste `paramMaxAllowedPageHeight` para
 
 **Obrigatório**
 - As três camadas antes de publicar.
+- Execução sem erro não prova valor certo: medida com regra de negócio (como o
+  comparativo) leva teste de valor esperado.
 - Rodar contra a pasta TMDL/PBIR versionada no Git, nunca contra "o que deveria estar".
 - Versionar o arquivo de regras do BPA no repositório.
 - Falhar o pipeline em regra de severidade Alta.
@@ -141,5 +144,7 @@ Para quem usa o relatório e não é de BI (fontes, filtros, páginas, Dica e De
 | `scripts/auditar_visuais.py` | Audita segmentações, tabelas, cartões, eixo de tempo, grade de 8 px, tema registrado e formatação com seletor órfão; exit 1 se houver pendência fixa | Python 3.9+ |
 | `scripts/extrair_modelo.py` | JSON intermediário para a documentação | Python 3.9+ |
 | `scripts/gerar_docx.js` | `.docx` a partir do JSON | Node + `npm install docx` |
+| `scripts/testar_medidas.ps1` | Compara cada consulta DAX, via XMLA, com o valor esperado (casos em JSON) | PowerShell + módulo `SqlServer` |
+| `scripts/testar_medidas.autoteste.ps1` | Confere o script acima com `Invoke-ASCmd` simulado, sem servidor | PowerShell |
 
 O leitor TMDL é mínimo: cobre QA e documentação, não substitui o `TmdlSerializer`.
