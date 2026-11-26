@@ -2,6 +2,23 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.7.0 (26/11/2026)
+
+`bi-qa-documentacao` ganha **teste de medidas com valores esperados**.
+
+- `testar_medidas.ps1`: reprova valor diferente do esperado, mesmo sem erro de DAX, e
+  distingue em branco de zero e de texto vazio.
+- `assets/casos-regra-comparativo.json`: os cinco casos do comparativo com o ano anterior,
+  com `(Δ)`, `(Δ%)` e `(Δi)` no `definir` comum. Testa a regra, não as medidas do modelo.
+- `testar_medidas.autoteste.ps1`: confere o script com `Invoke-ASCmd` simulado.
+- O smoke test continua, agora descrito como teste que só procura erro.
+- Executado em um Power BI Desktop local (PowerShell 7.7.0, `SqlServer` 22.4.5.1): 15 de 15
+  conferem e uma fórmula errada de propósito é reprovada. O autoteste usa o formato XMLA
+  real: tipo no `xsd:schema`, sem `xsi:type` nos valores.
+- **Atenção:** a substituição por `DEFINE MEASURE` não chega às medidas do modelo que usam a
+  substituída; por isso o teste de regra define a família inteira. Não testados: Windows
+  PowerShell 5.1 contra servidor, endpoint do Service e valores de controle.
+
 ## 2.6.1 (26/11/2026)
 
 Correção: o comparativo com o ano anterior passa a ter **uma só regra de cálculo**, em
