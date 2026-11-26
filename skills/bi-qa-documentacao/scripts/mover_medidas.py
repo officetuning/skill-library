@@ -17,8 +17,10 @@ está no mapa fica onde está. Sem `--aplicar` só ensaia.
 O que muda: o bloco TMDL da medida (com a descrição `///` e o mesmo lineageTag) passa
 para a tabela de destino; no DAX, referência qualificada a medida movida vira `[Medida]`;
 no relatório, `Entity`, `queryRef`, `selector.metadata` e o `From` dos filtros passam a
-apontar para o destino. A tabela de origem NÃO é excluída. Faça backup antes, feche o
-Power BI Desktop e, depois, rode `check_visual_bindings.py` e abra o projeto.
+apontar para o destino. A tabela que fica **vazia** (sem medida, coluna ou hierarquia e
+sem outra referência) é excluída, com a linha `ref table` e o nome em `PBI_QueryOrder`:
+o Desktop não carrega tabela sem coluna. Faça backup antes, feche o Power BI Desktop e,
+depois, rode `check_visual_bindings.py`, abra o projeto, atualize e salve.
 """
 import argparse
 import json
@@ -91,6 +93,39 @@ def destino(nome, pasta, mapa):
         if d:
             return d
     return None
+
+
+def citada(nome, texto):
+    """A tabela é usada no DAX, num relacionamento ou numa permissão deste TMDL (comentários não contam)."""
+    n = re.escape(nome)
+    aspas = "'" + re.escape(nome.replace("'", "''")) + "'"
+    codigo = LF.join(x for x in texto.split(LF) if not x.lstrip().startswith(("///", "//", "--", "ref table")))
+    codigo = re.sub(r"(?m)^annotation PBI_QueryOrder.*$", "", codigo)
+    padrao = aspas + r"|(?<![\w'])" + n + r"\[|(?:Column|Table):\s*" + n + r"(?![\w])|\(\s*" + n + r"\s*[,)]"
+    return bool(re.search(padrao, codigo))
+
+
+def vazias(tabelas, outros, candidatas):
+    """Candidatas que ficaram sem nada: (excluíveis, citadas em outro lugar)."""
+    excluir, presas = [], []
+    for o in sorted(candidatas):
+        if re.search(r"(?m)^\t(measure|column|hierarchy|calculationGroup)\b", tabelas[o][1]):
+            continue
+        textos = [v[1] for t, v in tabelas.items() if t != o] + [t for t, _ in outros.values()]
+        (presas if any(citada(o, t) for t in textos) else excluir).append(o)
+    return excluir, presas
+
+
+def tirar_do_modelo(texto, nome):
+    """Remove `ref table` e o nome em PBI_QueryOrder do model.tmdl."""
+    for forma in (nome, "'" + nome.replace("'", "''") + "'"):
+        texto = re.sub(r"(?m)^ref table " + re.escape(forma) + r"[ \t]*\n", "", texto)
+
+    def ordem(m):
+        itens = [i for i in json.loads(m.group(2)) if i != nome]
+        return m.group(1) + json.dumps(itens, ensure_ascii=False, separators=(",", ":"))
+
+    return re.sub(r"(?m)^(annotation PBI_QueryOrder = )(\[.*\])[ \t]*$", ordem, texto)
 
 
 def ponto_de_insercao(linhas):
@@ -241,19 +276,32 @@ def main():
     for d, blocos in movidos.items():
         print(f"    {len(blocos):3} para {d}")
     print(f"{len(visuais)} arquivo(s) do relatório com {trocas} referência(s); {qualificadas} referência(s) qualificada(s) no DAX")
-    origens = {o for o, _ in mudou}
-    sobras = [str(p.relative_to(raiz)) for p, (t, _) in outros.items() for o in origens if o in t]
+    # inclui a tabela de medidas que já tinha ficado vazia numa execução anterior
+    candidatas = {o for o, _ in mudou} | {t for t, v in tabelas.items() if re.search(r"#table\(\s*\{\s*\}", v[1])}
+    excluir, presas = vazias(tabelas, outros, candidatas)
+    for o in excluir:
+        print(f"tabela vazia a excluir: {o}")
+    for o in presas:
+        print(f"ATENÇÃO: {o} ficou vazia mas é citada no modelo; resolva à mão (o Desktop não carrega tabela sem coluna)")
+    modelo_tmdl = raiz / "model.tmdl"
+    novo_modelo = None
+    if excluir and modelo_tmdl in outros:
+        novo_modelo = outros[modelo_tmdl][0]
+        for o in excluir:
+            novo_modelo = tirar_do_modelo(novo_modelo, o)
+    sobras = [str(p.relative_to(raiz)) for p, (t, _) in outros.items() if p != modelo_tmdl for o in excluir if o in t]
     if sobras:
-        print("conferir à mão (citam a tabela de origem):", sorted(set(sobras)))
-    for o in origens:
-        if not any(t == o for t, _ in ficaram):
-            print(f"a tabela {o} fica sem medidas: avalie excluí-la (e a linha `ref table` do model.tmdl)")
+        print("conferir à mão (citam a tabela excluída, ex.: sinônimos ou perspectivas):", sorted(set(sobras)))
     if not a.aplicar:
         print("ENSAIO: nada foi gravado (use --aplicar)")
         return
-    for p, texto, eol in tabelas.values():
-        if ler(p)[0] != texto:
+    for nome_t, (p, texto, eol) in tabelas.items():
+        if nome_t in excluir:
+            p.unlink()
+        elif ler(p)[0] != texto:
             gravar(p, texto, eol)
+    if novo_modelo is not None:
+        gravar(modelo_tmdl, novo_modelo, outros[modelo_tmdl][1])
     for p, texto, eol in visuais:
         gravar(p, texto, eol)
     print("APLICADO. Rode check_visual_bindings.py e abra o projeto no Desktop.")

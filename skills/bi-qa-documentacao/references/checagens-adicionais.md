@@ -59,10 +59,13 @@ título). Saída 1 se houver pendência fixa. A 24 (DAX) e as demais seguem pelo
 Para migrar, escreva um mapa `{ "medidas": {...}, "pastas": {...} }` e rode
 `scripts/mover_medidas.py <modelo> <relatório> mapa.json` (ensaio) e depois com `--aplicar`:
 move o bloco TMDL com o mesmo `lineageTag`, troca `Entity`, `queryRef`, seletores e filtros no
-relatório e não exclui a tabela vazia. Backup antes; confira os bindings e abra no Desktop.
+relatório e **exclui a tabela que ficar vazia** (arquivo, `ref table` e `PBI_QueryOrder`): sem
+coluna e sem medida, o Desktop avisa "Esta consulta não tem nenhuma coluna com os tipos de dados
+com suporte" e desabilita o carregamento. Backup antes; confira os bindings, abra, atualize e salve.
 Testado numa cópia de projeto: modelo carregado no Tabular Editor 2, bindings conferidos e, no
-Power BI Desktop, o projeto abriu sem erro, atualizou e mostrou os mesmos valores.
-**Salvar no Desktop depois da migração ainda não foi testado.** Migrar projeto existente só com aprovação do autor.
+Power BI Desktop, o projeto abriu, atualizou, mostrou os mesmos valores, foi salvo e reabriu sem
+erro. Descrições (`///`) que citem a tabela excluída não são reescritas: revise depois.
+Migrar projeto existente só com aprovação do autor.
 
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o

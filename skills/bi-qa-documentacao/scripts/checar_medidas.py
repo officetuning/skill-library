@@ -8,6 +8,7 @@ A orientação de modelagem é distribuir as medidas pelas tabelas a que pertenc
 organizá-las por pasta de exibição ("Distribute measures across relevant tables",
 microsoft/skills-for-fabric, semantic-model-authoring). Uma tabela é tratada como
 "só de medidas" quando guarda pelo menos --minimo medidas e não tem coluna visível.
+Acusa também a tabela **vazia** (sem coluna e sem medida), que o Desktop não carrega.
 Sai com código 1 se encontrar alguma. Para mover, use `mover_medidas.py`.
 """
 import argparse
@@ -46,8 +47,11 @@ def main():
         print(f"## tabela só de medidas: {nome} ({n} de {total})")
         for pasta, q in pastas.most_common():
             print(f"    {q:3} em {pasta}")
-    print(f"\n{len(achadas)} tabela(s) só de medidas.")
-    sys.exit(1 if achadas else 0)
+    sem_nada = [t["nome"] for t in modelo["tabelas"] if not t["colunas"] and not t["medidas"] and t.get("modo") != "calculationGroup"]
+    for nome in sem_nada:
+        print(f"## tabela vazia (o Desktop desabilita o carregamento): {nome}")
+    print(f"\n{len(achadas)} tabela(s) só de medidas; {len(sem_nada)} vazia(s).")
+    sys.exit(1 if achadas or sem_nada else 0)
 
 
 if __name__ == "__main__":
