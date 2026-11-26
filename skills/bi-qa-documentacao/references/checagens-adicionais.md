@@ -60,8 +60,9 @@ Para migrar, escreva um mapa `{ "medidas": {...}, "pastas": {...} }` e rode
 `scripts/mover_medidas.py <modelo> <relatório> mapa.json` (ensaio) e depois com `--aplicar`:
 move o bloco TMDL com o mesmo `lineageTag`, troca `Entity`, `queryRef`, seletores e filtros no
 relatório e não exclui a tabela vazia. Backup antes; confira os bindings e abra no Desktop.
-Testado numa cópia de projeto (modelo carregado no Tabular Editor 2 e bindings conferidos);
-**ainda não aberto no Desktop**. Migrar projeto existente só com aprovação do autor.
+Testado numa cópia de projeto: modelo carregado no Tabular Editor 2, bindings conferidos e, no
+Power BI Desktop, o projeto abriu sem erro, atualizou e mostrou os mesmos valores.
+**Salvar no Desktop depois da migração ainda não foi testado.** Migrar projeto existente só com aprovação do autor.
 
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o
