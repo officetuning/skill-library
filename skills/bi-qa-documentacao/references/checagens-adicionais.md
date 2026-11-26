@@ -28,6 +28,7 @@ pasta do relatório.
 | 27 | Dica sem cartão com título por medida, com mais de um cartão, ou de até 320 px com eixo de tempo | Dica só com gráfico, com rolagem lateral |
 | 28 | Botão Voltar sem `background.show` e `border.show` em `false` | Moldura sobre o botão desenhado no fundo |
 | 29 | Medidas concentradas em tabela só de medidas (`checar_medidas.py`) | Contraria a orientação de distribuir as medidas pelas tabelas |
+| 30 | Cena em SVG por medida sem `ImageUrl`, com `#` ou `%` sem escape, vírgula decimal a conferir ou visual sem texto alternativo (`checar_svg.py`) | Imagem que quebra em silêncio, sobretudo em pt-BR, ou que o leitor de tela não descreve |
 
 ## Ordem sugerida
 Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 25
@@ -63,6 +64,20 @@ relatório e não exclui a tabela vazia. Backup antes; confira os bindings e abr
 Testado numa cópia de projeto: modelo carregado no Tabular Editor 2, bindings conferidos e, no
 Power BI Desktop, o projeto abriu sem erro, atualizou e mostrou os mesmos valores.
 **Salvar no Desktop depois da migração ainda não foi testado.** Migrar projeto existente só com aprovação do autor.
+
+## Cena em SVG por medida (checagem 30)
+`scripts/checar_svg.py "<Projeto>.SemanticModel/definition" "<Projeto>.Report/definition"`
+
+| Código | Nível | Quando |
+|---|---|---|
+| `sem-imageurl` | erro | a medida devolve `data:image/svg+xml` e não tem `dataCategory: ImageUrl` |
+| `cerquilha` | erro | `#` de cor ou `url(#` sem virar `%23` |
+| `porcento` | erro | `%` sem virar `%25`, inclusive o que vem de `FORMAT(x, "0%")` |
+| `virgula` | conferir | `FORMAT` com casas decimais sem `SUBSTITUTE(..., ",", ".")` nem `"en-US"` |
+| `sem-alt` | erro | visual que usa a medida sem texto alternativo |
+
+Sem a pasta do relatório, o texto alternativo não é conferido. Número convertido em texto
+sem `FORMAT` não é detectado: abra o relatório em pt-BR.
 
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o

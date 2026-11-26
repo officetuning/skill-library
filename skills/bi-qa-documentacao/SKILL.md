@@ -67,6 +67,7 @@ outras): lista em `tmdl-pbir/references/edicao-por-script-e-desktop.md`. As
 checagens 8 a 18 (unidades, segmentações, navegador, ordem das páginas,
 dicionário, Dica, texto alternativo, campo do modelo antigo no `.Report` e
 qualquer unidade diferente de `1D`): `references/checagens-adicionais.md`.
+Medida que desenha cena em SVG: `scripts/checar_svg.py` (checagem 30).
 Texto alternativo e ordem de tabulação no PBIR (regra 7.11 `ENSURE_ALTTEXT`):
 `references/acessibilidade-pbir.md`.
 

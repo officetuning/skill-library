@@ -40,7 +40,7 @@
 
 ---
 
-### Tarefa 1: `checar_svg.py`
+### Task 1: `checar_svg.py`
 
 **Files:**
 - Create: `skills/bi-qa-documentacao/scripts/checar_svg.py`
@@ -101,7 +101,7 @@ test_codigo_saida:   CLI num modelo com um defeito "erro" → código 1
 
 ---
 
-### Tarefa 2: exemplo completo de cena
+### Task 2: exemplo completo de cena
 
 **Files:**
 - Create: `skills/powerbi-visuais/references/cena-svg-exemplo.md`
@@ -146,7 +146,7 @@ O documento traz, nesta ordem: o que a cena responde (teste dos 5 segundos), a r
 
 ---
 
-### Tarefa 3: regra nas skills
+### Task 3: regra nas skills
 
 **Files (Modify):**
 - `skills/data-storytelling/SKILL.md`: trocar o item "Arte 3D vem de gerador de imagem" pela **tabela de regra de escolha** do spec; manter o teste dos 5 segundos e a identidade.
@@ -165,7 +165,7 @@ O documento traz, nesta ordem: o que a cena responde (teste dos 5 segundos), a r
 
 ---
 
-### Tarefa 4: versão 2.6.0 e entrega
+### Task 4: versão 2.6.0 e entrega
 
 **Files (Modify):** `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `CHANGELOG.md`, `README.md`
 
