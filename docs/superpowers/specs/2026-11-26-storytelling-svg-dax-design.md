@@ -29,8 +29,9 @@ A cena continua obrigada ao teste dos 5 segundos e a ser verdadeira com qualquer
 3. **Estados:** sem dado, sem meta, acima de 100%, filtro que zera a meta.
 4. **Arte:** acabamento do próprio relatório; esboço com os estados difíceis e duas opções
    em tamanho real antes de aplicar. Boneco de palito é rejeitado.
-5. **Reuso:** peça usada duas vezes ou mais vira função DAX do usuário (`Svg.Peca`,
-   nível de compatibilidade 1702; GA em jun/2026). Cena única fica numa medida só.
+5. **Reuso:** peça usada em duas ou mais medidas vira função DAX do usuário (`Svg.Peca`,
+   nível de compatibilidade 1702; GA em jun/2026). Cena única fica numa medida só e repete a
+   peça por `VAR` (esclarecido em 26/11, com o exemplo em volume).
 6. **Biblioteca:** DaxLib.SVG (MIT, 2.0.0 tem mudanças incompatíveis com a 1.x) é
    dependência opcional para formas e mini-gráficos; o plugin não copia o código.
 7. **Acessibilidade:** texto alternativo por medida (identifica a cena e traz os números)

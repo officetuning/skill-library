@@ -106,8 +106,10 @@ personagem sobre uma pista), a cena é **SVG montado por medida DAX**.
 2. **Medida:** data URI com `dataCategory: ImageUrl`, ponto decimal forçado, `%23` e `%25`
    (`powerbi-visuais/references/svg-html-dax.md`).
 3. **Estados:** sem dado, sem meta, acima de 100% e filtro que zera a meta.
-4. **Arte no nível do relatório:** traço e cores do fundo, cor chapada com volume simples, um
-   destaque. **Boneco de palito é rejeitado.** Antes de aplicar: esboço com o **acabamento
+4. **Cena completa, no nível do relatório:** cenário com profundidade, personagem ou veículo
+   detalhado e indicador em destaque, nas cores do fundo; só o objeto que se move sobre uma
+   faixa é **básico demais**. A parte que encosta no marco (a frente do veículo) é a que marca
+   o valor: ela só toca a meta quando a meta é alcançada. **Boneco de palito é rejeitado.** Antes de aplicar: esboço com o **acabamento
    final** e os estados difíceis, duas opções em **tamanho real e ampliado** ao lado do estilo
    do fundo e aprovação do autor.
 

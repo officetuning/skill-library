@@ -15,7 +15,7 @@ A cena de storytelling que muda com o dado passa a ser desenhada em **SVG por me
 - **`powerbi-visuais`:** imagem do cartão com variação ao passar o mouse, DaxLib.SVG como
   dependência opcional, tamanho do resultado e acessibilidade em duas partes (deixa de
   desaconselhar SVG quando há texto alternativo e dados legíveis na página).
-- **`dax-udf`:** peça de desenho usada duas vezes ou mais vira função.
+- **`dax-udf`:** peça de desenho usada em duas ou mais medidas vira função.
 
 ## 2.5.0 (26/11/2026)
 

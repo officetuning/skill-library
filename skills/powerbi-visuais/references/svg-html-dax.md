@@ -122,8 +122,10 @@ RETURN
   renderize no Edge.
 
 ### Reuso: funções DAX do usuário
-Peça desenhada **duas vezes ou mais** vira função (`Svg.Peca`; nível de compatibilidade
-1702, disponibilidade geral em jun/2026; skill `dax-udf`). Cena única fica numa medida só.
+Peça usada em **duas ou mais medidas** vira função (`Svg.Peca`; nível de compatibilidade
+1702, disponibilidade geral em jun/2026; skill `dax-udf`). Cena única fica numa medida só, e a
+peça repetida dentro dela (roda, árvore) é desenhada uma vez numa `VAR` e posicionada com
+`<g transform>`.
 
 A [DaxLib.SVG](https://github.com/EvaluationContext/daxlib.svg) (licença MIT) traz funções
 prontas para formas e mini-gráficos; é dependência **opcional**. A versão 2.0.0 tem mudanças
