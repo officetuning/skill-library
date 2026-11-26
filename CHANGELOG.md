@@ -2,6 +2,18 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.9.0 (26/11/2026)
+
+`bi-qa-documentacao`: o modelo sintético de teste passa a ser criado por script.
+
+- `criar_modelo_sintetico.ps1`: grava tabelas, relacionamento, calendário `'Gregoriano'` e
+  medidas em um relatório em branco do Desktop. Só grava em `localhost` e em modelo sem
+  tabelas; subir a compatibilidade exige `-SubirCompatibilidade`.
+- O calendário vai por TMSL, porque a TOM do `SqlServer` 22.4.5.1 o recusa no modo Power BI.
+- Executado do zero (nível 1606) pelo Windows PowerShell 5.1; os testes conferiram no 5.1 e
+  no PowerShell 7.7.0: 42 de 42, 17 de 17 e 15 de 15.
+- **Atenção:** não testados o endpoint do Service e dados de um modelo real.
+
 ## 2.8.0 (26/11/2026)
 
 `bi-qa-documentacao`: o teste de medidas passa a testar **medidas gravadas no modelo** e UDFs.

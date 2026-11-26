@@ -102,15 +102,14 @@ devolve em branco ou um valor errado sem erro.
 
 ### Teste de valores esperados: a medida devolve o que deveria
 
-⚠️ **Executado em 26/11/2026** contra um Power BI Desktop local, no PowerShell
-7.7.0 com `SqlServer` 22.4.5.1: os 15 testes do arquivo de casos conferiram, e uma
-cópia com a fórmula errada de propósito foi reprovada. Os controles do modelo
-sintético (abaixo) também: 42 de 42 nas medidas e 17 de 17 nas UDFs, com
-reprovação ao quebrar uma medida do modelo e uma UDF. **Ainda não testado:** o
-Windows PowerShell 5.1 contra um servidor (o autoteste passa nele, mas sem
-servidor), o endpoint XMLA do Service (`powerbi://`, com autenticação) e dados de
-um modelo real. Antes de pôr no pipeline, rode uma vez em staging, incluindo um
-caso com valor errado de propósito, que precisa reprovar.
+⚠️ **Executado em 26/11/2026** contra um Power BI Desktop local, no Windows
+PowerShell 5.1 e no PowerShell 7.7.0, com `SqlServer` 22.4.5.1: no modelo
+sintético (abaixo), 42 de 42 nas medidas, 17 de 17 nas UDFs e 15 de 15 nos casos
+de regra. Quebrar de propósito uma medida do modelo e uma UDF reprovou o teste
+(no PowerShell 7). **Ainda não testado:** o endpoint XMLA do Service
+(`powerbi://`, com autenticação) e dados de um modelo real. Antes de pôr no
+pipeline, rode uma vez em staging, incluindo um caso com valor errado de
+propósito, que precisa reprovar.
 
 ```powershell
 # Confere o próprio script, sem servidor
@@ -192,20 +191,27 @@ partir das linhas de origem por `scripts/gerar_casos_sinteticos.py`:
 | `assets/casos-modelo-sintetico.json` | `(AV)`, `(AA)`, `(Δ)`, `(Δ%)` e `(Δi)` **gravadas no modelo**, inclusive 29/02 no modo clássico |
 | `assets/casos-udf-ano-anterior.json` | `Tempo.AnoAnterior` e `Tempo.VariacaoAnoAnterior` com `CALENDARREF`, definidas só na consulta |
 
-O modelo precisa ser montado à mão (ainda não há script que o crie):
+Para montar o modelo, abra um **relatório em branco** no Desktop, com a prévia
+**Inteligência de tempo DAX aprimorada** ligada, e rode:
 
-- compatibilidade 1702 e a prévia de inteligência de tempo com calendário;
-- `'Vendas'` com `Data` e `Valor da Venda` (decimal fixo), com as linhas de
-  `LINHAS` no gerador;
-- `'Calendário'` contínuo de 01/01/2023 a 31/12/2026, com `Data`, `Ano`,
-  `Trimestre #`, `Mês #`, `Ano/Mês` e `Dia`, marcado como tabela de datas;
-- relacionamento `'Vendas'[Data]` → `'Calendário'[Data]`;
-- calendário `'Gregoriano'` com ano, trimestre do ano, mês, mês do ano, dia do mês
-  e data;
-- as medidas do código de referência de `comparativo-ano-anterior.md`, com `(AA)`
-  no modo clássico;
-- se criar os objetos por XMLA, recalcule o modelo (refresh `calculate`) antes de
-  testar: sem isso o relacionamento dá erro e tudo reprova.
+```powershell
+# a porta e o banco são os do Desktop aberto
+pwsh -File scripts/criar_modelo_sintetico.ps1 -Servidor localhost:51402 -SubirCompatibilidade
+pwsh -File scripts/testar_medidas.ps1 -Servidor localhost:51402 -Banco <id> `
+    -Casos assets/casos-modelo-sintetico.json
+```
+
+- O script mostra o `<id>` do banco ao terminar.
+- Ele **grava no modelo**: tabelas `'Vendas'` e `'Calendário'`, relacionamento,
+  calendário `'Gregoriano'` (ano, trimestre do ano, mês, mês do ano, dia do mês e
+  data) e as medidas do código de referência, com `(AA)` no modo clássico.
+- Recusa, sem gravar (saída 2), servidor que não seja `localhost`, modelo que já
+  tenha tabela e, sem `-SubirCompatibilidade`, modelo abaixo de 1702. A subida
+  **não se desfaz**.
+- Não salva o arquivo: feche sem salvar para descartar. Saída 1 significa falha no
+  meio da gravação; descarte o relatório.
+- O calendário é criado por TMSL: a biblioteca TOM do `SqlServer` 22.4.5.1 (19.96)
+  o recusa no modo Power BI, embora o motor aceite.
 
 Em 29/02/2024 o ano anterior é 28/02/2023 no modo clássico e 01/03/2023 no modo
 calendário. Os números sintéticos conferem fórmulas, não os dados do seu modelo.
