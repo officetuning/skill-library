@@ -95,6 +95,12 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.8.0 (26/11/2026)
+
+Teste das medidas gravadas no modelo e de UDFs com `CALENDARREF`, com valores de controle
+calculados fora do DAX (executado em um Desktop local, com dados sintéticos). Detalhe no
+[CHANGELOG](CHANGELOG.md).
+
 ### 2.7.0 (26/11/2026)
 
 Teste de medidas com valores esperados em `bi-qa-documentacao`, com os cinco casos do

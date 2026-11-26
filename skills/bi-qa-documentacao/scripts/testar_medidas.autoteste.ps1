@@ -147,6 +147,21 @@ try {
         Write-Host "FALHA  o caso troca a medida comum e herda as outras :`n$consulta"
     }
 
+    # "funcoes" vira DEFINE FUNCTION, antes das medidas
+    $udf = NovoArquivo @'
+{"funcoes":{"T.Dobro":"( m : MEASUREREF ) => m * 2"},"definir":{"'T'[A]":"1"},"casos":[{"nome":"c","verificar":[{"expressao":"T.Dobro ( [A] )","esperado":2}]}]}
+'@
+    Conferir 'funções definidas na consulta' $udf @(Resposta 2) 0 1
+    $consulta = [string]$global:Consultas[0]
+    if ($consulta -match "(?s)^DEFINE\s+FUNCTION T\.Dobro = \( m : MEASUREREF \) => m \* 2\s+MEASURE 'T'\[A\] = 1\s+EVALUATE") {
+        Write-Host 'OK     a consulta define a função antes da medida'
+    } else {
+        $global:Falhas++
+        Write-Host "FALHA  a consulta define a função antes da medida :`n$consulta"
+    }
+    Conferir 'nome de função inválido' (NovoArquivo '{"funcoes":{"[F]":"() => 1"},"casos":[{"nome":"c","verificar":[{"expressao":"[M]","esperado":1}]}]}') @() 2 0
+    Conferir 'função sem corpo' (NovoArquivo '{"funcoes":{"F":""},"casos":[{"nome":"c","verificar":[{"expressao":"[M]","esperado":1}]}]}') @() 2 0
+
     # Fórmula antiga: sem valor atual, Δ% devolvia -1 sem nenhum erro de DAX
     $antiga = @($respostasCertas)
     $antiga[1] = Resposta '-1'

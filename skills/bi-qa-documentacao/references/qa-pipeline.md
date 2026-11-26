@@ -104,11 +104,13 @@ devolve em branco ou um valor errado sem erro.
 
 ⚠️ **Executado em 26/11/2026** contra um Power BI Desktop local, no PowerShell
 7.7.0 com `SqlServer` 22.4.5.1: os 15 testes do arquivo de casos conferiram, e uma
-cópia com a fórmula errada de propósito foi reprovada. **Ainda não testado:** o
+cópia com a fórmula errada de propósito foi reprovada. Os controles do modelo
+sintético (abaixo) também: 42 de 42 nas medidas e 17 de 17 nas UDFs, com
+reprovação ao quebrar uma medida do modelo e uma UDF. **Ainda não testado:** o
 Windows PowerShell 5.1 contra um servidor (o autoteste passa nele, mas sem
-servidor), o endpoint XMLA do Service (`powerbi://`, com autenticação) e os
-valores de controle. Antes de pôr no pipeline, rode uma vez em staging, incluindo
-um caso com valor errado de propósito, que precisa reprovar.
+servidor), o endpoint XMLA do Service (`powerbi://`, com autenticação) e dados de
+um modelo real. Antes de pôr no pipeline, rode uma vez em staging, incluindo um
+caso com valor errado de propósito, que precisa reprovar.
 
 ```powershell
 # Confere o próprio script, sem servidor
@@ -133,6 +135,9 @@ Regras da comparação:
 - Número aceita diferença absoluta de até `0.000001`; mude com `"tolerancia"`.
   Percentual vai como fração (50% = `0.5`).
 - Texto precisa ser idêntico, inclusive o símbolo do farol.
+- `"definir"` (medidas) e `"funcoes"` (UDFs, `DEFINE FUNCTION`) existem só durante
+  a consulta. Os dois podem ficar no topo do arquivo ou em um caso, que troca o
+  item de mesmo nome. UDF exige compatibilidade 1702 ou maior.
 
 **Casos de regra.** `assets/casos-regra-comparativo.json` traz os cinco casos de
 `powerbi-visuais/references/comparativo-ano-anterior.md`. Ele testa **a regra**, não
@@ -178,6 +183,32 @@ O número acima é fictício. Não copie para o esperado o resultado da própria
 medida: o teste passaria mesmo com a fórmula errada.
 
 O arquivo de casos vira consulta DAX: versione e revise como código.
+
+**Modelo sintético.** Dois arquivos prontos, com esperados calculados em Python a
+partir das linhas de origem por `scripts/gerar_casos_sinteticos.py`:
+
+| Arquivo | Testa |
+|---|---|
+| `assets/casos-modelo-sintetico.json` | `(AV)`, `(AA)`, `(Δ)`, `(Δ%)` e `(Δi)` **gravadas no modelo**, inclusive 29/02 no modo clássico |
+| `assets/casos-udf-ano-anterior.json` | `Tempo.AnoAnterior` e `Tempo.VariacaoAnoAnterior` com `CALENDARREF`, definidas só na consulta |
+
+O modelo precisa ser montado à mão (ainda não há script que o crie):
+
+- compatibilidade 1702 e a prévia de inteligência de tempo com calendário;
+- `'Vendas'` com `Data` e `Valor da Venda` (decimal fixo), com as linhas de
+  `LINHAS` no gerador;
+- `'Calendário'` contínuo de 01/01/2023 a 31/12/2026, com `Data`, `Ano`,
+  `Trimestre #`, `Mês #`, `Ano/Mês` e `Dia`, marcado como tabela de datas;
+- relacionamento `'Vendas'[Data]` → `'Calendário'[Data]`;
+- calendário `'Gregoriano'` com ano, trimestre do ano, mês, mês do ano, dia do mês
+  e data;
+- as medidas do código de referência de `comparativo-ano-anterior.md`, com `(AA)`
+  no modo clássico;
+- se criar os objetos por XMLA, recalcule o modelo (refresh `calculate`) antes de
+  testar: sem isso o relacionamento dá erro e tudo reprova.
+
+Em 29/02/2024 o ano anterior é 28/02/2023 no modo clássico e 01/03/2023 no modo
+calendário. Os números sintéticos conferem fórmulas, não os dados do seu modelo.
 
 [Invoke-ASCmd](https://learn.microsoft.com/pt-br/powershell/module/sqlserver/invoke-ascmd) ·
 [Endpoint XMLA](https://learn.microsoft.com/pt-br/power-bi/enterprise/service-premium-connect-tools)

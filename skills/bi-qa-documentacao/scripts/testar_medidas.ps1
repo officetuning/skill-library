@@ -4,8 +4,8 @@
 .DESCRIPTION
     Cada verificação do arquivo de casos vira uma consulta DAX. O teste reprova
     com erro de DAX, resposta em formato inesperado ou valor diferente do esperado.
-    "definir" substitui medidas só durante a consulta (DEFINE MEASURE); o modelo
-    não é alterado.
+    "definir" substitui medidas só durante a consulta (DEFINE MEASURE) e
+    "funcoes" cria UDFs só da consulta (DEFINE FUNCTION); o modelo não é alterado.
 
     Saída: 0 = tudo conferiu; 1 = alguma verificação falhou;
     2 = erro de configuração (arquivo de casos ou módulo ausente).
@@ -35,6 +35,18 @@ function Read-Verificacoes([string]$caminho) {
     if ($casos.Count -eq 0) { throw 'Nenhum caso em "casos".' }
     foreach ($caso in $casos) {
         if (-not $caso.nome) { throw 'Caso sem "nome".' }
+        # "funcoes" são UDFs só da consulta, com a mesma troca por nome
+        $funcoes = [ordered]@{}
+        foreach ($origem in @($json.funcoes, $caso.funcoes)) {
+            if (-not $origem) { continue }
+            foreach ($p in $origem.PSObject.Properties) {
+                if ($p.Name -notmatch '^[A-Za-z_][A-Za-z0-9_.]*$') {
+                    throw "$($caso.nome): nome de função inválido em ""funcoes"": $($p.Name)"
+                }
+                if ([string]::IsNullOrWhiteSpace($p.Value)) { throw "$($caso.nome): $($p.Name) sem corpo." }
+                $funcoes[$p.Name] = $p.Value
+            }
+        }
         # "definir" do topo vale para todos; o do caso troca a medida de mesmo nome
         $medidas = [ordered]@{}
         foreach ($origem in @($json.definir, $caso.definir)) {
@@ -47,7 +59,10 @@ function Read-Verificacoes([string]$caminho) {
                 $medidas[$p.Name] = $p.Value
             }
         }
-        $definicoes = @($medidas.Keys | ForEach-Object { "    MEASURE $_ = $($medidas[$_])" })
+        $definicoes = @(
+            $funcoes.Keys | ForEach-Object { "    FUNCTION $_ = $($funcoes[$_])" }
+            $medidas.Keys | ForEach-Object { "    MEASURE $_ = $($medidas[$_])" }
+        )
         $verificar = @(Get-Lista $caso.verificar)
         if ($verificar.Count -eq 0) { throw "$($caso.nome): nada em ""verificar""." }
         foreach ($v in $verificar) {

@@ -2,6 +2,20 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.8.0 (26/11/2026)
+
+`bi-qa-documentacao`: o teste de medidas passa a testar **medidas gravadas no modelo** e UDFs.
+
+- `testar_medidas.ps1` aceita `funcoes` no arquivo de casos (`DEFINE FUNCTION`).
+- `gerar_casos_sinteticos.py` calcula os valores de controle em Python, fora do DAX.
+- `casos-modelo-sintetico.json` (42 verificações) e `casos-udf-ano-anterior.json` (17), com
+  `CALENDARREF` e a diferença do 29/02 entre o modo clássico (28/02) e o calendário (01/03).
+- Executado em um Power BI Desktop local (PowerShell 7): 42 de 42 e 17 de 17. Quebrar uma
+  medida do modelo (34 de 42) e uma UDF (15 de 17) foi reprovado.
+- **Atenção:** o modelo sintético é montado à mão, ainda sem script. Não testados: dados de
+  modelo real, `Calendário` completo do Background Builder, Service e PowerShell 5.1 contra
+  servidor.
+
 ## 2.7.0 (26/11/2026)
 
 `bi-qa-documentacao` ganha **teste de medidas com valores esperados**.

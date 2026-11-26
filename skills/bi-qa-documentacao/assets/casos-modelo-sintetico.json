@@ -1,0 +1,217 @@
+{
+  "casos": [
+    {
+      "nome": "Sem valor atual",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Sem ano anterior",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Base zero",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": 0
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": "✔️"
+        }
+      ]
+    },
+    {
+      "nome": "Base negativa",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": -50
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": -100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": 50
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": 0.5
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": "✔️"
+        }
+      ]
+    },
+    {
+      "nome": "Sem variação",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 0
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 0.0
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": "⚠️"
+        }
+      ]
+    },
+    {
+      "nome": "Queda",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": 150
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": 200
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": -50
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": -0.25
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": "❗"
+        }
+      ]
+    },
+    {
+      "nome": "Só ano anterior",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": 29
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Ano inteiro",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Ano] = 2026 )",
+          "esperado": 400
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Ano] = 2026 )",
+          "esperado": 300
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ)], 'Calendário'[Ano] = 2026 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δ%)], 'Calendário'[Ano] = 2026 )",
+          "esperado": 0.3333333333333333
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (Δi)], 'Calendário'[Ano] = 2026 )",
+          "esperado": "✔️"
+        }
+      ]
+    },
+    {
+      "nome": "29/02 no modo clássico",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( [Faturado (AV)], 'Calendário'[Data] = DATE ( 2024, 2, 29 ) )",
+          "esperado": 29
+        },
+        {
+          "expressao": "CALCULATE ( [Faturado (AA)], 'Calendário'[Data] = DATE ( 2024, 2, 29 ) )",
+          "esperado": 7
+        }
+      ]
+    }
+  ]
+}

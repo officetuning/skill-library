@@ -1,0 +1,121 @@
+{
+  "funcoes": {
+    "Tempo.AnoAnterior": "( medida : MEASUREREF, calendario : CALENDARREF ) =>\n        CALCULATE ( medida, SAMEPERIODLASTYEAR ( calendario ) )",
+    "Tempo.VariacaoAnoAnterior": "( medida : MEASUREREF, calendario : CALENDARREF ) =>\n        VAR vAtual = medida\n        VAR vAnterior = Tempo.AnoAnterior ( medida, calendario )\n        RETURN\n            IF (\n                NOT ISBLANK ( vAtual ) && NOT ISBLANK ( vAnterior ),\n                DIVIDE ( vAtual - vAnterior, ABS ( vAnterior ) )\n            )"
+  },
+  "casos": [
+    {
+      "nome": "Sem valor atual",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 1 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Sem ano anterior",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Base zero",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": 0
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 3 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Base negativa",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": -100
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 4 )",
+          "esperado": 0.5
+        }
+      ]
+    },
+    {
+      "nome": "Sem variação",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 100
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 5 )",
+          "esperado": 0.0
+        }
+      ]
+    },
+    {
+      "nome": "Queda",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": 200
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026, 'Calendário'[Mês #] = 6 )",
+          "esperado": -0.25
+        }
+      ]
+    },
+    {
+      "nome": "Só ano anterior",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": 29
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2025, 'Calendário'[Mês #] = 2 )",
+          "esperado": null
+        }
+      ]
+    },
+    {
+      "nome": "Ano inteiro",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026 )",
+          "esperado": 300
+        },
+        {
+          "expressao": "CALCULATE ( Tempo.VariacaoAnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Ano] = 2026 )",
+          "esperado": 0.3333333333333333
+        }
+      ]
+    },
+    {
+      "nome": "29/02 no modo calendário",
+      "verificar": [
+        {
+          "expressao": "CALCULATE ( Tempo.AnoAnterior ( [Faturado (AV)], 'Gregoriano' ), 'Calendário'[Data] = DATE ( 2024, 2, 29 ) )",
+          "esperado": 11
+        }
+      ]
+    }
+  ]
+}
