@@ -110,6 +110,11 @@ variações: `references/padroes-udf.md`.
 | Outra UDF | Sem recursão |
 | Formato dinâmico | Unidades de exibição = Nenhum no visual |
 
+## Peças de desenho em SVG
+Em cena de storytelling montada por medida, a peça desenhada **duas vezes ou mais** vira
+função (`Svg.Peca`, texto de retorno, posição em parâmetro); cena única fica numa medida só.
+Estrutura de referência: `powerbi-visuais/references/cena-svg-exemplo.md`.
+
 ## Limitações (confira a data no Microsoft Learn)
 
 - Sem recursão (nem mútua), sem sobrecarga, sem tipo de retorno declarado.

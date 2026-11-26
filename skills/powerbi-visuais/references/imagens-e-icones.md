@@ -91,6 +91,7 @@ Faturamento da posição: `CALCULATE ( [Faturamento], FILTER ( ALL ( nome ), [Ra
 Ignore vendedor sem venda (`NOT ISBLANK`): com 2 vendedores, o 3º lugar fica vazio.
 
 ## Imagem de infográfico (storytelling)
+Vale para a **arte parada** em arquivo. Cena que muda com o dado: `svg-html-dax.md`.
 Visual `image` com `sourceFile`: **ajuste Preencher** (`scaling 'Fill'`), com a caixa
 do visual do mesmo formato da arte (3:1 → 1008×336 ou 1528×509; 2:1 → 768×384). Em
 caixa de formato diferente o Preencher estica a arte e entorta aros e balões.
