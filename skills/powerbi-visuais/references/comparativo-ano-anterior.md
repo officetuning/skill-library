@@ -4,6 +4,9 @@ Padrão do Finanças e do Vendas, confirmado no Desktop. **[verificado]** =
 renderizou e foi gravado pelo Desktop. Nomes seguem `bi-nomenclatura`, seção 5
 (`(AV)`, `(AA)`, `(Δ)`, `(Δ%)`, `(Δi)`).
 
+**Fonte única da regra de cálculo.** Outras skills apontam para este arquivo; se
+um exemplo divergir, vale o que está aqui.
+
 ## Família de medidas (por medida-base `X`)
 | Medida | DAX | Observação |
 |---|---|---|
@@ -11,7 +14,7 @@ renderizou e foi gravado pelo Desktop. Nomes seguem `bi-nomenclatura`, seção 5
 | `X (AA)` | `CALCULATE ( [X (AV)], SAMEPERIODLASTYEAR ( 'Calendário'[Data] ) )` | exige a tabela de datas marcada |
 | `X (Δ)` | `IF ( NOT ISBLANK ( vAV ) && NOT ISBLANK ( vAA ), vAV - vAA )` | **guarda**: sem os dois períodos não há variação (evita −100% nas pontas da série) |
 | `X (Δ%)` | `DIVIDE ( [X (Δ)], ABS ( [X (AA)] ) )` | `ABS` mantém o sinal coerente com base negativa |
-| `X (Δi)` | `SWITCH ( TRUE (), ISBLANK ( vΔ ), BLANK (), vΔ > 0, "✔️", vΔ = 0, "⚠️", "❗" )` | farol pelo sinal do **Δ absoluto**, não do Δ%, que pode inverter com base negativa |
+| `X (Δi)` | `SWITCH ( TRUE (), ISBLANK ( vDelta ), BLANK (), vDelta > 0, "✔️", vDelta = 0, "⚠️", "❗" )` | farol pelo sinal do **Δ absoluto**, não do Δ%, que pode inverter com base negativa |
 | `X (Δ Cor)` | mesmo `SWITCH`, devolvendo o hex do sentimento do tema (positivo, neutro, negativo) | formatação condicional por medida; `BLANK()` mantém a cor padrão |
 
 - Formatos: moeda `"R$"\ #,0;("R$"\ #,0);"R$"\ #,0` com
@@ -19,6 +22,47 @@ renderizou e foi gravado pelo Desktop. Nomes seguem `bi-nomenclatura`, seção 5
   `#,0.00%;(#,0.00%);#,0.00%` (negativo entre parênteses).
 - O Performance Comercial usa 🟩 🟥 🟨 ⬜ e `Δ%` sem `ABS`; a convenção da casa é a
   acima (✔️ ⚠️ ❗ e `ABS`).
+
+## Código de referência
+Exemplo com `Faturado`, para indicador em que **maior é melhor** (`(AA)` no modo
+clássico; no modo calendário, ver `calendario-inteligencia-tempo`).
+
+```dax
+Faturado (AV) = SUM ( 'Vendas'[Valor da Venda] )
+
+Faturado (AA) =
+CALCULATE ( [Faturado (AV)], SAMEPERIODLASTYEAR ( 'Calendário'[Data] ) )
+
+Faturado (Δ) =
+VAR vAV = [Faturado (AV)]
+VAR vAA = [Faturado (AA)]
+RETURN
+    IF ( NOT ISBLANK ( vAV ) && NOT ISBLANK ( vAA ), vAV - vAA )
+
+Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], ABS ( [Faturado (AA)] ) )
+
+Faturado (Δi) =
+VAR vDelta = [Faturado (Δ)]
+RETURN
+    SWITCH (
+        TRUE (),
+        ISBLANK ( vDelta ), BLANK (),
+        vDelta > 0, "✔️",
+        vDelta = 0, "⚠️",
+        "❗"
+    )
+```
+
+## Casos de teste
+Valores esperados pela regra (maior é melhor). Zero é valor; em branco é ausência.
+
+| Caso | AV | AA | Δ | Δ% | Δi |
+|---|---|---|---|---|---|
+| Sem valor atual | em branco | 100 | em branco | em branco | em branco |
+| Sem ano anterior | 100 | em branco | em branco | em branco | em branco |
+| Base zero | 100 | 0 | 100 | em branco | ✔️ |
+| Base negativa | -50 | -100 | 50 | 50% | ✔️ |
+| Sem variação | 100 | 100 | 0 | 0% | ⚠️ |
 
 ## Cartão único com AA e Δ% (`cardVisual`, altura 240) [verificado]
 Uma faixa de "Grandes Números" com várias medidas, cada uma com o comparativo

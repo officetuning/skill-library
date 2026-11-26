@@ -16,6 +16,9 @@ Toda medida leva `///` dizendo o período exato.
 | Semana anterior | `CALCULATE ( [Faturado (AV)], DATEADD ( 'Gregoriano', -1, WEEK ) )` | — |
 | Ano anterior inteiro | `CALCULATE ( [Faturado (AV)], PARALLELPERIOD ( 'Gregoriano', -1, YEAR ) )` | `CALCULATE ( [Faturado (AV)], PARALLELPERIOD ( 'Calendário'[Data], -1, YEAR ) )` |
 
+A regra de `(Δ)` e `(Δ%)` é a de
+`powerbi-visuais/references/comparativo-ano-anterior.md`.
+
 ## Padrão completo (modo calendário)
 
 ```dax
@@ -23,11 +26,15 @@ Toda medida leva `///` dizendo o período exato.
 Faturado (AA) =
 CALCULATE ( [Faturado (AV)], SAMEPERIODLASTYEAR ( 'Gregoriano' ) )
 
-/// Diferença entre o ano vigente e o ano anterior.
-Faturado (Δ) = [Faturado (AV)] - [Faturado (AA)]
+/// Diferença entre o ano vigente e o ano anterior; em branco se faltar um deles.
+Faturado (Δ) =
+VAR vAV = [Faturado (AV)]
+VAR vAA = [Faturado (AA)]
+RETURN
+    IF ( NOT ISBLANK ( vAV ) && NOT ISBLANK ( vAA ), vAV - vAA )
 
-/// Variação percentual sobre o ano anterior.
-Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], [Faturado (AA)] )
+/// Variação percentual sobre o módulo do ano anterior; em branco com base zero.
+Faturado (Δ%) = DIVIDE ( [Faturado (Δ)], ABS ( [Faturado (AA)] ) )
 
 /// Faturamento acumulado de 1º de janeiro até a última data do contexto.
 Faturado (YTD) = TOTALYTD ( [Faturado (AV)], 'Gregoriano' )
@@ -103,11 +110,15 @@ DEFINE
     /// Variação percentual da medida sobre o ano anterior.
     /// @param {MEASUREREF} medida - Medida a comparar.
     /// @param {CALENDARREF} calendario - Calendário de referência.
-    /// @returns Variação percentual; em branco sem ano anterior.
+    /// @returns Variação percentual; em branco se faltar um período ou a base for zero.
     FUNCTION Tempo.VariacaoAnoAnterior = ( medida : MEASUREREF, calendario : CALENDARREF ) =>
         VAR vAtual = medida
         VAR vAnterior = Tempo.AnoAnterior ( medida, calendario )
-        RETURN DIVIDE ( vAtual - vAnterior, vAnterior )
+        RETURN
+            IF (
+                NOT ISBLANK ( vAtual ) && NOT ISBLANK ( vAnterior ),
+                DIVIDE ( vAtual - vAnterior, ABS ( vAnterior ) )
+            )
 
 EVALUATE
     SUMMARIZECOLUMNS (
