@@ -116,7 +116,19 @@ tabela de analogias e exemplo: `references/storytelling-com-imagem.md`.
   estrada em toda página).
 - **A imagem afirma uma identidade**: prove-a com as medidas e teste com
   `EVALUATE ROW(...)`; desenhe neutro (marcadores no mesmo nível).
-- **Arte 3D vem de gerador de imagem**, não de SVG à mão: o agente escreve o prompt
+
+**Qual técnica desenha** (a cena segue obrigada ao teste dos 5 segundos e à identidade):
+
+| A página pede | Técnica |
+|---|---|
+| Comparar, ver tendência, ler valor | Visual nativo |
+| Cena em que posição, preenchimento ou quantidade mudam com o filtro | **SVG por medida DAX (padrão)** |
+| Ilustração rica que não muda; só os números mudam | Gerador de imagem + cartões |
+
+- **Cena que muda com o dado:** SVG por medida, com arte no acabamento do relatório e
+  aprovada antes de aplicar. Exemplo completo e testável:
+  `powerbi-visuais/references/cena-svg-exemplo.md`.
+- **Ilustração rica e parada (3D):** o agente escreve o prompt
   (`references/prompt-imagem-storytelling.md`), o autor gera, e o agente mede os
   balões com `scripts/medir_png.py` e posiciona os cartões.
 

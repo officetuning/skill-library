@@ -107,8 +107,11 @@ transversais: `references/catalogo-visuais.md`.
 
 ## Visual gerado por DAX (SVG/HTML)
 
-**Visual nativo primeiro.** SVG e HTML entram só quando formatação condicional
-ou KPI nativo não resolvem.
+**Visual nativo primeiro para análise** (comparar, ver tendência, ler valor): SVG e HTML
+só quando formatação condicional ou KPI nativo não resolvem. **Exceção que é o padrão:**
+cena de storytelling que muda com o dado é desenhada em SVG por medida
+(`data-storytelling`; exemplo em `references/cena-svg-exemplo.md`; checagem com
+`checar_svg.py`).
 
 ⚠️ **Locale pt-BR:** atributos numéricos de SVG exigem ponto decimal. Force sempre:
 

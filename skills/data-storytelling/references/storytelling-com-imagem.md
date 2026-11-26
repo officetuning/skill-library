@@ -62,8 +62,8 @@ página por 5 segundos.
 
 ## 2c. Uma analogia por página; mesma família, cenas diferentes
 Cada página do relatório conta a sua história com **uma analogia própria**. A
-família visual é a mesma (3D isométrico, mesma paleta, mesmos balões), mas **a cena
-muda**: nada de "estrada em toda página". Exemplos de páginas de relatórios
+família visual é a mesma (mesma técnica, paleta e acabamento; na arte do gerador, 3D
+isométrico com os mesmos balões), mas **a cena muda**: nada de "estrada em toda página". Exemplos de páginas de relatórios
 comerciais e de RH:
 
 | Assunto da página | Pergunta | Cena |
@@ -92,24 +92,39 @@ o *desenho* não (regra do início do documento).
 4. Medidas novas (`Camisetas por Nota`, `Preço Médio por Camiseta`) ficam em uma
    pasta `Storytelling`, com `///`, e o dicionário é regenerado.
 
-## 2e. Arte vetorial por medida: o nível do próprio relatório
-Quando a arte precisa **se mover com o dado** (personagem sobre uma pista), SVG por medida
-serve, desde que no estilo plano do fundo (traço fino no azul do tema, cor chapada, aquarela
-suave, um destaque). **Boneco de palito é rejeitado.** Antes de aplicar:
-1. esboço com o **acabamento final** e os estados difíceis (acima da meta, sem meta, sem dado);
-2. duas opções de desenho, em **tamanho real e ampliado**, ao lado do estilo do fundo;
-3. aprovação do autor; só então a medida (`powerbi-visuais`, `svg-html-dax.md`).
+## 2e. Cena que muda com o dado: SVG por medida (padrão)
+| A página pede | Técnica |
+|---|---|
+| Comparar, ver tendência, ler valor | Visual nativo |
+| Cena em que posição, preenchimento ou quantidade mudam com o filtro | **SVG por medida DAX (padrão)** |
+| Ilustração rica que não muda; só os números mudam | Gerador de imagem + cartões |
 
-Para arte 3D ou rica, continua valendo o gerador de imagem.
+Quando posição, preenchimento ou quantidade mudam com o filtro (caminhão a caminho da meta,
+personagem sobre uma pista), a cena é **SVG montado por medida DAX**.
+1. **Onde aparece:** visual de imagem (cena grande), imagem do cartão com variação ao passar
+   o mouse (cena pequena), tabela ou matriz (uma por linha).
+2. **Medida:** data URI com `dataCategory: ImageUrl`, ponto decimal forçado, `%23` e `%25`
+   (`powerbi-visuais/references/svg-html-dax.md`).
+3. **Estados:** sem dado, sem meta, acima de 100% e filtro que zera a meta.
+4. **Cena completa, no nível do relatório:** cenário com profundidade, personagem ou veículo
+   detalhado e indicador em destaque, nas cores do fundo; só o objeto que se move sobre uma
+   faixa é **básico demais**. A parte que encosta no marco (a frente do veículo) é a que marca
+   o valor: ela só toca a meta quando a meta é alcançada. **Boneco de palito é rejeitado.** Antes de aplicar: esboço com o **acabamento
+   final** e os estados difíceis, duas opções em **tamanho real e ampliado** ao lado do estilo
+   do fundo e aprovação do autor.
 
-## 3. Mecânica (já verificada)
+Exemplo completo com dados fictícios: `powerbi-visuais/references/cena-svg-exemplo.md`.
+Confira com `checar_svg.py` (skill `bi-qa-documentacao`).
+
+## 3. Mecânica (já verificada, arte do gerador de imagem)
 - Visual `image` (`sourceFile`, `scaling 'Normal'`) em 1016×344, no canto
   inferior direito da Visão Geral, (888, 720); o corpo continua até x=1904.
 - **Cartões de uma medida** sobrepostos às caixas de chamada, sem título, fundo,
   borda nem rótulo, valor centralizado, fonte 14, z acima da imagem.
-- **Quem desenha a arte.** Diagrama simples (pista, régua, caixas) pode ser **gerado
-  por código** (SVG → PNG em 2×, fundo transparente, Edge ou Chrome sem janela). Mas
-  **ilustração 3D com volume, luz e personagens não sai de SVG à mão**: o resultado
+- **Quem desenha a arte** segue a tabela da seção 2e. Diagrama parado e simples (pista,
+  régua, caixas) pode ser **gerado por código** (SVG → PNG em 2×, fundo transparente, Edge
+  ou Chrome sem janela). Mas **ilustração 3D com volume, luz e personagens não sai de SVG
+  à mão**: o resultado
   fica com cara de diagrama e perde para o que um gerador de imagem (ChatGPT, por
   exemplo) faz. O fluxo que funciona: o agente escreve o **prompt**
   (`references/prompt-imagem-storytelling.md`), o autor gera e salva o PNG na pasta do
