@@ -52,3 +52,17 @@ novo exige medidas novas, ou use medidas relativas ao ano em foco.
 Calcule os valores esperados **fora do Power BI** (direto da fonte) e entregue uma
 consulta `EVALUATE` com o esperado ao lado de cada resultado, incluindo o ano sem
 dados e um mês no meio do ano.
+
+## Acumulado no ano fiscal
+`DATESYTD` e `TOTALYTD` acumulam por **ano civil** se não receberem o fim do ano.
+Para ano fiscal de outubro a setembro:
+
+```dax
+Faturado (YTD) =
+CALCULATE ( [Faturado (AV)], DATESYTD ( 'Calendário'[Data], "9/30" ) )
+```
+
+O texto é o último dia do ano fiscal; confira a ordem mês/dia na localidade do
+modelo. Teste um mês depois de janeiro **e** um mês entre o início do ano fiscal e
+dezembro: o erro do ano civil só aparece quando se compara a soma dos meses desde o
+início fiscal, em todos os anos.

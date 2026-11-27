@@ -116,6 +116,13 @@ e `--navegador chromium`. `--visivel` abre a janela para acompanhar. `--url`
 aponta outro endereço do Builder (o padrão é
 `https://backgroundbuilder.officetuning.ai/`).
 
+## Máquina sem Node
+Se o Node não puder ser instalado e houver Python, use
+`scripts/exportar-colecao.py` com os mesmos parâmetros (`--ficha`, `--saida`,
+`--navegador`, `--sem-marca`), depois de `python -m pip install playwright` num
+ambiente virtual. `--bloquear-envios` aborta tudo que não for GET, para a ficha não
+sair do navegador.
+
 ## Quando o script falha
 
 | Erro | Causa provável | O que fazer |

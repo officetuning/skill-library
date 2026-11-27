@@ -49,3 +49,13 @@ Regra do autor para segmentações.
   precisa ser `false`; mudar só a cor da barra não desliga).
 - Deixar um gráfico de **eixo temporal** obedecer à segmentação de data sem pensar:
   com "Este ano" ele pode perder o sentido. Ver `references/eixo-temporal-e-interacoes.md`.
+
+## Depois de "Redefinir para o padrão" [verificado, nov/2026]
+Aplicado a várias segmentações selecionadas no Desktop, o comando **apagou** a
+pesquisa (`general.selfFilterEnabled`), a barra de destaque
+(`dropdown.accentBarShow`) e o **texto alternativo**. A sincronização (`syncGroup`)
+e as seleções gravadas se mantiveram. Se o autor redefinir:
+1. compare os `visual.json` com a versão anterior;
+2. religue a pesquisa e restaure o texto alternativo (não mudam a aparência);
+3. replique nas demais só o que ele decidiu manter, e pergunte quando a escolha dele
+   divergir deste padrão.

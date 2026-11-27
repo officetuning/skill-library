@@ -90,3 +90,17 @@ sem `FORMAT` não é detectado: abra o relatório em pt-BR.
 ## Regra de manutenção
 Toda checagem nova nasce de um erro que escapou: registre aqui a causa, o
 arquivo e o objeto afetado, para que a próxima auditoria o encontre sozinha.
+
+## Cores de série repetidas no tema
+Causa que escapou: destaque (accent) igual ao navy no Builder deixa
+`dataColors[0] == dataColors[2]`, e duas séries saem com a **mesma cor** sem
+nenhum erro. Confira no tema registrado se há cores iguais entre as primeiras
+posições usadas e, nos gráficos com legenda, na captura de tela. Correção sem mexer
+no tema: `dataPoint` por valor, com `selector.data[0].scopeId` comparando a coluna
+da série ao valor e `fill` em `ThemeDataColor`.
+
+## O que a auditoria por arquivo não vê
+Corte de texto, rolagem dentro do visual, nível escondido de uma árvore estreita e
+sobreposição de cor passam com **0 pendências**. Peça PDF ou captura antes de dar a
+página por pronta. O PDF **não inclui páginas ocultas**: Dica e Detalhe pedem
+captura ou teste do autor.

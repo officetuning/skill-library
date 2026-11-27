@@ -2,6 +2,26 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.11.0 (27/11/2026)
+
+Lições da revisão de um relatório real, escritas com exemplos genéricos.
+
+- `powerbi-visuais`: sequência obrigatória antes de declarar um visual pronto; valor
+  central da rosca (`centerValue.show` + `value.labelDisplayUnits`); cartão de 168 sem
+  subtítulo; o que "Redefinir para o padrão" apaga nas segmentações.
+- `powerbi-detalhe-dica`: geometria 600×456 quando a Dica 400×304 não cabe.
+- `power-query-m`: referência nova sobre pasta com vários arquivos (cabeçalho,
+  sobreposição, `Table.Distinct`, fim de período fixo).
+- `bi-qa-documentacao`: referência nova de validação da carga; checagens de cores
+  repetidas no tema e do que a auditoria por arquivo não vê.
+- `calendario-inteligencia-tempo`: acumulado no ano fiscal em `DATESYTD`.
+- `background-builder-automacao`: `exportar-colecao.py`, para máquina sem Node.
+- `dashboard-layout`: filtro exclusivo de uma página.
+- `powerbi-mcp`: tabelas temporárias de diagnóstico.
+- **Atenção:** os itens marcados como verificados vêm de um único relatório e tema. O
+  comportamento do agente com o texto novo **não foi testado** em cenários. Os trechos
+  de M e DAX das referências são genéricos e não foram executados como estão escritos.
+
 ## 2.10.0 (26/11/2026)
 
 `powerbi-mcp` ganha quatro cuidados para o agente.

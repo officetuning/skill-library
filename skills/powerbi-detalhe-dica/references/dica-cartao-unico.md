@@ -39,3 +39,19 @@ em arquivo gravado pelo Desktop.
 - Cartão só com colunas de texto (sai vazio): use medida de seleção.
 - Gravar à mão `autoGrid false` ou colunas automáticas com "Ajustar ao espaço"
   desligado em cartão com vários campos (gera rolagem).
+
+## Quando 400×304 não couber: 600×456
+**[verificado em um relatório, um tema, nov/2026]** Em 400×304, o cartão de 72 px
+cortou rótulo e valor, e o gráfico e o rodapé ganharam rolagem. A altura útil
+depende da fonte e do preenchimento do tema: confira na tela antes de aceitar a
+geometria menor.
+
+| Elemento | x, y | Largura × altura | Ajustes |
+|---|---|---|---|
+| Cartão | 8, 8 | 584 × 128 | valor 16 pt, rótulo 10 pt, preenchimento do contêiner 8 |
+| Gráfico | 8, 144 | 584 × 248 | título automático |
+| Rodapé | 8, 400 | 584 × 48 | preenchimento do contêiner 0, título e cabeçalho do visual desligados |
+
+- Gráfico com muitas categorias: filtro **N superior** (5) no visual e o corte dito
+  no rótulo do campo (`displayName` "Item (5 maiores)"), mantendo o título automático.
+- Mudar o tamanho exige o fundo do mesmo tamanho: `dicaSizes: ["mini"]` na Ficha.

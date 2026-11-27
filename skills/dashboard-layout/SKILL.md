@@ -146,3 +146,8 @@ Atualização` sai sem aspas na tabela (`Atualização[...]`) e dá erro: em DAX
 tabela vai sempre entre aspas simples, `'Atualização'[...]`. O card fica com
 fonte 12, centralizado e sem rótulo. Estrutura
 completa em `references/background-builder.md`.
+
+## Antes de dizer que está pronto
+Siga a sequência de `powerbi-visuais` ("Antes de dizer que um visual está pronto"):
+abrir a referência, partir de um visual salvo pelo Desktop, auditar e pedir PDF ou
+captura.

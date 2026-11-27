@@ -150,3 +150,8 @@ Para quem usa o relatório e não é de BI (fontes, filtros, páginas, Dica e De
 | `scripts/gerar_casos_sinteticos.py` | Gera os casos do modelo sintético, com os esperados calculados fora do DAX | Python 3.9+ |
 
 O leitor TMDL é mínimo: cobre QA e documentação, não substitui o `TmdlSerializer`.
+
+## Validação da carga
+
+Modelo alimentado por arquivos de uma pasta: regras, onde mostrar o resultado e teste
+com erros de propósito em `references/validacao-da-carga.md`.
