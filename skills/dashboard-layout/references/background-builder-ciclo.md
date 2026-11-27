@@ -96,3 +96,17 @@ nunca é nome de medida.
   `powerbi-detalhe-dica`. Com uma dica, o PNG sai como
   `<Projeto> - Dica de Ferramenta.png`; com duas ou três, como
   `<Projeto> - Dica de Ferramenta - <Uso> (<L>x<A>).png`.
+
+## Filtro exclusivo de uma página
+O painel do Builder é igual em todas as páginas de corpo. Para um filtro que só uma
+página tem (ex.: seletores de linha, coluna e valor):
+1. copie a Ficha e acrescente os filtros no fim (classificação **Como** os deixa
+   abaixo dos demais, sem deslocar os outros);
+2. exporte e confira que `filtrosForaDoPainel` veio vazio;
+3. aproveite **somente a faixa da barra lateral** (x 0 a 376, a partir de y 128) do
+   PNG daquela página e cole sobre o fundo registrado dela;
+4. meça os nichos novos no PNG e posicione as segmentações, sem sincronização.
+
+Guarde a segunda Ficha ao lado da principal. A mesma técnica de colar só a faixa
+alterada (cabeçalho, y 0 a 128) acrescenta um item de menu sem refazer o corpo dos
+fundos; compare por pixel antes de substituir.

@@ -117,3 +117,8 @@ Detalhe para várias entidades: `references/dica-com-imagem-e-moldes.md`.
 4. Cada visual de origem aponta para a dica correta (e só uma)?
 5. Detalhe oculto, com o card ligado a `<Campo> Selecionado(a)` (não `Você Está Vendo` com `BLANK()`) ao lado do ícone de olho e o botão Voltar?
 6. Tamanho da Dica (320×240, 400×304 ou 600×456) coerente com o conteúdo?
+
+## Antes de dizer que está pronto
+Siga a sequência de `powerbi-visuais` ("Antes de dizer que um visual está pronto"):
+abrir a referência, partir de um visual salvo pelo Desktop, auditar e pedir PDF ou
+captura.

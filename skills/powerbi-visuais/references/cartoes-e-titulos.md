@@ -69,6 +69,12 @@ e **terminam em y=1064**.
 - Largura e x iguais em todas as páginas (376 e 1528 no corpo; 16 e 1888 no
   Detalhe). Cartão deslocado 8 px dos visuais abaixo é defeito, não estilo.
 
+- **Cartão de 168 não comporta subtítulo com texto** [verificado em um relatório,
+  nov/2026]: título e subtítulo consumiram a altura e cortaram rótulos e valores. Use
+  só o título (instrução curta cabe nele) e o subtítulo desligado; se os valores
+  ainda apertarem, reduza a fonte (20 pt funcionou). A auditoria por arquivo **não**
+  acusa esse corte.
+
 ## Ícone e fonte dos cartões [regra do autor]
 - Se o Accent do tema é **próximo da cor de um sentimento** (matiz a ~15° de `good`,
   `neutral` ou `bad`), **todos** os ícones usam o cinza neutro do tema.

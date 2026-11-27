@@ -79,6 +79,20 @@ dimensões:
 - Visuais R e Python: descontinuados em **maio de 2027**; não crie novos
   (`references/catalogo-visuais.md`).
 
+## Antes de dizer que um visual está pronto
+
+Ler este resumo não basta: as medidas, objetos e armadilhas estão nas referências.
+Para cada visual criado ou alterado, nesta ordem:
+
+| Passo | Feito quando |
+|---|---|
+| 1. Abrir a referência do tipo (`cartoes-e-titulos`, `tabelas-matrizes-e-cores-fixas`, `segmentacoes-padrao`, `imagens-e-icones`, `exibir-unidades-nenhum`; Dica e Detalhe em `powerbi-detalhe-dica`) | você cita a regra aplicada |
+| 2. Partir de um visual **salvo pelo Desktop**, deste ou de outro projeto | a estrutura foi copiada, não deduzida |
+| 3. Rodar `bi-qa-documentacao/scripts/auditar_visuais.py` e `check_visual_bindings.py` | sem pendência nova |
+| 4. Pedir PDF ou captura ao autor (Dica e Detalhe: captura ou teste) | alguém viu a página renderizada |
+
+Sem o passo 4, relate "aplicado, ainda não visto".
+
 ## Referência rápida
 
 | Visual | Use quando | Evite quando | Substituto |

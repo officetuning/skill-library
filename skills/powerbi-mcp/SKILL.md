@@ -200,3 +200,13 @@ siga a checagem 16 da `bi-qa-documentacao` para achar visuais quebrados.
 - [Power BI Report skill](https://learn.microsoft.com/power-bi/developer/agentic/power-bi-report-skill-overview)
 - [powerbi-modeling-mcp (opções de linha de comando)](https://github.com/microsoft/powerbi-modeling-mcp)
 - Guia passo a passo em português: [officetuning.ai/biblioteca/guias/dax-mcp-setup](https://officetuning.ai/biblioteca/guias/dax-mcp-setup)
+
+## Tabelas temporárias de diagnóstico
+Para olhar dados que o modelo não carrega, o agente pode criar uma tabela oculta,
+atualizar e consultar em agregado:
+- prefixo `_`, descrição dizendo que é temporária e **exclusão ao terminar**;
+- nunca peça para salvar enquanto ela existir; nomes excluídos podem permanecer em
+  `PBI_QueryOrder` e `diagramLayout.json` se o autor salvar com a tabela presente;
+- atualização longa pode passar para segundo plano: espere a conclusão antes de
+  consultar ou de alterar o modelo;
+- sem linhas com nome de pessoas no resultado.

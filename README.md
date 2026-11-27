@@ -95,6 +95,12 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.11.0 (27/11/2026)
+
+Lições de um relatório real: carga de pasta com vários arquivos, validação da carga,
+acumulado fiscal, Dica em 600×456, valor central da rosca e a sequência de
+conferência antes de dar um visual por pronto. Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.10.0 (26/11/2026)
 
 `powerbi-mcp`: reaproveitar medidas, tratar resultado cortado, limitar novas tentativas e

@@ -127,6 +127,13 @@ Filtro na consulta, logo após a origem para dobrar:
 
 Docs: [Incremental refresh](https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview)
 
+## Pasta com vários arquivos
+
+Antes de combinar arquivos de uma pasta, remover duplicatas ou fixar o fim do
+período, leia `references/pasta-com-varios-arquivos.md`: cabeçalho do primeiro
+arquivo, sobreposição entre arquivos, medição antes do `Table.Distinct` e data
+final que expira.
+
 ## Aspas no M
 
 Consulta com espaço ou acento no nome se referencia com `#"..."`:
