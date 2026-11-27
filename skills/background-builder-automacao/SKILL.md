@@ -116,12 +116,28 @@ e `--navegador chromium`. `--visivel` abre a janela para acompanhar. `--url`
 aponta outro endereço do Builder (o padrão é
 `https://backgroundbuilder.officetuning.ai/`).
 
-## Máquina sem Node
-Se o Node não puder ser instalado e houver Python, use
-`scripts/exportar-colecao.py` com os mesmos parâmetros (`--ficha`, `--saida`,
-`--navegador`, `--sem-marca`), depois de `python -m pip install playwright` num
-ambiente virtual. `--bloquear-envios` aborta tudo que não for GET, para a ficha não
-sair do navegador.
+## Qual exportador usar (decida pelo ambiente)
+
+Há dois scripts com o **mesmo fluxo e os mesmos parâmetros**. A redundância é
+proposital: muitas máquinas corporativas não têm Node, ou não permitem instalá-lo, e
+já têm Python. Confira o que existe e o que é permitido **antes** de instalar algo, e
+escolha pela primeira linha que se aplicar:
+
+| Situação da máquina | Use |
+|---|---|
+| Node disponível (`node --version`) e Playwright instalado ou instalável | `exportar-colecao.cjs` (principal) |
+| Sem Node, com Python (`python --version`) e permissão para ambiente virtual | `exportar-colecao.py` |
+| Sem nenhum dos dois, ou instalação não permitida | caminho manual (abaixo) |
+
+- Para o Python: crie um ambiente virtual numa pasta temporária ou do usuário e rode
+  nele `python -m pip install playwright`. Usa o Edge instalado, sem baixar navegador.
+- `--bloquear-envios` (só no `.py`) aborta tudo que não for GET, para a ficha não sair
+  do navegador. Use quando a ficha tiver nomes ou outro conteúdo que não deva ser
+  enviado; as contagens de uso do site também deixam de ir.
+- Restrição de política (instalação bloqueada, modo de linguagem restrito, proxy):
+  **não contorne**. Informe o bloqueio e siga pelo caminho manual.
+- Diga ao usuário qual script usou, o que instalou e onde.
+- Mudança na interface do Builder pede o ajuste **nos dois** scripts.
 
 ## Quando o script falha
 

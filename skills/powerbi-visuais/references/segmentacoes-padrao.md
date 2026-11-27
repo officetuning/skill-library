@@ -57,5 +57,8 @@ pesquisa (`general.selfFilterEnabled`), a barra de destaque
 e as seleções gravadas se mantiveram. Se o autor redefinir:
 1. compare os `visual.json` com a versão anterior;
 2. religue a pesquisa e restaure o texto alternativo (não mudam a aparência);
-3. replique nas demais só o que ele decidiu manter, e pergunte quando a escolha dele
-   divergir deste padrão.
+3. **desligue de novo a barra de destaque** (`dropdown.accentBarShow = false`): é uma
+   estética das versões recentes, que volta ligada ao padrão, e a regra do autor é
+   desligada em todos os projetos;
+4. nas demais escolhas, replique o que ele decidiu manter e pergunte quando divergir
+   deste padrão.

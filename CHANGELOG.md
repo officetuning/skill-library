@@ -8,14 +8,16 @@ Lições da revisão de um relatório real, escritas com exemplos genéricos.
 
 - `powerbi-visuais`: sequência obrigatória antes de declarar um visual pronto; valor
   central da rosca (`centerValue.show` + `value.labelDisplayUnits`); cartão de 168 sem
-  subtítulo; o que "Redefinir para o padrão" apaga nas segmentações.
+  subtítulo; o que "Redefinir para o padrão" apaga nas segmentações e a barra de
+  destaque desligada em todos os projetos.
 - `powerbi-detalhe-dica`: geometria 600×456 quando a Dica 400×304 não cabe.
 - `power-query-m`: referência nova sobre pasta com vários arquivos (cabeçalho,
   sobreposição, `Table.Distinct`, fim de período fixo).
 - `bi-qa-documentacao`: referência nova de validação da carga; checagens de cores
   repetidas no tema e do que a auditoria por arquivo não vê.
 - `calendario-inteligencia-tempo`: acumulado no ano fiscal em `DATESYTD`.
-- `background-builder-automacao`: `exportar-colecao.py`, para máquina sem Node.
+- `background-builder-automacao`: `exportar-colecao.py`, para máquina sem Node, e a
+  escolha do exportador pelo ambiente e pelas permissões.
 - `dashboard-layout`: filtro exclusivo de uma página.
 - `powerbi-mcp`: tabelas temporárias de diagnóstico.
 - **Atenção:** os itens marcados como verificados vêm de um único relatório e tema. O
