@@ -146,6 +146,8 @@ lote com segurança.
 ## Ano fiscal e orçamento
 Calendário que começa em outro mês, "ano em foco", ano anterior nos mesmos meses e orçamento
 sob filtro que só existe no realizado: `references/ano-fiscal.md`.
+Calendário e fatos limitados aos últimos N anos, com virada automática:
+`power-query-m`, `references/janela-de-historico.md`.
 
 ## Checklist
 
