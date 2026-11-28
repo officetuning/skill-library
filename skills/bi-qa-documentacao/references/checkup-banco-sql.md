@@ -121,7 +121,8 @@ que não foi verificado.
 5. **Instale em transação**, em um script que altera só o necessário: reexecutar a
    instalação completa pode apagar dado mantido à mão. Como cada view pede um lote
    próprio (`GO`), a transação **não basta**: sem parar no primeiro erro, o `sqlcmd`
-   segue com os lotes seguintes em autocommit, depois de a transação ter sido desfeita.
+   segue com os lotes seguintes em autocommit, depois de a transação ter sido desfeita, e
+   ainda pode terminar com código 0 (reproduzido com tabelas temporárias).
    Comece o script com `:on error exit` (ou rode com `sqlcmd -b`), use
    `SET XACT_ABORT ON` e `BEGIN TRANSACTION`, e confira o que ficou instalado.
 

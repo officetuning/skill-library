@@ -30,7 +30,7 @@ pasta do relatório.
 | 29 | Medidas concentradas em tabela só de medidas (`checar_medidas.py`) | Contraria a orientação de distribuir as medidas pelas tabelas |
 | 30 | Cena em SVG por medida sem `ImageUrl`, com `#` ou `%` sem escape, vírgula decimal a conferir ou visual sem texto alternativo (`checar_svg.py`) | Imagem que quebra em silêncio, sobretudo em pt-BR, ou que o leitor de tela não descreve |
 | 31 | Script `.tmdl` avulso (pasta de scripts do projeto) diferente do PBIP: compare medidas, partições e fontes | Reaplicar o script desfaz mudança feita no modelo |
-| 32 | Planilha, PDF ou exportação com dado pessoal, remuneração ou valor interno versionada (na árvore: `git ls-files`; no histórico: `git log --all --name-only -- '*.xlsx' '*.csv' '*.pdf'`) | Dado sensível no histórico do Git; apagar o arquivo não limpa o histórico |
+| 32 | Planilha, PDF ou exportação com dado pessoal, remuneração ou valor interno versionada (na árvore: `git ls-files`; no histórico, inclusive o já apagado: `git log --all --name-only --format= -- ':(icase)*.xls*' ':(icase)*.csv' ':(icase)*.pdf'`) | Dado sensível no histórico do Git; apagar o arquivo não limpa o histórico |
 | 33 | Período gravado em segmentação ou filtro (ex.: ano fiscal `AA-AA`: `grep -rnE "'[0-9]{2}-[0-9]{2}'" <pasta>.Report`) que vai sair da janela de dados | Relatório que abre no ano antigo e, depois, vazio |
 
 ## Ordem sugerida
