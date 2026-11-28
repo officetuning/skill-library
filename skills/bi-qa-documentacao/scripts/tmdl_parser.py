@@ -2,7 +2,7 @@
 
 Lê a pasta `definition` de um `.SemanticModel` e devolve tabelas (com grupo de
 consultas e papel), colunas, medidas (com a expressão DAX completa, inclusive
-multilinha) e relacionamentos.
+multilinha), hierarquias (com os níveis) e relacionamentos.
 Não substitui o TmdlSerializer: cobre o necessário para checagem e documentação.
 """
 from __future__ import annotations
@@ -15,6 +15,7 @@ DECL = re.compile(
     r"(?P<name>'(?:[^']|'')+'|[^\s=]+)\s*(?:=\s*(?P<expr>.*))?$"
 )
 PROP = re.compile(r"^\s*(?P<key>[A-Za-z]+)\s*:\s*(?P<val>.*)$")
+LEVEL = re.compile(r"^\s*level\s+(?P<name>'(?:[^']|'')+'|\S+)\s*$")
 
 
 def _unquote(name: str) -> str:
@@ -36,10 +37,11 @@ def _indent(line: str) -> int:
 def parse_table_file(path: pathlib.Path) -> dict:
     lines = path.read_text(encoding="utf-8-sig").splitlines()
     table: dict = {"nome": None, "descricao": None, "colunas": [], "medidas": [], "oculta": False, "modo": None,
-                   "grupo": None}
+                   "grupo": None, "hierarquias": []}
     pending_desc: list[str] = []
     current: dict | None = None
     current_level = 0
+    hierarquia: dict | None = None
     expr_lines: list[str] | None = None
     fence = False
 
@@ -81,6 +83,7 @@ def parse_table_file(path: pathlib.Path) -> dict:
             level = _indent(raw)
             desc = " ".join(pending_desc) or None
             pending_desc = []
+            hierarquia = None
             if kind == "table" and level == 0:
                 table["nome"], table["descricao"] = name, desc
                 current, current_level = table, 0
@@ -95,6 +98,10 @@ def parse_table_file(path: pathlib.Path) -> dict:
                     obj["expressao"] = expr
                 elif m["expr"] is not None:
                     expr_lines = []
+            elif kind == "hierarchy" and level == 1:
+                hierarquia = {"nome": name, "niveis": []}
+                table["hierarquias"].append(hierarquia)
+                current, current_level = {"props": {}}, level
             elif kind == "partition" and level == 1:
                 current, current_level = {"props": {}}, level
                 table.setdefault("_particoes", []).append(current)
@@ -103,6 +110,10 @@ def parse_table_file(path: pathlib.Path) -> dict:
             continue
 
         pending_desc = []
+        lv = LEVEL.match(raw)
+        if lv and hierarquia is not None and _indent(raw) == 2:
+            hierarquia["niveis"].append(_unquote(lv["name"]))
+            continue
         pm = PROP.match(raw)
         if pm and current is not None and _indent(raw) == current_level + 1:
             current.setdefault("props", {})[pm["key"]] = pm["val"].strip()
