@@ -4,9 +4,12 @@ Para quando o relatório deve mostrar só os últimos N anos (muitas vezes N ano
 **fiscais** completos).
 
 **Verificação:** a parte SQL foi instalada em um banco e comparada mês a mês (N = 2,
-ano fiscal de outubro a setembro). **A parte M não foi aberta no Desktop**, e o
-comportamento do Incremental Refresh descrito aqui vem da documentação e da leitura
-do TMDL: **não foi testado no Service**.
+ano fiscal de outubro a setembro); a fórmula também passou, em LocalDB, com os 12 meses
+iniciais e N de 1 a 5. A parte M foi atualizada no Power BI Desktop 2.160 com dados
+sintéticos (colunas de data, de data e hora e um CSV local), sem `Formula.Firewall`;
+**não foi testada** com SharePoint, web ou banco como fonte, nem no Service. O
+comportamento do Incremental Refresh descrito aqui vem da documentação e da leitura do
+TMDL: **não foi testado**.
 
 ## Pergunta antes de corrigir
 

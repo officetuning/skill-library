@@ -3,8 +3,8 @@
 Para quando o modelo lê views ou tabelas de um SQL Server e o pedido é auditar o
 projeto inteiro, ou quando o refresh é lento e a causa parece estar na origem.
 
-⚠️ As consultas de leitura abaixo foram executadas em **um** SQL Server 2017
-(14.x). Confira em outras versões.
+⚠️ As consultas de leitura abaixo foram executadas em um SQL Server 2017 (14.x) e em
+um LocalDB 17.0 (SQL Server 2025). Confira em outras versões.
 
 ## Antes de consultar
 
@@ -12,10 +12,11 @@ projeto inteiro, ou quando o refresh é lento e a causa parece estar na origem.
   motivo, fora da janela de carga da origem.
 - Diga ao usuário com que conta está conectado. Conta `sysadmin` ou `db_owner` em
   produção é um achado, e pede ainda mais cuidado.
-- Confira a coluna **Permissão** abaixo. Sem ela, uma DMV dá erro, mas o catálogo e
-  `OBJECT_DEFINITION` devolvem **menos linhas ou NULL em silêncio**. Com conta restrita,
-  resultado vazio ou NULL é **não verificado, não "ausente"**. As permissões vêm da
-  documentação; as consultas rodaram aqui com conta administrativa.
+- Confira a coluna **Permissão** abaixo. Sem ela, algumas consultas dão erro, mas
+  outras devolvem **menos linhas, nenhuma linha ou NULL em silêncio** (tamanhos,
+  permissões e `OBJECT_DEFINITION`). Com conta restrita, resultado vazio ou NULL é
+  **não verificado, não "ausente"**. Testado no LocalDB com um login que só tinha
+  `SELECT` no esquema, concedendo um direito por vez.
 - Não leia linhas com dado pessoal: contagens, somas e metadados bastam.
 
 ## O que olhar
@@ -27,7 +28,7 @@ Troque `bi` pelo esquema que o modelo consome.
 | 1 | Versão e opções do banco | acesso ao banco | Nível de compatibilidade antigo, sem atualização cumulativa, Query Store desligado |
 | 2 | Backup | leitura no `msdb` | Sem backup recente |
 | 3 | Tamanhos e índices | `VIEW DATABASE STATE` e `VIEW DEFINITION` | Tabela grande sem índice agrupado (heap), índices gerados em massa, colunas `char` largas |
-| 4 | Dependências das views | `VIEW DEFINITION` (filtra em silêncio) | View sobre view relendo a mesma tabela grande |
+| 4 | Dependências das views | `VIEW DEFINITION` e `SELECT` em `sys.sql_expression_dependencies` (sem o `SELECT`, erro 229) | View sobre view relendo a mesma tabela grande |
 | 5 | Tempos e leituras | `VIEW SERVER STATE` | View que leva minutos ou lê muitas vezes o tamanho da tabela |
 | 6 | Permissões | `VIEW DEFINITION` (filtra em silêncio) | Nenhum `GRANT` no esquema: quem lê precisa de direito amplo |
 | 7 | Scripts de instalação | só o repositório | `DELETE` ou `TRUNCATE` sem trava, carga que apaga o que foi editado à mão, sem transação |
@@ -82,9 +83,10 @@ WHERE t.text LIKE '%bi%.%Vw%' AND t.text NOT LIKE '%dm_exec%'
 ORDER BY seg_medio DESC;
 ```
 
-O cache zera quando o servidor reinicia, quando o objeto é alterado ou recompilado e
-por pressão de memória. O tempo decorrido inclui a entrega das linhas ao cliente;
-leitura lógica é o indicador mais estável.
+O cache zera quando o servidor reinicia e perde entradas por pressão de memória.
+Depois de um `ALTER VIEW`, a linha antiga ainda aparece até a consulta rodar de novo;
+aí a contagem recomeça (visto no LocalDB). O tempo decorrido inclui a entrega das
+linhas ao cliente; leitura lógica é o indicador mais estável.
 
 ### 6. Permissões
 
@@ -107,9 +109,10 @@ que não foi verificado.
 ## Aceite de mudança em view
 
 1. **Guarde as definições atuais** antes de alterar e confira que batem com o
-   repositório: `SELECT OBJECT_DEFINITION(OBJECT_ID('bi.VwFatVenda'));`. A grade do
-   SSMS corta textos longos sem avisar: salve com `sqlcmd -y 0 -o definicoes.sql` ou
-   com "Gerar script como". Anote também os tempos do item 5 **antes de alterar**.
+   repositório: `SELECT OBJECT_DEFINITION(OBJECT_ID('bi.VwFatVenda'));`. Textos longos
+   são cortados sem aviso na grade do SSMS e no `sqlcmd` padrão (256 caracteres):
+   salve com `sqlcmd -y 0 -o definicoes.sql` ou com "Gerar script como". Anote também
+   os tempos do item 5 **antes de alterar**.
 2. **Compare o SQL novo sem instalar:** rode o corpo da view nova como consulta,
    para uma tabela temporária, e compare com a view atual por período: linhas,
    somas e chaves duplicadas.
@@ -127,5 +130,6 @@ que não foi verificado.
    `SET XACT_ABORT ON` e `BEGIN TRANSACTION`, e confira o que ficou instalado.
 
 ⚠️ No `sqlcmd`, a variável dentro de `:r` (`:r "$(PASTA)\arquivo.sql"`) pode não
-ser substituída (visto com o cliente ODBC 17). Teste a inclusão com um arquivo
-inofensivo ou use caminho relativo, rodando de dentro da pasta.
+ser substituída (visto com o cliente ODBC 17, tanto com `-v` quanto com `:setvar`).
+Teste a inclusão com um arquivo inofensivo ou use caminho relativo, rodando de dentro
+da pasta.

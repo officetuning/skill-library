@@ -19,10 +19,12 @@ Check-up de banco, janela de histórico e seis inconsistências, com exemplos ge
   consultas; filtros na barra lateral no wireframe; `scaling` da imagem de
   storytelling; rodapé de drillthrough na checagem 14.
 - **Verificação:** consultas de banco e fórmula SQL da janela executadas em um SQL
-  Server 2017; o script de hierarquias, com testes e em um relatório real. **A parte M
-  da janela não foi aberta no Desktop** e o comportamento do Incremental Refresh vem da
-  documentação, **não testado no Service**. O comportamento do agente com o texto novo
-  não foi testado em cenários.
+  Server 2017 e em um LocalDB 17.0, onde também foram testadas as permissões com um
+  login restrito; o script de hierarquias, com testes e em um relatório real, e o
+  `.docx` gerado a partir desse modelo; a parte M da janela, no Power BI Desktop 2.160
+  com dados sintéticos. **Não testados:** a parte M com SharePoint, web ou banco como
+  fonte; o comportamento do Incremental Refresh (vem da documentação); a grade do SSMS;
+  o comportamento do agente com o texto novo.
 
 ## 2.11.0 (27/11/2026)
 

@@ -98,8 +98,8 @@ Conferidas na documentação oficial em 2026-09-23:
 ### 2.12.0 (28/11/2026)
 
 Check-up do banco SQL Server, janela de histórico com virada automática, conferência de
-hierarquias nos visuais e seis correções. A parte M da janela ainda não foi testada no
-Desktop. Detalhe no [CHANGELOG](CHANGELOG.md).
+hierarquias nos visuais e seis correções. O Incremental Refresh descrito na janela ainda
+não foi testado. Detalhe no [CHANGELOG](CHANGELOG.md).
 
 ### 2.11.0 (27/11/2026)
 
