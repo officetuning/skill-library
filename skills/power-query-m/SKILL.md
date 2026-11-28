@@ -127,6 +127,12 @@ Filtro na consulta, logo após a origem para dobrar:
 
 Docs: [Incremental refresh](https://learn.microsoft.com/pt-br/power-bi/connect-data/incremental-refresh-overview)
 
+## Janela de histórico (últimos N anos)
+
+Antes de limitar datas, ou de apontar um limite como erro, leia
+`references/janela-de-historico.md`: regra em um só lugar, fim exclusivo, o que o
+Incremental Refresh não resolve e a virada automática.
+
 ## Pasta com vários arquivos
 
 Antes de combinar arquivos de uma pasta, remover duplicatas ou fixar o fim do

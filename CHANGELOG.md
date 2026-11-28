@@ -2,6 +2,30 @@
 
 Histórico de versões do pacote `data-analyst-advisor`. A versão mais recente também aparece em "Novidades", no [README](README.md).
 
+## 2.12.0 (28/11/2026)
+
+Check-up de banco, janela de histórico e seis inconsistências, com exemplos genéricos.
+
+- `bi-qa-documentacao`: referência nova de check-up do SQL Server e aceite de mudança em
+  view; checagens 31 a 33 (script TMDL defasado, dado sensível versionado, período
+  gravado em segmentação).
+- `bi-qa-documentacao`: `check_visual_bindings.py` passa a conferir **níveis de
+  hierarquia**, que antes eram ignorados (e a hierarquia inteira, sem nível);
+  `tmdl_parser.py` expõe as hierarquias e o `.docx` lista os níveis usados em cada visual.
+- `power-query-m`: referência nova de janela de histórico (regra em um só lugar, fim
+  exclusivo, limites do Incremental Refresh, virada automática); remissão em
+  `calendario-inteligencia-tempo`.
+- Correções: contagem de skills no guia; papel da tabela no `.docx` pelo grupo de
+  consultas; filtros na barra lateral no wireframe; `scaling` da imagem de
+  storytelling; rodapé de drillthrough na checagem 14.
+- **Verificação:** consultas de banco e fórmula SQL da janela executadas em um SQL
+  Server 2017 e em um LocalDB 17.0, onde também foram testadas as permissões com um
+  login restrito; o script de hierarquias, com testes e em um relatório real, e o
+  `.docx` gerado a partir desse modelo; a parte M da janela, no Power BI Desktop 2.160
+  com dados sintéticos. **Não testados:** a parte M com SharePoint, web ou banco como
+  fonte; o comportamento do Incremental Refresh (vem da documentação); a grade do SSMS;
+  o comportamento do agente com o texto novo.
+
 ## 2.11.0 (27/11/2026)
 
 Lições da revisão de um relatório real, escritas com exemplos genéricos.

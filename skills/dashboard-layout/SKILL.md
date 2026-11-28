@@ -127,7 +127,7 @@ Builder: skill `background-builder-automacao`.
   (ou 384) e terminam em 1064, sempre em múltiplos de 8
   (`powerbi-visuais/references/cartoes-e-titulos.md`,
   `powerbi-visuais/references/comparativo-ano-anterior.md`).
-- **Storytelling** em (888, 720) 1016×344 com cartões de uma medida sobre as
+- **Storytelling** em (896, 728) 1008×336 com cartões de uma medida sobre as
   chamadas (`data-storytelling/references/storytelling-com-imagem.md`).
 - Margem de **16 px** até a borda direita do corpo (x=1904); larguras e alturas
   **simétricas** entre blocos da mesma linha; vão de 16.

@@ -12,7 +12,7 @@ pasta do relatório.
 | 11 | `pageNavigator` fora das células do PNG do menu (x e largura) | Cliques deslocados em relação aos rótulos |
 | 12 | `pageOrder` diferente da ordem do menu da ficha | Menu e páginas em ordem diferente |
 | 13 | Objeto do modelo sem `///`; tabela `Dicionário` (grupo Internas) ausente ou com menos linhas que o modelo | Dicionário vazio ou desatualizado |
-| 14 | Dica sem cartão único, sem rodapé de drillthrough, ou com `tabOrder` fora de cartão → gráfico → rodapé | Dica fora do padrão |
+| 14 | Dica sem cartão único, sem rodapé de drillthrough quando tem Detalhe irmão (ou com rodapé sem ter), ou com `tabOrder` fora de cartão → gráfico → rodapé | Dica fora do padrão |
 | 15 | Texto alternativo ausente, em outro idioma, ou citando nome técnico de medida ou campo | Acessibilidade |
 | 16 | Referência a campo do modelo antigo no `.Report`: `grep -r '"Entity": "<prefixo antigo>'` (ex.: `"Entity": "Tab` depois de migrar para nomes de negócio na 2.0.0) deve dar **0** | `filterConfig` de visual com campo que não existe mais (fica pendurado, sem erro) e regra de cor condicional apontando para medida inexistente (código morto) |
 | 17 | Qualquer `labelDisplayUnits`, `valueDisplayUnits` ou `dataLabelDisplayUnits` com valor diferente de `1D`, **em qualquer visual** | Visual com "mil/mi" que escapou das checagens 8 e 9 |
@@ -29,10 +29,13 @@ pasta do relatório.
 | 28 | Botão Voltar sem `background.show` e `border.show` em `false` | Moldura sobre o botão desenhado no fundo |
 | 29 | Medidas concentradas em tabela só de medidas (`checar_medidas.py`) | Contraria a orientação de distribuir as medidas pelas tabelas |
 | 30 | Cena em SVG por medida sem `ImageUrl`, com `#` ou `%` sem escape, vírgula decimal a conferir ou visual sem texto alternativo (`checar_svg.py`) | Imagem que quebra em silêncio, sobretudo em pt-BR, ou que o leitor de tela não descreve |
+| 31 | Script `.tmdl` avulso (pasta de scripts do projeto) diferente do PBIP: compare medidas, partições e fontes | Reaplicar o script desfaz mudança feita no modelo |
+| 32 | Planilha, PDF ou exportação com dado pessoal, remuneração ou valor interno versionada (na árvore: `git ls-files`; no histórico, inclusive o já apagado: `git log --all --name-only --format= -- ':(icase)*.xls*' ':(icase)*.csv' ':(icase)*.pdf'`) | Dado sensível no histórico do Git; apagar o arquivo não limpa o histórico |
+| 33 | Período gravado em segmentação ou filtro (ex.: ano fiscal `AA-AA`: `grep -rnE "'[0-9]{2}-[0-9]{2}'" <pasta>.Report`) que vai sair da janela de dados | Relatório que abre no ano antigo e, depois, vazio |
 
 ## Ordem sugerida
-Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 25
-→ BPA. As checagens 8 a 10 e 15 são idempotentes: o mesmo script que audita
+Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 33
+(as que se aplicam ao projeto) → BPA. As checagens 8 a 10 e 15 são idempotentes: o mesmo script que audita
 também corrige.
 
 ## Como rodar as checagens 16, 17 e 18

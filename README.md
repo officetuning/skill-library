@@ -95,6 +95,12 @@ Conferidas na documentação oficial em 2026-09-23:
 
 ## Novidades
 
+### 2.12.0 (28/11/2026)
+
+Check-up do banco SQL Server, janela de histórico com virada automática, conferência de
+hierarquias nos visuais e seis correções. O Incremental Refresh descrito na janela ainda
+não foi testado. Detalhe no [CHANGELOG](CHANGELOG.md).
+
 ### 2.11.0 (27/11/2026)
 
 Lições de um relatório real: carga de pasta com vários arquivos, validação da carga,

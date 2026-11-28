@@ -12,7 +12,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from check_visual_bindings import field_refs  # noqa: E402
+from check_visual_bindings import field_refs, hierarchy_refs  # noqa: E402
 from tmdl_parser import parse_model  # noqa: E402
 
 
@@ -41,10 +41,13 @@ def paginas(report_dir: str) -> list[dict]:
             v = json.loads(vj.read_text(encoding="utf-8-sig"))
             refs: list = []
             field_refs(v, refs)
+            niveis: list = []
+            hierarchy_refs(v, niveis)
             visuais.append({
                 "nome": v.get("name", vj.parent.name),
                 "tipo": (v.get("visual") or {}).get("visualType"),
-                "campos": [f"'{t}'[{c}]" for t, c in sorted(set(refs))],
+                "campos": [f"'{t}'[{c}]" for t, c in sorted(set(refs))]
+                          + [f"'{t}' › {h}" + (f" › {n}" if n else "") for t, h, n in sorted(set(niveis), key=str)],
             })
         saida.append({"id": pj.parent.name, "nome": page.get("displayName", pj.parent.name), "visuais": visuais})
     pos = {pid: i for i, pid in enumerate(ordem)}

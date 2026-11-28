@@ -117,8 +117,9 @@ Exemplo completo com dados fictícios: `powerbi-visuais/references/cena-svg-exem
 Confira com `checar_svg.py` (skill `bi-qa-documentacao`).
 
 ## 3. Mecânica (já verificada, arte do gerador de imagem)
-- Visual `image` (`sourceFile`, `scaling 'Normal'`) em 1016×344, no canto
-  inferior direito da Visão Geral, (888, 720); o corpo continua até x=1904.
+- Visual `image` (`sourceFile`, `scaling 'Fill'`, com a caixa na proporção da arte:
+  3:1) em (896, 728) 1008×336, no canto inferior direito da Visão Geral; o corpo vai
+  até x=1904 e y=1064.
 - **Cartões de uma medida** sobrepostos às caixas de chamada, sem título, fundo,
   borda nem rótulo, valor centralizado, fonte 14, z acima da imagem.
 - **Quem desenha a arte** segue a tabela da seção 2e. Diagrama parado e simples (pista,
