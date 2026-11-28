@@ -1,6 +1,6 @@
 ---
 name: bi-qa-documentacao
-description: Documentar e validar um modelo Power BI antes de publicar — descrição de medida com /// na DAX Query View, QA em três camadas (Best Practice Analyzer pelo Tabular Editor CLI, smoke test e teste de valores esperados de medidas via XMLA, binding visual.json × TMDL), pipeline de CI/CD e geração de documentação .docx a partir do TMDL/PBIR. Use para documentar medida no código, checklist de publicação automatizado, validar PBIP, CI/CD Power BI, testar medidas por script, visual quebrado, dicionário de dados, handoff ou "gerar Word do modelo". Regras de boas práticas em si ficam em powerbi-boas-praticas; sintaxe dos arquivos em tmdl-pbir.
+description: Documentar e validar um modelo Power BI antes de publicar — descrição de medida com /// na DAX Query View, QA em três camadas (Best Practice Analyzer pelo Tabular Editor CLI, smoke test e teste de valores esperados de medidas via XMLA, binding visual.json × TMDL), pipeline de CI/CD e geração de documentação .docx a partir do TMDL/PBIR. Use para documentar medida no código, check-up do banco SQL Server que alimenta o modelo (views, índices, tempos, permissões), checklist de publicação automatizado, validar PBIP, CI/CD Power BI, testar medidas por script, visual quebrado, dicionário de dados, handoff ou "gerar Word do modelo". Regras de boas práticas em si ficam em powerbi-boas-praticas; sintaxe dos arquivos em tmdl-pbir.
 ---
 
 # QA e documentação de modelos Power BI
@@ -151,6 +151,11 @@ Para quem usa o relatório e não é de BI (fontes, filtros, páginas, Dica e De
 | `scripts/gerar_casos_sinteticos.py` | Gera os casos do modelo sintético, com os esperados calculados fora do DAX | Python 3.9+ |
 
 O leitor TMDL é mínimo: cobre QA e documentação, não substitui o `TmdlSerializer`.
+
+## Check-up do banco
+
+Auditoria do SQL Server que alimenta o modelo (ambiente, índices, tempos, permissões,
+scripts destrutivos) e aceite de mudança em view: `references/checkup-banco-sql.md`.
 
 ## Validação da carga
 
