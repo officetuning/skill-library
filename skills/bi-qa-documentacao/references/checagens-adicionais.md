@@ -12,7 +12,7 @@ pasta do relatório.
 | 11 | `pageNavigator` fora das células do PNG do menu (x e largura) | Cliques deslocados em relação aos rótulos |
 | 12 | `pageOrder` diferente da ordem do menu da ficha | Menu e páginas em ordem diferente |
 | 13 | Objeto do modelo sem `///`; tabela `Dicionário` (grupo Internas) ausente ou com menos linhas que o modelo | Dicionário vazio ou desatualizado |
-| 14 | Dica sem cartão único, sem rodapé de drillthrough, ou com `tabOrder` fora de cartão → gráfico → rodapé | Dica fora do padrão |
+| 14 | Dica sem cartão único, sem rodapé de drillthrough quando tem Detalhe irmão (ou com rodapé sem ter), ou com `tabOrder` fora de cartão → gráfico → rodapé | Dica fora do padrão |
 | 15 | Texto alternativo ausente, em outro idioma, ou citando nome técnico de medida ou campo | Acessibilidade |
 | 16 | Referência a campo do modelo antigo no `.Report`: `grep -r '"Entity": "<prefixo antigo>'` (ex.: `"Entity": "Tab` depois de migrar para nomes de negócio na 2.0.0) deve dar **0** | `filterConfig` de visual com campo que não existe mais (fica pendurado, sem erro) e regra de cor condicional apontando para medida inexistente (código morto) |
 | 17 | Qualquer `labelDisplayUnits`, `valueDisplayUnits` ou `dataLabelDisplayUnits` com valor diferente de `1D`, **em qualquer visual** | Visual com "mil/mi" que escapou das checagens 8 e 9 |

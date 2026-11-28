@@ -123,7 +123,8 @@ python scripts/extrair_modelo.py VendasAurora.SemanticModel/definition VendasAur
 node scripts/gerar_docx.js modelo.json documentacao-modelo.docx "Vendas Aurora" 2B579A
 ```
 
-O documento sai com capa, sumário, tabelas (papel pelo prefixo), colunas,
+O documento sai com capa, sumário, tabelas (papel pelo grupo de consultas; em modelo antigo, pelo prefixo ou pelos
+relacionamentos), colunas,
 relacionamentos (inativos marcados), medidas com DAX completo, formato, pasta e
 descrição, e páginas com os campos de cada visual. Medida sem formato ou sem
 `///` aparece marcada com ❗. Commit de origem no rodapé.

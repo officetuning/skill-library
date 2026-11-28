@@ -21,8 +21,8 @@
 | Tendência de Receita (dominante) | Linha 12M | 1–8 × 4–9 | 1280×720 | 0, 360 |
 | Ranking por Vendedor | Barras top 10 | 9–12 × 4–9 | 640×720 | 1280, 360 |
 
-Com Background Builder, a faixa de filtros sai (vai para o cabeçalho) e todo `y`
-recebe a altura do cabeçalho.
+Com Background Builder, a faixa de filtros sai do grid e vai para a barra lateral:
+o corpo vai de x=376 a 1904 e de y=128 a 1064 (`background-builder.md`).
 
 A tabela é a fonte; a imagem do wireframe é só a representação humana dela. A
 mesma tabela pode alimentar um script que posiciona os visuais de uma página
@@ -46,7 +46,7 @@ QA camada 3 (skill bi-qa-documentacao): o campo no visual.json bate com o Cálcu
 
 - [ ] Wireframe em 1920×1080 antes do Desktop
 - [ ] Coluna e linha múltiplas de 8 (reconfira ao mudar o número de colunas/linhas)
-- [ ] Com Background Builder: filtros no modo de cabeçalho; altura útil recalculada
+- [ ] Com Background Builder: filtros na barra lateral; corpo recalculado (x 376 a 1904, y 128 a 1064)
 - [ ] Todo bloco com Intenção e Cálculo herdados do Canvas
 - [ ] Filtros e KPIs na mesma linha em todas as páginas
 - [ ] Dominante ocupa mais colunas
