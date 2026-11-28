@@ -37,8 +37,8 @@ se ela existe, o achado é outro: **a regra vale em todas as tabelas?**
 | Comportamento | Consequência |
 |---|---|
 | Os parâmetros `RangeStart` e `RangeEnd` são substituídos pelo Service só nas partições das tabelas **com política**; nas demais vale o valor do modelo, ou a tabela carrega tudo | Calendário filtrado por eles pode ficar menor que os fatos |
-| A janela em **anos** guarda anos civis completos mais o corrente | Não expressa ano fiscal |
-| Partição fora do período de atualização não é relida | Exclusão ou correção feita na origem para um mês antigo não chega ao modelo, e em janela que anda o ano que saiu pode permanecer |
+| A janela em **anos** guarda anos civis completos mais o corrente; a partição que sai desse período é removida do modelo | Não expressa ano fiscal: meses de fora da janela fiscal continuam no modelo até o ano civil inteiro sair |
+| Partição fora do período de atualização não é relida | Exclusão ou correção feita na origem para um mês antigo não chega ao modelo |
 
 Com poucos anos e uma regra que muda com a data, avalie **não usar** o incremental e
 atualizar tudo. Meça antes: se a view relê a origem inteira a cada partição (janela

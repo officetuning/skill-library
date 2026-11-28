@@ -12,23 +12,25 @@ projeto inteiro, ou quando o refresh é lento e a causa parece estar na origem.
   motivo, fora da janela de carga da origem.
 - Diga ao usuário com que conta está conectado. Conta `sysadmin` ou `db_owner` em
   produção é um achado, e pede ainda mais cuidado.
-- `sys.dm_*` pede `VIEW SERVER STATE` (itens 5 e, para tamanhos,
-  `VIEW DATABASE STATE`). Sem a permissão, registre como **não verificado**.
+- Confira a coluna **Permissão** abaixo. Sem ela, uma DMV dá erro, mas o catálogo e
+  `OBJECT_DEFINITION` devolvem **menos linhas ou NULL em silêncio**. Com conta restrita,
+  resultado vazio ou NULL é **não verificado, não "ausente"**. As permissões vêm da
+  documentação; as consultas rodaram aqui com conta administrativa.
 - Não leia linhas com dado pessoal: contagens, somas e metadados bastam.
 
 ## O que olhar
 
 Troque `bi` pelo esquema que o modelo consome.
 
-| # | Item | O que costuma ser achado |
-|---|---|---|
-| 1 | Versão e opções do banco | Nível de compatibilidade antigo, sem atualização cumulativa, Query Store desligado |
-| 2 | Backup | Sem backup recente |
-| 3 | Tamanhos e índices | Tabela grande sem índice agrupado (heap), índices gerados em massa, colunas `char` largas |
-| 4 | Dependências das views | View sobre view relendo a mesma tabela grande |
-| 5 | Tempos e leituras | View que leva minutos ou lê muitas vezes o tamanho da tabela |
-| 6 | Permissões | Nenhum `GRANT` no esquema: quem lê precisa de direito amplo |
-| 7 | Scripts de instalação | `DELETE` ou `TRUNCATE` sem trava, carga que apaga o que foi editado à mão, sem transação |
+| # | Item | Permissão | O que costuma ser achado |
+|---|---|---|---|
+| 1 | Versão e opções do banco | acesso ao banco | Nível de compatibilidade antigo, sem atualização cumulativa, Query Store desligado |
+| 2 | Backup | leitura no `msdb` | Sem backup recente |
+| 3 | Tamanhos e índices | `VIEW DATABASE STATE` e `VIEW DEFINITION` | Tabela grande sem índice agrupado (heap), índices gerados em massa, colunas `char` largas |
+| 4 | Dependências das views | `VIEW DEFINITION` (filtra em silêncio) | View sobre view relendo a mesma tabela grande |
+| 5 | Tempos e leituras | `VIEW SERVER STATE` | View que leva minutos ou lê muitas vezes o tamanho da tabela |
+| 6 | Permissões | `VIEW DEFINITION` (filtra em silêncio) | Nenhum `GRANT` no esquema: quem lê precisa de direito amplo |
+| 7 | Scripts de instalação | só o repositório | `DELETE` ou `TRUNCATE` sem trava, carga que apaga o que foi editado à mão, sem transação |
 
 ### 1 e 2. Ambiente
 
@@ -113,9 +115,12 @@ que não foi verificado.
    estreita, e a comparação levou a procurar uma regressão que não existia.
 4. **Mesmo script antes e depois**, na mesma carga da origem. Fontes de fotografia
    (saldo, pendência) mudam entre cargas.
-5. **Instale em transação** (`SET XACT_ABORT ON` e `BEGIN TRANSACTION`), em um
-   script que altera só o necessário: reexecutar a instalação completa pode apagar
-   dado mantido à mão.
+5. **Instale em transação**, em um script que altera só o necessário: reexecutar a
+   instalação completa pode apagar dado mantido à mão. Como cada view pede um lote
+   próprio (`GO`), a transação **não basta**: sem parar no primeiro erro, o `sqlcmd`
+   segue com os lotes seguintes em autocommit, depois de a transação ter sido desfeita.
+   Comece o script com `:on error exit` (ou rode com `sqlcmd -b`), use
+   `SET XACT_ABORT ON` e `BEGIN TRANSACTION`, e confira o que ficou instalado.
 
 ⚠️ No `sqlcmd`, a variável dentro de `:r` (`:r "$(PASTA)\arquivo.sql"`) pode não
 ser substituída (visto com o cliente ODBC 17). Teste a inclusão com um arquivo
