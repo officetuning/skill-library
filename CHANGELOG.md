@@ -10,7 +10,8 @@ Check-up de banco, janela de histórico e seis inconsistências, com exemplos ge
   view; checagens 31 a 33 (script TMDL defasado, dado sensível versionado, período
   gravado em segmentação).
 - `bi-qa-documentacao`: `check_visual_bindings.py` passa a conferir **níveis de
-  hierarquia**, que antes eram ignorados; `tmdl_parser.py` expõe as hierarquias.
+  hierarquia**, que antes eram ignorados (e a hierarquia inteira, sem nível);
+  `tmdl_parser.py` expõe as hierarquias e o `.docx` lista os níveis usados em cada visual.
 - `power-query-m`: referência nova de janela de histórico (regra em um só lugar, fim
   exclusivo, limites do Incremental Refresh, virada automática); remissão em
   `calendario-inteligencia-tempo`.

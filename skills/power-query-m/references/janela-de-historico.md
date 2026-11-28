@@ -102,12 +102,17 @@ in
 ```m
 NaJanela = Table.SelectRows(
     Anterior,
-    each [Data] <> null and [Data] >= #"Janela.Fiscal"[Inicio] and [Data] < #"Janela.Fiscal"[FimExclusivo]
+    each [Data] <> null and Date.From([Data]) >= #"Janela.Fiscal"[Inicio] and Date.From([Data]) < #"Janela.Fiscal"[FimExclusivo]
 )
 ```
 
 ⚠️ O filtro `<> null` **tira as linhas sem data**. Confira se alguma tabela dependia
-delas.
+delas. `Date.From` aceita coluna de data ou de data e hora; sem ele, comparar data e
+hora com `#date` dá erro no M.
+
+O `-3` é um **deslocamento fixo**: onde há horário de verão, a virada pode errar em
+uma hora. O SQL usa o nome do fuso, que já considera o horário de verão; no M, ajuste
+o deslocamento se a sua região adotar.
 
 ## Testar a virada
 

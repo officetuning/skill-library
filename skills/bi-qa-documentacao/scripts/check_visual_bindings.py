@@ -8,7 +8,8 @@ Percorre o JSON inteiro de cada visual.json atrás de dois tipos de nó:
 {"Expression": {"SourceRef": {"Entity": <tabela>}}, "Property": <campo>}
 (colunas, medidas e agregações) e
 {"HierarchyLevel": {"Expression": {"Hierarchy": ...}, "Level": <nível>}}
-(níveis de hierarquia do modelo; hierarquias automáticas de data ficam de fora).
+(níveis de hierarquia do modelo, e também a hierarquia inteira, sem nível;
+hierarquias automáticas de data ficam de fora).
 """
 from __future__ import annotations
 
@@ -33,16 +34,30 @@ def field_refs(node, found: list[tuple[str, str]]):
             field_refs(v, found)
 
 
-def hierarchy_refs(node, found: list[tuple[str, str, str]]):
-    """(tabela, hierarquia, nível) de cada HierarchyLevel que aponta para o modelo."""
+def _hierarquia(no) -> tuple:
+    """(tabela, hierarquia) de um nó {"Expression": {"SourceRef": ...}, "Hierarchy": nome}."""
+    entity = ((no.get("Expression") or {}).get("SourceRef") or {}).get("Entity")
+    return entity, no.get("Hierarchy")
+
+
+def hierarchy_refs(node, found: list[tuple[str, str, str | None]]):
+    """(tabela, hierarquia, nível) de cada referência a hierarquia do modelo.
+
+    Nível `None` = a hierarquia inteira. Referências por apelido (`SourceRef.Source`) e
+    hierarquias automáticas de data (`PropertyVariationSource`) ficam de fora.
+    """
     if isinstance(node, dict):
         hl = node.get("HierarchyLevel")
         if isinstance(hl, dict):
-            h = (hl.get("Expression") or {}).get("Hierarchy") or {}
-            entity = ((h.get("Expression") or {}).get("SourceRef") or {}).get("Entity")
-            ref = (entity, h.get("Hierarchy"), hl.get("Level"))
+            ref = (*_hierarquia((hl.get("Expression") or {}).get("Hierarchy") or {}), hl.get("Level"))
             if all(isinstance(x, str) for x in ref):
                 found.append(ref)
+            return  # a hierarquia dentro do nível já foi conferida
+        h = node.get("Hierarchy")
+        if isinstance(h, dict):
+            ref = _hierarquia(h)
+            if all(isinstance(x, str) for x in ref):
+                found.append((*ref, None))
         for v in node.values():
             hierarchy_refs(v, found)
     elif isinstance(node, list):
@@ -50,8 +65,10 @@ def hierarchy_refs(node, found: list[tuple[str, str, str]]):
             hierarchy_refs(v, found)
 
 
-def model_levels(model) -> set[tuple[str, str, str]]:
-    return {(t["nome"], h["nome"], n) for t in model["tabelas"] for h in t["hierarquias"] for n in h["niveis"]}
+def model_levels(model) -> set[tuple[str, str, str | None]]:
+    """Níveis do modelo; `(tabela, hierarquia, None)` representa a hierarquia inteira."""
+    hierarquias = [(t["nome"], h) for t in model["tabelas"] for h in t["hierarquias"]]
+    return {(t, h["nome"], n) for t, h in hierarquias for n in [*h["niveis"], None]}
 
 
 def main(model_dir: str, report_dir: str) -> int:
@@ -68,16 +85,17 @@ def main(model_dir: str, report_dir: str) -> int:
         visual = json.loads(vj.read_text(encoding="utf-8-sig"))
         refs: list[tuple[str, str]] = []
         field_refs(visual, refs)
-        nivel_refs: list[tuple[str, str, str]] = []
+        nivel_refs: list[tuple[str, str, str | None]] = []
         hierarchy_refs(visual, nivel_refs)
         for ref in sorted(set(refs)):
             total += 1
             if ref not in campos:
                 quebrados.append((vj.relative_to(pages), f"'{ref[0]}'[{ref[1]}]"))
-        for ref in sorted(set(nivel_refs)):
+        for ref in sorted(set(nivel_refs), key=str):
             total += 1
             if ref not in niveis:
-                quebrados.append((vj.relative_to(pages), f"'{ref[0]}' hierarquia {ref[1]}, nível {ref[2]}"))
+                nivel = f", nível {ref[2]}" if ref[2] else ""
+                quebrados.append((vj.relative_to(pages), f"'{ref[0]}' hierarquia {ref[1]}{nivel}"))
 
     if quebrados:
         print(f"❗ {len(quebrados)} referência(s) sem correspondente no modelo:")

@@ -30,12 +30,12 @@ pasta do relatório.
 | 29 | Medidas concentradas em tabela só de medidas (`checar_medidas.py`) | Contraria a orientação de distribuir as medidas pelas tabelas |
 | 30 | Cena em SVG por medida sem `ImageUrl`, com `#` ou `%` sem escape, vírgula decimal a conferir ou visual sem texto alternativo (`checar_svg.py`) | Imagem que quebra em silêncio, sobretudo em pt-BR, ou que o leitor de tela não descreve |
 | 31 | Script `.tmdl` avulso (pasta de scripts do projeto) diferente do PBIP: compare medidas, partições e fontes | Reaplicar o script desfaz mudança feita no modelo |
-| 32 | Planilha, PDF ou exportação com dado pessoal, remuneração ou valor interno versionada (`git ls-files` por `xlsx`, `csv`, `pdf`) | Dado sensível no histórico do Git; apagar o arquivo não limpa o histórico |
+| 32 | Planilha, PDF ou exportação com dado pessoal, remuneração ou valor interno versionada (na árvore: `git ls-files`; no histórico: `git log --all --name-only -- '*.xlsx' '*.csv' '*.pdf'`) | Dado sensível no histórico do Git; apagar o arquivo não limpa o histórico |
 | 33 | Período gravado em segmentação ou filtro (ex.: ano fiscal `AA-AA`: `grep -rnE "'[0-9]{2}-[0-9]{2}'" <pasta>.Report`) que vai sair da janela de dados | Relatório que abre no ano antigo e, depois, vazio |
 
 ## Ordem sugerida
-Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 25
-→ BPA. As checagens 8 a 10 e 15 são idempotentes: o mesmo script que audita
+Bindings (camada 3) → Tabular Editor 2 carregando a pasta TMDL → checagens 1 a 33
+(as que se aplicam ao projeto) → BPA. As checagens 8 a 10 e 15 são idempotentes: o mesmo script que audita
 também corrige.
 
 ## Como rodar as checagens 16, 17 e 18

@@ -82,8 +82,9 @@ WHERE t.text LIKE '%bi%.%Vw%' AND t.text NOT LIKE '%dm_exec%'
 ORDER BY seg_medio DESC;
 ```
 
-O cache zera quando o servidor reinicia. O tempo decorrido inclui a entrega das
-linhas ao cliente; leitura lógica é o indicador mais estável.
+O cache zera quando o servidor reinicia, quando o objeto é alterado ou recompilado e
+por pressão de memória. O tempo decorrido inclui a entrega das linhas ao cliente;
+leitura lógica é o indicador mais estável.
 
 ### 6. Permissões
 
@@ -106,7 +107,9 @@ que não foi verificado.
 ## Aceite de mudança em view
 
 1. **Guarde as definições atuais** antes de alterar e confira que batem com o
-   repositório: `SELECT OBJECT_DEFINITION(OBJECT_ID('bi.VwFatVenda'));`.
+   repositório: `SELECT OBJECT_DEFINITION(OBJECT_ID('bi.VwFatVenda'));`. A grade do
+   SSMS corta textos longos sem avisar: salve com `sqlcmd -y 0 -o definicoes.sql` ou
+   com "Gerar script como". Anote também os tempos do item 5 **antes de alterar**.
 2. **Compare o SQL novo sem instalar:** rode o corpo da view nova como consulta,
    para uma tabela temporária, e compare com a view atual por período: linhas,
    somas e chaves duplicadas.
