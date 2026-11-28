@@ -110,7 +110,8 @@ que não foi verificado.
 
 1. **Guarde as definições atuais** antes de alterar e confira que batem com o
    repositório: `SELECT OBJECT_DEFINITION(OBJECT_ID('bi.VwFatVenda'));`. Textos longos
-   são cortados sem aviso na grade do SSMS e no `sqlcmd` padrão (256 caracteres):
+   são cortados sem aviso no `sqlcmd` padrão (256 caracteres) e na grade do SSMS (não
+   testado aqui):
    salve com `sqlcmd -y 0 -o definicoes.sql` ou com "Gerar script como". Anote também
    os tempos do item 5 **antes de alterar**.
 2. **Compare o SQL novo sem instalar:** rode o corpo da view nova como consulta,
@@ -129,7 +130,7 @@ que não foi verificado.
    Comece o script com `:on error exit` (ou rode com `sqlcmd -b`), use
    `SET XACT_ABORT ON` e `BEGIN TRANSACTION`, e confira o que ficou instalado.
 
-⚠️ No `sqlcmd`, a variável dentro de `:r` (`:r "$(PASTA)\arquivo.sql"`) pode não
-ser substituída (visto com o cliente ODBC 17, tanto com `-v` quanto com `:setvar`).
-Teste a inclusão com um arquivo inofensivo ou use caminho relativo, rodando de dentro
-da pasta.
+⚠️ No `sqlcmd`, a variável dentro de `:r` **entre aspas** (`:r "$(PASTA)\arquivo.sql"`)
+não foi substituída; **sem aspas** (`:r $(PASTA)\arquivo.sql`) funcionou com `-v` e com
+`:setvar` (cliente 15.0, caminho sem espaços). Com espaços no caminho, use caminho
+relativo, rodando de dentro da pasta. Teste antes com um arquivo inofensivo.
